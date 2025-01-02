@@ -42,7 +42,7 @@ export function Calculation()
   vAway=100;
   shape= TypeOfPlane(PlaneName);
   move=360/shape;
-  console.log("move:",move);
+  console.log("move 123:",move);
   angle=90;
   
   
@@ -204,11 +204,16 @@ export function Plane(payload)
        }
       
       if (counter === 5 || drawAll)  {
+
+        let startPontYTempY = tvStartPoint.y - 100;
+        if(shapeAt == "VP"){
+          startPontYTempY = tvStartPoint.y + 100;
+        }
           // step-5 vertical line 
           let verticalLine=[];
           for(let i=1;i<=shape;i++)
           {
-            verticalLine.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:fv2EndPoint[i].x,y:tv2StartPoint.y}, lightPencil));
+            verticalLine.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:fv2EndPoint[i].x,y:startPontYTempY}, lightPencil));
             verticalLine.push(...lightPencil);
           }
         
@@ -216,7 +221,7 @@ export function Plane(payload)
           let horizontalLine=[];
           for(let i=1;i<=shape;i++)
           {
-            horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i],{x:750,y:tv2EndPoint[i].y}, lightPencil));
+            horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i],{x:fv3StartPoint.x - 50,y:tv2EndPoint[i].y}, lightPencil));
             horizontalLine.push(...lightPencil);
           }
           let tv2LinePoints = [];
@@ -272,54 +277,9 @@ export function Plane(payload)
         tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
         tv3LinePoints.push(...darkPencil);
         tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
+        
       }
-    //  let tv3EndPoint = [];
-    //    tv3EndPoint[1]=tv3StartPoint;
-    //    let angle3=[],tv3length=[],sum=0;
-        
-    //    for(let i=1;i<=shape;i++)
-    //    {
-    //     let j=i+1;
-    //        if(j>shape)
-    //             j=1;
-          
-    //       tv3length[i]=Linelength(tv2EndPoint[i],tv2EndPoint[j]);  
-    //       angle3[i]=anglepoint(tv2EndPoint[i],tv2EndPoint[j],tv3length[i])
-    //       //angle3[i]=FindAngle(tv2EndPoint[i],tv2EndPoint[j]);
-    //       console.log("angle3:"+angle3[i]);
-    //       //sum=sum+angle3[1];
-    //    }
-       
-    //    //move=sum/shape;
-    //   let inclinedAngle = 90 - vpInclinde;
-    //   let newangle = vpInclinde;
-
-    //    for(let i=1;i<=shape;i++)
-    //     {
-    //           let j=i+1;
-    //           if(j>shape)
-    //                 j=1;
-        
-              
-            
-    //           // inclinedAngle=inclinedAngle-move;
-               
-    //             if(i==1)
-    //                 tv3EndPoint[j]=EndPoint(tv3EndPoint[i],vpInclinde,tv3length[i]);
-    //             else
-    //             {
-    //               if(tv2EndPoint[i].y<tv2EndPoint[j].y)
-    //                 newangle=360-angle3[j]-inclinedAngle;
-    //              else
-    //                 newangle=angle3[j]-inclinedAngle;
-                   
-    //              tv3EndPoint[j]=EndPoint(tv3EndPoint[i],newangle,tv3length[i]);
-    //             }
-
-             
-    //           console.log("angle3new"+angle3[j]);
-    //      //console.log(tv2EndPoint[i].y,"   ",tv2EndPoint[j].y);
-    //     }
+    
         if (counter === 6 || drawAll)  {
         let vpinclindelinepoints=calculateLinePointsWithCircles(
           tv3EndPoint[1],EndPoint(tv3EndPoint[1],vpInclinde,300), lightPencil);
@@ -350,11 +310,15 @@ export function Plane(payload)
        
        
       if (counter === 7 || drawAll) {
+        let startPontYTempY = fv3StartPoint.y - 100;
+        if(shapeAt == "VP"){
+          startPontYTempY = fv3StartPoint.y + 100;
+        }
         //vertical line
         let verticalLine3=[];
         for(let i=1;i<=shape;i++)
         {
-          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:fv3StartPoint.y}, lightPencil));
+          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:startPontYTempY}, lightPencil));
           verticalLine3.push(...lightPencil);
         }
 
