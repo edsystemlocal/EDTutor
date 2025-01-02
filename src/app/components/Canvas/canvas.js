@@ -70,7 +70,7 @@ export const getPointsForDrawing = (points, pointIndex) => {
   let pencilSize = 0.5;
   let pencilColor = "#D3D3D3";
 
-  const themeSelect = window.selectedDropdownValue || "theme_b_and_w"; // Default to Option_1 if not set
+  const themeSelect = window.selectedDropdownValue || "theme_colorful"; // Default to Option_1 if not set
 
   console.log("kkkkkkkkkkkkkkk", themeSelect)
 
