@@ -77,8 +77,27 @@ export const getPointsForDrawing = (points, pointIndex) => {
   while (pointIndex < points.length) {
     const point = points[pointIndex];
     pointIndex += 1;
-
-    if (themeSelect === "theme_b_and_w") {
+if (themeSelect === "theme_colorful") {
+      if (point.x === 4999 && point.y === 4999) {
+        pencilSize = 0.5;
+        //pencilColor = "#6A0DAD"; // Royal Purple (Dark and Elegant)
+        pencilColor = "red";
+        break;
+      } else if (point.x === 5000 && point.y === 5000) {
+        pencilSize = 0.8;
+        //pencilColor = "#8B0000"; // Dark Red (Bold and Rich)
+        pencilColor = "#64B5F6";
+        break;
+      } else if (point.x === 5001 && point.y === 5001) {
+        pencilSize = 2;
+        pencilColor = "#8B0000"; // Navy Blue (Strong and Dark)
+        break;
+      } else if (point.x === 5002 && point.y === 5002) {
+        pencilSize = 1.2;
+        pencilColor = "#FF4500"; // Burnt Orange (Vivid and Striking)
+        break;
+      }
+    } else if (themeSelect === "theme_b_and_w") {
       if (point.x === 4999 && point.y === 4999) {
         pencilSize = 0.5;
         pencilColor = "#FDFDFD";
@@ -276,26 +295,6 @@ export const getPointsForDrawing = (points, pointIndex) => {
       } else if (point.x === 5003 && point.y === 5003) {
         pencilSize = 1.5;
         pencilColor = "rgb(75, 0, 130)"; // Indigo
-        break;
-      }
-    }
-
-    else if (themeSelect === "theme_colorful") {
-      if (point.x === 4999 && point.y === 4999) {
-        pencilSize = 0.5;
-        pencilColor = "#6A0DAD"; // Royal Purple (Dark and Elegant)
-        break;
-      } else if (point.x === 5000 && point.y === 5000) {
-        pencilSize = 0.8;
-        pencilColor = "#8B0000"; // Dark Red (Bold and Rich)
-        break;
-      } else if (point.x === 5001 && point.y === 5001) {
-        pencilSize = 1;
-        pencilColor = "#00008B"; // Navy Blue (Strong and Dark)
-        break;
-      } else if (point.x === 5002 && point.y === 5002) {
-        pencilSize = 1.2;
-        pencilColor = "#FF4500"; // Burnt Orange (Vivid and Striking)
         break;
       }
     }
