@@ -48,15 +48,18 @@ export function Calculation()
   
  
   
-  if(sideCorner==="Corner")
+  if(sideCorner=="Corner")
     angle=move;
   
-  if(inParallel==="in")
-    hAway=0;
+ 
   
   if(shapeAt=="VP")
   {
-    console.log("Test VP ");
+    if(inParallel==="in")
+      vAway=0;
+  
+    hpInclinde=360-hpInclinde;
+
    tvStartPoint={x:150,y:300-hAway};
    fvStartPoint={ x: 150, y:300+vAway };
  
@@ -65,7 +68,12 @@ export function Calculation()
  
    tv3StartPoint={  x:550,y:300-hAway};
    fv3StartPoint={x: 550, y:300+vAway};
-  } else {
+  } 
+  else 
+  {
+    if(inParallel==="in")
+         hAway=0;
+    
     tvStartPoint={ x: 150, y:300+vAway };
     fvStartPoint={x:150,y:300-hAway}
 
@@ -109,6 +117,7 @@ export function Plane(payload)
      shapeAt=PlanePosition3;
      hpInclinde=PlaneHPAngle;
      vpInclinde=PlaneVPAngle;
+     console.log("corner",payload);
   
      Calculation();    
      let drawAll = false;
@@ -180,10 +189,10 @@ export function Plane(payload)
        
        if (counter === 4 || drawAll) {
         const merger =calculateLinePointsWithCircles(fvEndPoint[1],EndPoint(fvEndPoint[1],0,fvlength+200), lightPencil);
-       
-       const angleLinePoints =calculateLinePointsWithCircles(fv2EndPoint[1],EndPoint(fv2EndPoint[1],hpInclinde,fvlength), darkPencil);
-
-        sendToPoints.push(...merger,...lightPencil,...angleLinePoints,...darkPencil,...fv2lable)  
+       let angleLinePoints;
+      
+       angleLinePoints =calculateLinePointsWithCircles(fv2EndPoint[1],EndPoint(fv2EndPoint[1],hpInclinde,fvlength), darkPencil);
+       sendToPoints.push(...merger,...lightPencil,...angleLinePoints,...darkPencil,...fv2lable)  
        }
       
        
@@ -227,49 +236,94 @@ export function Plane(payload)
         }
       
       // step-6 ,3rd digram
-     let tv3EndPoint = [];
-       tv3EndPoint[1]=tv3StartPoint;
-       
-       
-       let angle3=[],tv3length=[],sum=0;
-        
-       for(let i=1;i<=shape;i++)
-       {
-        let j=i+1;
-           if(j>shape)
-                j=1;
-          
-          tv3length[i]=Linelength(tv2EndPoint[i],tv2EndPoint[j]);  
-          angle3[i]=anglepoint(tv2EndPoint[i],tv2EndPoint[j],tv3length[i])
-          //angle3[i]=FindAngle(tv2EndPoint[i],tv2EndPoint[j]);
-          console.log("angle3:"+angle3[i]);
-          sum=sum+angle3[1];
-       }
-       
-       
-       let inclinedAngle=vpInclinde;
-       for(let i=1;i<=shape;i++)
+      let tv3EndPoint = [];
+      let tv3LinePoints = [];
+      tv3EndPoint[1] = tv3StartPoint;
+
+        let angle3,
+        tv3length = [],
+        inclinedAngle = 90 - 60,
+        newangle = 90 - inclinedAngle;
+      for (let i = 1; i <= shape; i++)
+      {
+        let j = i + 1;
+        if (j > shape) j = 1;
+        tv3length[i] = Linelength(tv2EndPoint[i], tv2EndPoint[j]);
+        tv3EndPoint[j] = EndPoint(tv3EndPoint[i], newangle, tv3length[i]);
+     
+        let y2 = 0;
+        if (j === shape) 
         {
-              let j=i+1;
-              if(j>shape)
-                    j=1;
+          tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[1]);
+          angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[1], tv3length[j]); 
+          y2 = tv2EndPoint[1].y;
+          
+        } 
+        else 
+        {
+          tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[j + 1]);
+          angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[j + 1], tv3length[j]);
+          y2 = tv2EndPoint[j + 1].y;
+         
+        }
         
-              tv3EndPoint[j]=EndPoint(tv3EndPoint[i],inclinedAngle,tv3length[i]);
+        let y1 = tv2EndPoint[j].y;
+        newangle = y1 > y2 ? angle3 - inclinedAngle : 360 - angle3 - inclinedAngle;
+        tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
+        tv3LinePoints.push(...darkPencil);
+        tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
+      }
+    //  let tv3EndPoint = [];
+    //    tv3EndPoint[1]=tv3StartPoint;
+    //    let angle3=[],tv3length=[],sum=0;
+        
+    //    for(let i=1;i<=shape;i++)
+    //    {
+    //     let j=i+1;
+    //        if(j>shape)
+    //             j=1;
+          
+    //       tv3length[i]=Linelength(tv2EndPoint[i],tv2EndPoint[j]);  
+    //       angle3[i]=anglepoint(tv2EndPoint[i],tv2EndPoint[j],tv3length[i])
+    //       //angle3[i]=FindAngle(tv2EndPoint[i],tv2EndPoint[j]);
+    //       console.log("angle3:"+angle3[i]);
+    //       //sum=sum+angle3[1];
+    //    }
+       
+    //    //move=sum/shape;
+    //   let inclinedAngle = 90 - vpInclinde;
+    //   let newangle = vpInclinde;
+
+    //    for(let i=1;i<=shape;i++)
+    //     {
+    //           let j=i+1;
+    //           if(j>shape)
+    //                 j=1;
+        
+              
             
-               inclinedAngle=inclinedAngle-move;
-              //  if(tv3EndPoint[i].y<tv3EndPoint[j].y)
-              //       angle3[j]=360-angle3[j]-vpInclinde;
-              //   else
-              //       angle3[j]=angle3[j];
+    //           // inclinedAngle=inclinedAngle-move;
+               
+    //             if(i==1)
+    //                 tv3EndPoint[j]=EndPoint(tv3EndPoint[i],vpInclinde,tv3length[i]);
+    //             else
+    //             {
+    //               if(tv2EndPoint[i].y<tv2EndPoint[j].y)
+    //                 newangle=360-angle3[j]-inclinedAngle;
+    //              else
+    //                 newangle=angle3[j]-inclinedAngle;
+                   
+    //              tv3EndPoint[j]=EndPoint(tv3EndPoint[i],newangle,tv3length[i]);
+    //             }
 
              
-              console.log("angle3new"+angle3[j]);
-         //console.log(tv2EndPoint[i].y,"   ",tv2EndPoint[j].y);
-        }
+    //           console.log("angle3new"+angle3[j]);
+    //      //console.log(tv2EndPoint[i].y,"   ",tv2EndPoint[j].y);
+    //     }
         if (counter === 6 || drawAll)  {
-          let vpinclindelinepoints=calculateLinePointsWithCircles(
-            tv3EndPoint[1],EndPoint(tv3EndPoint[1],vpInclinde,300), lightPencil);
-            let tv3LinePoints = [];
+        let vpinclindelinepoints=calculateLinePointsWithCircles(
+          tv3EndPoint[1],EndPoint(tv3EndPoint[1],vpInclinde,300), lightPencil);
+
             for(let i=1;i<=shape;i++)
               {
                     let j=i+1;
@@ -300,7 +354,7 @@ export function Plane(payload)
         let verticalLine3=[];
         for(let i=1;i<=shape;i++)
         {
-          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:fv3EndPoint.y}, lightPencil));
+          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:fv3StartPoint.y}, lightPencil));
           verticalLine3.push(...lightPencil);
         }
 
