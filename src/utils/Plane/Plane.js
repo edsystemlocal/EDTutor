@@ -42,7 +42,7 @@ export function Calculation()
   vAway=100;
   shape= TypeOfPlane(PlaneName);
   move=360/shape;
-  console.log("move 123:",move);
+  console.log("move:",move);
   angle=90;
   
   
@@ -204,16 +204,12 @@ export function Plane(payload)
        }
       
       if (counter === 5 || drawAll)  {
-
-        let startPontYTempY = tvStartPoint.y - 100;
-        if(shapeAt == "VP"){
-          startPontYTempY = tvStartPoint.y + 100;
-        }
           // step-5 vertical line 
-          let verticalLine=[];
+          let verticalLine=[],Y=MaxMinY(tvEndPoint,2);
+         
           for(let i=1;i<=shape;i++)
           {
-            verticalLine.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:fv2EndPoint[i].x,y:startPontYTempY}, lightPencil));
+            verticalLine.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:fv2EndPoint[i].x,y:Y}, lightPencil));
             verticalLine.push(...lightPencil);
           }
         
@@ -221,7 +217,7 @@ export function Plane(payload)
           let horizontalLine=[];
           for(let i=1;i<=shape;i++)
           {
-            horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i],{x:fv3StartPoint.x - 50,y:tv2EndPoint[i].y}, lightPencil));
+            horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i],{x:tv3StartPoint.x-75,y:tv2EndPoint[i].y}, lightPencil));
             horizontalLine.push(...lightPencil);
           }
           let tv2LinePoints = [];
@@ -277,11 +273,12 @@ export function Plane(payload)
         tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
         tv3LinePoints.push(...darkPencil);
         tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
-        
       }
-    
+
         if (counter === 6 || drawAll)  {
+          console.log("Drawing six counter");
         let vpinclindelinepoints=calculateLinePointsWithCircles(
+          
           tv3EndPoint[1],EndPoint(tv3EndPoint[1],vpInclinde,300), lightPencil);
 
             for(let i=1;i<=shape;i++)
@@ -310,15 +307,11 @@ export function Plane(payload)
        
        
       if (counter === 7 || drawAll) {
-        let startPontYTempY = fv3StartPoint.y - 100;
-        if(shapeAt == "VP"){
-          startPontYTempY = fv3StartPoint.y + 100;
-        }
         //vertical line
-        let verticalLine3=[];
+        let verticalLine3=[],Y=MaxMinY(fv2EndPoint,3);
         for(let i=1;i<=shape;i++)
         {
-          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:startPontYTempY}, lightPencil));
+          verticalLine3.push(...calculateLinePointsWithCircles(tv3EndPoint[i],{x:tv3EndPoint[i].x,y:Y}, lightPencil));
           verticalLine3.push(...lightPencil);
         }
 
@@ -326,7 +319,7 @@ export function Plane(payload)
         let horizontalLine3=[];
         for(let i=1;i<=shape;i++)
         {
-          horizontalLine3.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:750,y:fv2EndPoint[i].y}, lightPencil));
+          horizontalLine3.push(...calculateLinePointsWithCircles(fv2EndPoint[i],{x:endPoint.x-100,y:fv2EndPoint[i].y}, lightPencil));
           horizontalLine3.push(...lightPencil);
         }
 
@@ -415,3 +408,32 @@ if(PlaneName==="Circle")
 
    
 }
+ export function MaxMinY(Points=[],step)
+ {
+  let min=1000,max=0;
+      for(let i=1;i<=shape;i++)
+       {
+         if(max<Points[i].y)
+              max=Points[i].y;
+         if(min>Points[i].y)
+          min=Points[i].y;
+       }
+       if(shapeAt=="HP")
+         { 
+          if (step==2)
+            return max;
+          else
+            return min;
+          
+         }
+        else
+        { 
+          if (step==2)
+            return min;
+          else
+            return max;
+          
+         }
+        
+ }
+ 
