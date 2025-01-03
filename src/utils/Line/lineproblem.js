@@ -69,6 +69,16 @@ export function getLineProblemSteps(values) {
             `Draw an inclined line from the first point front of VP to the second point front of VP with an angle of ${360 - InclinationToVP}°`,
           ]
           : ["No valid drawingTypes to draw the inclined line"],
+    6:
+    drawingType === "parallelToVPAndInclinationToHP"
+      ? [
+        `Calculate θ and write value at right corner`,
+      ]
+      : drawingType === "parallelToHPAndInclinationToVP"
+        ? [
+          `Calculate Φ and write value at right below`,
+        ]
+        : ["No valid drawingTypes to draw the inclined line"],
   };
 
   // Return step based on counter
@@ -118,10 +128,10 @@ function getParameters(inputs, zoom) {
   secondpointFrontOfVPLength = isRealPositive(secondpointFrontOfVPLength) ? secondpointFrontOfVPLength * zoom : -1;
   topViewLength = isRealPositive(topViewLength) ? topViewLength * zoom : -1;
   frontViewLength = isRealPositive(frontViewLength) ? frontViewLength * zoom : -1;
-  InclinationToHP = isRealPositive(InclinationToHP) ? InclinationToHP : -1;
+  InclinationToHP = isPositive(InclinationToHP) ? InclinationToHP : -1;
   frontViewAngle = isRealPositive(frontViewAngle) ? frontViewAngle : -1;
   topViewAngle = isRealPositive(topViewAngle) ? 360 - topViewAngle : -1;
-  InclinationToVP = isRealPositive(InclinationToVP) ? 360 - InclinationToVP : -1;
+  InclinationToVP = isPositive(InclinationToVP) ? 360 - InclinationToVP : -1;
 
   updatedInputs = {
     LineLength: LineLength,
@@ -344,7 +354,29 @@ export function getLineProblemPoints(payload) {
 
         sendToPoints = [...inclinedLinePoints];
       }
+
+      if (counter === 6) {
+        console.log("Enter counter 6");
+        if (drawingType === "parallelToVPAndInclinationToHP") {
+        const theta = calculateAngleInDegrees(firstPointAboveHP, secondPointAboveHP);
+        
+        sendToPoints.push(
+          ...drawAngle(firstPointAboveHP, 20, theta, "up", "θ"),          
+          ...calculateLabel({ x: secondPointFrontVP.x + 100, y: secondPointFrontVP.y + 40 }, "θ = " + roundUpToTwoDecimalPlaces(Math.abs(theta)), "left"),
+          
+        );
+      }else if (drawingType === "parallelToHPAndInclinationToVP") {
+        const fi = calculateAngleInDegrees(firstPointFrontVP, secondPointFrontVP);
+        sendToPoints.push(
+        ...drawAngle(firstPointFrontVP, 20, fi, "down", "Φ"),
+        ...calculateLabel({ x: secondPointFrontVP.x + 100, y: secondPointFrontVP.y + 60 }, "Φ = " + roundUpToTwoDecimalPlaces(Math.abs(fi)), "left"),
+        );
+      }
+     
     }
+  }
+
+    
   }
 
   let values = {
@@ -552,7 +584,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...lightPencil,
-        ...calculateLabel(pointInclinedToHP, "b'", "right-up"),
+        ...calculateLineLabel(pointInclinedToHP, "b'", "lineRightUp"),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP, darkPencil),
         ...lightPencil
       )
@@ -560,7 +592,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...lightPencil,
-        ...calculateLabel(pointInclinedToHP, "b'", "right-up"),
+        ...calculateLineLabel(pointInclinedToHP, "b'", "lineRightUp"),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP, darkPencil),
         ...lightPencil
       )
@@ -568,16 +600,17 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointParalllelToHP, lightPencil),
         ...lightPencil,
-        ...calculateLabel(pointParalllelToHP, "b1'", "right-up"),
+        ...calculateLineLabel(pointParalllelToHP, "b1'", "lineRightUp"),
         ...lightPencil
       )
     } else if (isPositive(secondpointAboveHPLength)) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil),
+        ...drawPerpendicularArrow({ x: pointInclinedToHP.x + 50, y: xyAxisLineStartPoint.y },{ x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, "right"),
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP, lightPencil),
         ...lightPencil,
-        ...calculateLabel(pointInclinedToHP, "b'", "right-up"),
+        ...calculateLineLabel(pointInclinedToHP, "b'", "lineRightUp"),
         ...lightPencil
       )
     }
@@ -588,24 +621,25 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     if (isPositive(topViewLength)) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointParallelToVP, lightPencil),
-        ...calculateLabel(pointParallelToVP, "b1", "right-down"),
+        ...calculateLineLabel(pointParallelToVP, "b1", "lineRightDown"),
       )
     } else if (isPositive(InclinationToHP)) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointInclinedToHP, pointParallelToVP, lightPencil),
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointParallelToVP, lightPencil),
-        ...calculateLabel(pointParallelToVP, "b1", "right-down"),
+        ...calculateLineLabel(pointParallelToVP, "b1", "lineRightDown"),
         ...lightPencil
 
       )
     } else if (isPositive(secondpointFrontOfVPLength)) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointFrontVP.x, y: pointInclinedToVP.y }, { x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }, lightPencil),
+        ...drawPerpendicularArrow({ x: pointInclinedToVP.x + 50, y: xyAxisLineStartPoint.y },{ x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }, "right"),
         ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, lightPencil),
         ...lightPencil,
-        ...calculateLabel({ x: pointInclinedToHP, y: pointInclinedToVP.y + 15 }, "b", "right-down"),
+        ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
         ...lightPencil
       )
     }
@@ -617,7 +651,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     if (isPositive(topViewLength)) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointParallelToVP, pointInclinedToHP, lightPencil),
-        ...calculateLabel(pointInclinedToHP, "b'", "right-up"),
+        ...calculateLineLabel(pointInclinedToHP, "b'", "lineRightUp"),
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP),
@@ -629,7 +663,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV),
-        ...calculateLabel(pointInclinedToFV, "b2'", "left-up"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineLeftUp"),
         ...darkPencil,
       )
     }
@@ -640,9 +674,9 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, darkPencil),
-        ...calculateLabel({ x: pointInclinedToVP.x, y: pointInclinedToVP.y + 15 }, "b", "right-down"),
+        ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
         ...calculateLinePointsWithCircles(pointInclinedToVP, pointParalllelToHP, lightPencil),
-        ...calculateLabel(pointParalllelToHP, "b1'", "right-up"),
+        ...calculateLineLabel(pointParalllelToHP, "b1'", "lineRightUp"),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointParalllelToHP, lightPencil)
       )
     }
@@ -655,7 +689,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointInclinedToVP, pointParalllelToHP, lightPencil),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointParalllelToHP),
-        ...calculateLabel(secondpointAboveHPLength, "b1'", "left-up"),
+        ...calculateLineLabel(pointParalllelToHP, "b1'", "lineRightUp"),
         ...darkPencil,
       )
     }
@@ -664,7 +698,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointInclinedToHP, pointParallelToVP, lightPencil),
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointParallelToVP),
-        ...calculateLabel(pointParallelToVP, "b1", "right-up"),
+        ...calculateLineLabel(pointParallelToVP, "b1", "lineRightUp"),
         ...darkPencil,
       )
     }
@@ -676,7 +710,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointParalllelToHP, pointInclinedToVP, lightPencil),
         ...lightPencil,
-        ...calculateLabel(pointInclinedToVP, "b1", "right-down"),
+        ...calculateLineLabel(pointInclinedToVP, "b1", "lineRightDown"),
         ...lightPencil,
         ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
         ...lightPencil,
@@ -696,7 +730,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...drawLowerCircleArc(firstPointFrontVP, pointParallelToVP),
         ...lightPencil,
         ...calculateDashLinePoints({ x: firstPointFrontVP.x, y: pointInclinedToVP.y }, { x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }),
-        ...calculateLabel({ x: pointInclinedToTV.x, y: pointInclinedToTV.y + 15 }, "b2", "right-down"),
+        ...calculateLineLabel(pointInclinedToTV, "b2", "lineRightDown"),
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToTV, darkPencil),
         ...lightPencil
       )
@@ -705,14 +739,14 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     if (isPositive(topViewAngle)) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToTV, darkPencil),
-        ...calculateLabel({ x: pointInclinedToTV.x, y: pointInclinedToTV.y + 15 }, "b2", "left-down"),
+        ...calculateLineLabel(pointInclinedToTV, "b2", "lineLeftDown"),
         ...lightPencil,
         ...calculateLinePointsWithCircles(pointInclinedToTV, pointInclinedToFV, lightPencil),
         ...lightPencil,
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil),
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV, darkPencil),
-        ...calculateLabel(pointInclinedToFV, "b2'", "right-up"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineRightUp"),
         ...lightPencil
       )
     }
@@ -721,7 +755,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...drawUpperCircleArc(firstPointAboveHP, pointParalllelToHP),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV, darkPencil),
-        ...calculateLabel(pointInclinedToFV, "b2'", "right-up"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineRightUp"),
         ...darkPencil,
       )
     }
@@ -744,10 +778,10 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       console.log("Till this point as well");
       sendToPoints.push(
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV),
-        ...calculateLabel(pointInclinedToFV, "b2'", "left-up"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineRightUp"),
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToTV),
-        ...calculateLabel(pointInclinedToTV, "b2", "left-down"),
+        ...calculateLineLabel(pointInclinedToTV, "b2", "lineRightDown"),
       )
 
       if (isPositive(InclinationToHP) && isPositive(frontViewLength)) {
@@ -755,8 +789,8 @@ export function getLineInclinedToBothPlanesPoints(payload) {
           ...calculateDashLinePoints({ x: firstPointFrontVP.x, y: pointInclinedToTV.y }, { x: pointInclinedToVP.x + 50, y: pointInclinedToTV.y }, lightPencil),
           ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
           ...lightPencil,
-          ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, lightPencil),
-          ...calculateLabel({ x: pointInclinedToVP.x, y: pointInclinedToVP.y + 15 }, "b", "right-down"),
+          ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, darkPencil),
+          ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
           ...lightPencil
         )
       } else if (isPositive(InclinationToHP)) {
@@ -765,7 +799,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
           ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
           ...lightPencil,
           ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, lightPencil),
-          ...calculateLabel({ x: pointInclinedToVP.x, y: pointInclinedToVP.y + 15 }, "b", "right-down"),
+          ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
           ...lightPencil
         )
       }
@@ -775,7 +809,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...drawUpperCircleArc(firstPointAboveHP, pointParalllelToHP),
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }),
-        ...calculateLabel(pointInclinedToFV, "b2'", "right-up"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineRightUp"),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV, darkPencil),
         ...lightPencil
       )
@@ -787,18 +821,26 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, darkPencil),
         ...darkPencil,
-        ...calculateLabel({ x: pointInclinedToVP.x, y: pointInclinedToVP.y + 15 }, "b", "right-down"),
+        ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
       )
     }
   }
 
-  if (counter === 8) {
+  if (counter === 1) {
     console.log("Enter counter 8");
+    const alpha = calculateAngleInDegrees(firstPointAboveHP, pointInclinedToFV);
+    const beta = calculateAngleInDegrees(firstPointFrontVP, pointInclinedToTV);
+    const theta = calculateAngleInDegrees(firstPointAboveHP, pointInclinedToHP);
+    const fi = calculateAngleInDegrees(firstPointFrontVP, pointInclinedToVP);
     sendToPoints.push(
-      ...calculateLabel({ x: pointInclinedToTV.x + 100, y: pointInclinedToTV.y + 40 }, "θ = " + calculateAngleInDegrees(firstPointAboveHP, pointInclinedToFV), "left"),
-      ...calculateLabel({ x: pointInclinedToTV.x + 100, y: pointInclinedToTV.y + 60 }, "Φ = " + calculateAngleInDegrees(firstPointFrontVP, pointInclinedToTV), "left"),
-      ...calculateLabel({ x: pointInclinedToTV.x + 100, y: pointInclinedToTV.y + 80 }, "α = " + calculateAngleInDegrees(firstPointAboveHP, pointInclinedToHP), "left"),
-      ...calculateLabel({ x: pointInclinedToTV.x + 100, y: pointInclinedToTV.y + 100 }, "β = " + calculateAngleInDegrees(firstPointFrontVP, pointInclinedToVP), "left")
+      ...drawAngle(firstPointAboveHP, 20, theta, "up", "θ"),
+      ...drawAngle(firstPointFrontVP, 20, fi, "down", "Φ"),
+      ...drawAngle(firstPointAboveHP, 40, alpha, "up", "α"),
+      ...drawAngle(firstPointFrontVP, 40, beta, "down", "β"),
+      ...calculateLabel({ x: pointInclinedToVP.x + 100, y: pointInclinedToVP.y + 40 }, "θ = " + roundUpToTwoDecimalPlaces(Math.abs(theta)), "left"),
+      ...calculateLabel({ x: pointInclinedToVP.x + 100, y: pointInclinedToVP.y + 60 }, "Φ = " + roundUpToTwoDecimalPlaces(Math.abs(fi)), "left"),
+      ...calculateLabel({ x: pointInclinedToVP.x + 100, y: pointInclinedToVP.y + 80 }, "α = " + roundUpToTwoDecimalPlaces(Math.abs(alpha)), "left"),
+      ...calculateLabel({ x: pointInclinedToVP.x + 100, y: pointInclinedToVP.y + 100 }, "β = " + roundUpToTwoDecimalPlaces(Math.abs(beta)), "left")
     )
   }
 
@@ -806,6 +848,35 @@ export function getLineInclinedToBothPlanesPoints(payload) {
   let step = steps[counter];
 
   return { points: sendToPoints, step };
+}
+
+export const roundUpToTwoDecimalPlaces = (num) => {
+  return Math.ceil(num * 100) / 100;
+};
+
+function drawAngle(center, radius, endAngle, arcPosition, label) {
+  let sendToPoints = [];
+  console.log("drawLowerCircleArc, radius: ", radius);
+
+  if (isPositive(radius)) {
+    let labelPoint = calculateAngledLinePoints(center, -endAngle/2, radius);  
+    let drawLowerCircle;
+    let calculateLabel1;
+    if(arcPosition == "up"){
+      drawLowerCircle = drawQuarterCircle(center, 0, -endAngle, radius);
+      calculateLabel1 = calculateLabel({x: labelPoint.x, y: labelPoint.y+5}, label, "right");
+    } else if(arcPosition == "down"){
+      drawLowerCircle = drawQuarterCircle(center, 0, -endAngle, radius);
+      calculateLabel1 = calculateLabel({x: labelPoint.x, y: labelPoint.y+5}, label, "right");
+    }
+    sendToPoints.push(
+      ...calculateLinePointsWithCircles(center, {x: center.x + radius, y: center.y}, lightPencil),
+      ...drawLowerCircle,
+      ...calculateLabel1,
+      ...lightPencil,
+    )
+  }
+  return sendToPoints;
 }
 
 
@@ -866,4 +937,37 @@ export function projectionOfLine_4Steps() {
     14: defineSteps("Draw the angled line downwards from the arc endpoint"),
     15: defineSteps("Draw the vertical line between the arcs")
   };
+}
+
+export function calculateLineLabel(point, label, alignment) {
+  let labelX = point.x;
+  let labelY = point.y;
+  // Adjust label position based on alignment
+  switch (alignment) {
+    case "lineLeftUp":
+      labelY -= 10; // Adjust Y upwards
+      labelX -= 5;
+      break;
+    case "lineRightUp":
+      labelY -= 10; // Adjust Y upwards
+      labelX += 5;
+      break;
+    case "lineLeftDown":
+      labelY += 20; // Adjust Y downwards
+      labelX -= 5;
+      break;
+    case "lineRightDown":
+      labelY += 20; // Adjust Y downwards
+      labelX += 5;
+      break;
+    case "lineLeft":
+      labelX -= 12; // Adjust X to the left
+      break;
+    case "lineRight":
+      labelX += 10; // Adjust X to the right
+      break;    
+    default:
+      break; // No adjustment if no alignment is specified
+  }
+  return [{ ...point, label, labelX, labelY }];
 }
