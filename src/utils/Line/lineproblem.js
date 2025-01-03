@@ -826,7 +826,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     }
   }
 
-  if (counter === 1) {
+  if (counter === 8) {
     console.log("Enter counter 8");
     const alpha = calculateAngleInDegrees(firstPointAboveHP, pointInclinedToFV);
     const beta = calculateAngleInDegrees(firstPointFrontVP, pointInclinedToTV);
