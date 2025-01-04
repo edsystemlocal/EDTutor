@@ -59,9 +59,9 @@ export function getCirclePoints(center, radius = 1) {
     { x: center.x + radius * 0.7, y: center.y - radius * 0.7 }, // 315°
     { x: center.x + radius, y: center.y }, // Closing the circle
   ];
-  circlePoints.push(...darkPencil);
+  // circlePoints.push(...darkPencil);
 
-  return circlePoints;
+  return [...circlePoints,...darkPencil];
 }
 // ---------------------------------------------------------------------------------------
 
@@ -327,8 +327,8 @@ export function calculateLabel(point, label, alignment) {
       break;
     case "left-down":
       // If label has more than one character, adjust further to the left
-      labelX -= label.length > 1 ? 18 : 12;
-      labelY += 5; // Adjust Y downwards
+      labelX -= 12;
+      labelY += 12; // Adjust Y downwards
       break;
     case "right-up":
       labelX += 5; // Adjust X to the right
@@ -336,7 +336,7 @@ export function calculateLabel(point, label, alignment) {
       break;
     case "right-down":
       labelX += label.length > 1 ? 3 : 12;
-      labelY += 5; // Adjust Y downwards
+      labelY += 10; // Adjust Y downwards
       break;
     case "exact":
       labelX -= 4;
@@ -351,6 +351,41 @@ export function calculateLabel(point, label, alignment) {
       break; // No adjustment if no alignment is specified
   }
   return [{ ...point, label, labelX, labelY }];
+}
+
+export function drawPointWithArrow(pointStartPoint, pointEndPoint, position, pointLabel, arrowLabel, pencil = lightPencil) {
+  const sendToPoints = [];
+  
+  let pointLabelCal; 
+  if(pointEndPoint.y < startPoint.y){
+    if(position=="left"){
+      pointLabelCal = calculateLabel(pointEndPoint, pointLabel, "left-up");
+    } else if(position == "right"){
+      pointLabelCal = calculateLabel(pointEndPoint, pointLabel, "right-up");
+    } else {
+      pointLabelCal = calculateLabel(pointEndPoint, pointLabel, position);
+    }
+  } else {    
+      if(position=="left"){
+        pointLabelCal = calculateLabel(pointEndPoint, pointLabel, "left-down");
+      } else if(position == "right"){
+        pointLabelCal = calculateLabel(pointEndPoint, pointLabel, "right-down");
+      } else {
+        pointLabelCal = calculateLabel(pointEndPoint, pointLabel, position);
+      }    
+  }
+  
+  sendToPoints.push(
+    ...calculateLinePointsWithCircles(pointStartPoint, pointEndPoint, pencil),
+    ...pointLabelCal    
+  );
+
+  if(pointEndPoint.y != startPoint.y){
+    sendToPoints.push(
+      ...drawPerpendicularArrow(pointStartPoint, pointEndPoint, position, arrowLabel)
+    );
+  }
+  return sendToPoints;
 }
 //   ------------------------------------------------------
 // Function to calculate arrow position based on direction
@@ -512,21 +547,27 @@ export function calculateLinePointsWithCircles(startPoint, endPoint,pencil=darkP
   let startPoint1 = startPoint;
   // Generate points along the line
   for (let i = 0; i < numPoints; i++) {
-    let endPoint = { 
+    points.push({
+      x: startPoint1.x,
+      y: startPoint1.y
+    });
+    startPoint1 = {
       x: startPoint.x + i * xStep,
-      y: startPoint.y + i * yStep
+      y: startPoint.y + i * yStep,
     }
-    points.push(startPoint1, endPoint, ...pencil);
-    startPoint1 = endPoint;
+    points.push(startPoint1);
+    points.push(...pencil);
+    
   }
   // Add circles at the start and end points
   const startCirclePoints = getCirclePoints(startPoint); // Circle with radius 1 at startPoint
   const endCirclePoints = getCirclePoints(endPoint); // Circle with radius 1 at endPoint
-  return [...startCirclePoints, ...points, ...endCirclePoints];
+  return [...startCirclePoints, ...points, ...endCirclePoints, ...lightPencil];
 }
 
 
 // --------------------------------------------
+
 
 
 export function calculateLinePointsWithCircles2(startPoint, endPoint) {
@@ -550,18 +591,51 @@ export function calculateLinePointsWithCircles2(startPoint, endPoint) {
   return [...startCirclePoints, ...points, ...endCirclePoints];
 }
 
+export function GenerateFullCircle(center, radius) {
+  const numPoints = 361; // Total points for the circle
+  const circlePoints = [];
+  let startPoint1 = {};
+  for (let i = 0; i < numPoints; i++) {
+
+      if(startPoint1!=null){      
+          const angle = (i * Math.PI) / 180; // Convert degrees to radians
+          const x1 = center.x + radius * Math.cos(angle);
+          const y1 = center.y + radius * Math.sin(angle);      
+          circlePoints.push({
+              x: startPoint1.x,
+              y: startPoint1.y
+            });
+            startPoint1 = {x: x1,y: y1}
+            circlePoints.push(startPoint1);
+            circlePoints.push(...darkPencil);
+      } else {
+          const angle = (i * Math.PI) / 180; // Convert degrees to radians
+          startPoint1 = {
+              x: center.x + radius * Math.cos(angle),
+              y: center.y + radius * Math.sin(angle)
+          }
+      }
+      
+  }
+
+
+  
+  return circlePoints;
+}
 
 
 // --------------------------------
 
 
 
-export function drawPerpendicularArrow(verticalStartPointUp, verticalEndPointUp, position) {
+export function drawPerpendicularArrow(verticalStartPointUp, verticalEndPointUp, position, label) {
   let sendToPoints = [];
   let distance = 15;
   let arrowHeadSize = 5;
+  let labelSide = 15;
   if(position == "right"){
     distance = -15;
+    labelSide = -5;
   }
   
   let adjustedStartPointUp = {x: verticalStartPointUp.x - distance, y: verticalStartPointUp.y};
@@ -586,19 +660,34 @@ export function drawPerpendicularArrow(verticalStartPointUp, verticalEndPointUp,
     arrowHeadStartPoint.push(adjustedStartPointUp);
     arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
   }
+  
   sendToPoints.push(
+    ...lightPencil,
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
-    ...arrowHeadStartPoint, ...lightPencil
+    ...arrowHeadStartPoint, ...lightPencil,
+    
   );
+
+  let arrowLabel;
+  if(position=="left"){
+    arrowLabel = calculateLabel({x: verticalStartPointUp.x -20, y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
+    sendToPoints.push(...arrowLabel);
+  } else {
+    arrowLabel = calculateLabel({x: verticalStartPointUp.x + 5 , y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
+    sendToPoints.push(...arrowLabel, ...lightPencil);
+  }
+ 
   return sendToPoints;
 }
-export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, position) {
+export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, position , label) {
   let sendToPoints = [];
   let distance = 15;
   let arrowHeadSize = 5;
+  let labelSide = 15;
   if(position == "down"){
     distance = -15;
+    labelSide = -5;
   }  
   let adjustedStartPointUp = {x: verticalStartPointUp.x, y: verticalStartPointUp.y - distance};
   let adjustedEndPointUp = {x: verticalEndPointUp.x, y: verticalEndPointUp.y - distance};
@@ -623,9 +712,13 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
     arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
   }
   sendToPoints.push(
+    ...lightPencil,
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
-    ...arrowHeadStartPoint, ...lightPencil
+    ...arrowHeadStartPoint, ...lightPencil,
+    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - 20} ,label, position )
   );
+  
+  
   return sendToPoints;
 }

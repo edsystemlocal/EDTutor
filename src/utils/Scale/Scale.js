@@ -1,6 +1,6 @@
 
-import {calculateLinePointsWithCircles, defineSteps } from "../functionHelper";
-import {drawUnit,ArcPoints,EndPoint,Linelength, unitRelation, CalculateRF, CalculateLOS, label} from "@/utils/Scale/ScaleMethod";
+import {calculateLabel, calculateLinePointsWithCircles, defineSteps } from "../functionHelper";
+import {drawUnit,ArcPoints,EndPoint,Linelength, unitRelation, CalculateRF, CalculateLOS} from "@/utils/Scale/ScaleMethod";
 import { darkPencil, lightPencil, superDarkPencil } from "../globalVariable";
 //import { useState } from "react";
 
@@ -19,7 +19,6 @@ let x=startPoint,y=endPoint;
   
   let division1,division2,division3;
   let scaleType="Plane";
-  let decideScale=[];
    
    let part=0,part2=0,part3=0;
    let angle1=330,angle2=300,angle3=235;
@@ -32,119 +31,58 @@ let x=startPoint,y=endPoint;
    let digit=[],digit2=[],digit3=[];
    
    let leftLineLength=120;
-   let plainScaleUnit,dScaleUnit;
-   let division1Count=1,division2Count=1;
+   let plainScaleUnit;
    
    //for step
-   export function calculation() 
-   {
-    if(RF1==="" && RF2==="")
-      RF2=CalculateRF(5,"cm",10,"m");
-    if(showlengthUnit3==="")
-    LOS=CalculateLOS(RF2,Maxlength,maxlengthUnit,plainScaleUnit);
-  else
-    LOS=CalculateLOS(RF2,Maxlength,maxlengthUnit,dScaleUnit);
-  
-
-    console.log("RF:-",+RF2);
-    console.log("LOS:-",+LOS);
-
-
-   }
-
-
-   export function calculation3isnull() 
-   {
-      console.log("3rd unit null");
-      if(showlengthUnit2==="")
-        {
-          plainScaleUnit=showlengthUnit1;
-          if (Maxlength>=20)
-          { 
-            plainScaleUnit=maxlengthUnit;
-            division1Count=10;
-            division1=Maxlength/10;
-            if(division1>=20)
-              {
-                dScaleUnit=maxlengthUnit;
-                division1Count=100;
-                division2Count=10;
-                division1=division1/10;
-                division2=10;
-                division3=10;
-              }
-              else
-              {
-                division2=10;
-                if(maxlengthUnit===showlengthUnit1)
-                   division3=0;
-                else
-                   {
-                    decideScale.push(unitRelation(maxlengthUnit,showlengthUnit1));
-                    division3=decideScale[0][0];
-                   }
-              }
-          }
-          else //unit2 is null and maxlength not 20 above
-          {
-                 decideScale.push(unitRelation(maxlengthUnit,showlengthUnit1));
-                 console.log("decidescaleP",+decideScale[1]);
-                 division1=Maxlength;
-                 division2=decideScale[0][0];
-                 division3=0;
-          }
-        }
-        else // showlength2 is not null
-        {
-          plainScaleUnit=showlengthUnit2;
-
-          if (Maxlength>=20)
-            { 
-              plainScaleUnit=maxlengthUnit;
-              division1Count=10;
-              division1=Maxlength/10;
-              if(division1>=20)
-                {
-                  dScaleUnit=maxlengthUnit;
-                  division1Count=100;
-                  division2Count=10;
-                  division1=division1/10;
-                  division2=10;
-                  division3=10;
-                }
-                else
-                {
-                  division2=10;
-                  division3=0;
-                }
-            }
-            else //unit2 is not null and maxlength not 20 above
-            {
-               if(maxlengthUnit===showlengthUnit1)
-               {
-                 decideScale.push(unitRelation(showlengthUnit1,showlengthUnit2));
-                 division1=Maxlength;
-                 division2=decideScale[0][0];
-                 division3=0;
-               }
-
-               else
-               {
-                 decideScale.push(...unitRelation(showlengthUnit1,showlengthUnit2));
-                 division3=decideScale[0][0];
-                 decideScale.push(...unitRelation(maxlengthUnit,showlengthUnit1));
-                 division2=decideScale[0][0];
-                 division1=Maxlength;
-               }
-            }
-        }    
-   }
   
    
+export function Calculation()
+{   
+    if(RF1==="" && RF2==="")
+      RF2=CalculateRF(5,"cm",10,"m");
 
+    let plainScaleUnit=" ";
+    if(maxlengthUnit===showlengthUnit1)
+      plainScaleUnit=showlengthUnit2;
+    else
+        plainScaleUnit=showlengthUnit1;
+    //LOS=CalculateLOS(RF2,ScaleMaximumLength,ScaleMaximumLengthUnit,plainScaleUnit);
+  
+    let decideScale; 
+    if(showlengthUnit3==="")
+      {
+        showlength3=0;
+        if(showlengthUnit2==="")
+          {
+            showlength2=0;
+            decideScale=unitRelation(maxlengthUnit,showlengthUnit1);
+            division2=decideScale;
+          }  
+        else
+        {
+          decideScale=unitRelation(maxlengthUnit,showlengthUnit2);
+          if(decideScale>15)
+           { division2=decideScale/10;
+             division3=10;
+           }
+           else {
+            division2=decideScale
+           }
+        }
+      }
+    else
+    {
+      division3=unitRelation(showlengthUnit2,showlengthUnit3);
+      division2=unitRelation(showlengthUnit1,showlengthUnit2);
+    }
+
+
+      division1=Maxlength;
+      
+}     
 export function PScale(payload) 
 {
-  const{counter}=payload;
+  const { counter } = payload;
 
   // const {
   //   ScaleShowLength1,
@@ -163,21 +101,21 @@ export function PScale(payload)
   //   "Show Length2": 6,
   //   "Show Length2 Unit": hm,
   // };
-  const ScaleRF = payload.inputs["Scale RF"]
+
   const ScaleMaximumLength = payload.inputs["Maximum Length"]
   const ScaleMaximumLengthUnit = payload.inputs["Maximum Length Unit"]
   const ScaleShowLength1 = payload.inputs["Show Length1"]
   const ScaleShowUnit1 = payload.inputs["Show Length1 Unit"]
   const ScaleShowLength2 = payload.inputs["Show Length2"]
   const ScaleShowUnit2 = payload.inputs["Show Length2 Unit"]
-  const ScaleShowLength3 = payload.inputs["Show Length3"]
-  const ScaleShowUnit3 = payload.inputs["Show Length3 Unit"]
- 
+
   const steps = scale_Steps(); // Generate steps dynamically
   let step = steps[counter];
   let sendToPoints = [];
  
- console.log("unit2"+ScaleShowUnit2);
+  //const [ScaleType, setScaleType] = useState("Plane");
+
+ 
 //Assigmnet to front end
     Maxlength=ScaleMaximumLength;
     maxlengthUnit=ScaleMaximumLengthUnit;
@@ -188,42 +126,19 @@ export function PScale(payload)
     showlength2=ScaleShowLength2;
     showlengthUnit2=ScaleShowUnit2;
     
-    showlength3=ScaleShowLength3;
-    showlengthUnit3=ScaleShowUnit3;
-    
+    showlength3=0;
+    showlengthUnit3="";
     
     RF1="";
-    RF2=ScaleRF;
+    RF2="";
     drawingLength="";
     drawingLengthUnit="";
     actualLength="";
     actualLengthUnit="";
 
-   if(showlengthUnit3==="")
-      calculation3isnull();
-   else
-   {
-    dScaleUnit=showlengthUnit3;
-    plainScaleUnit=showlengthUnit2;
-    decideScale.push(unitRelation(showlengthUnit2,showlengthUnit3));
-    division3=decideScale[0][0];
-    decideScale.push(unitRelation(showlengthUnit1,showlengthUnit2));
-   
-    division2=decideScale[0][0];
-    division1=Maxlength;
-
-   }
-   console.log("unit1="+showlengthUnit1);
-   console.log("unit2="+showlengthUnit2);
-   console.log("decide scale"+decideScale.toString());
-   console.log("division2"+division2);
-
     
    
-   calculation();
-   //division1=8;
-   //division2= 10;
-   //division3=10;
+    Calculation();
    
    
    
@@ -273,9 +188,9 @@ export function PScale(payload)
      for(let i=0;i<=division1;i++)
      {
         if(i==division1)
-          digit.push(... label(startPoint, ""+i*division1Count, "left-down"));
+          digit.push(... calculateLabel(startPoint, ""+i, "down"));
         else    
-           digit.push(... label({x:startPoint.x+part*(i+1),y:startPoint.y}, ""+i*division1Count, "down"));
+           digit.push(... calculateLabel({x:startPoint.x+part*(i+1),y:startPoint.y}, ""+i, "down"));
         digit.push(...darkPencil);
      }
      if (counter === 6) 
@@ -317,7 +232,7 @@ else
    for(let i=division2-2;i>=0;i=i-2)
    {
         
-      digit2.push(... label({x:startPoint.x+part2*(i),y:startPoint.y}, ""+j*division2Count, "down"));
+      digit2.push(... calculateLabel({x:startPoint.x+part2*(i),y:startPoint.y}, ""+j, "down"));
       digit2.push(...darkPencil);
       j=j+2;
    }
@@ -355,13 +270,13 @@ export function scale_Steps() {
   return {
     1: defineSteps("RF of given Problem is :- 1:"+RF2,
       "Length of Scale is :-"+LOS+" "+plainScaleUnit,
-      "Draw a main line  "+Maxlength +""+plainScaleUnit+"long and divide it into " +division1+ " equal parts. for this:-"),
+      "Draw a main line  "+Maxlength +" cm long and divide it into " +division1+ " equal parts. for this:-"),
     2: defineSteps("Draw a line from start point of main line with 30 degree agle "),
     3: defineSteps( "Cut arcs of any length " +division1+" times",), 
     4: defineSteps( "Draw a line between last arc point and end point of line ","Draw Parallel line from each arc point. ") ,
     5: defineSteps( "Draw Perpendicular line from both end",), 
-    6:defineSteps( "Make Division each representing :"+division1Count+" "+ maxlengthUnit),
-      
+    6:defineSteps( "Make Division each representing one "+ maxlengthUnit,
+      " Number the division-points,0,1,2...."),
     7: defineSteps("Draw a line from start point of main line with 60 degree agle "),   
     8: defineSteps( "Cut arcs of any length " +division2+" times",), 
     9: defineSteps("Draw a line between last arc point and end point of fist division ", "Draw Parallel line from each arc point. ",), 
@@ -369,17 +284,8 @@ export function scale_Steps() {
     9:defineSteps("Divide the first part into "+division2+"equal divisions. ",
         " Each division will show one "+ plainScaleUnit),
     10:defineSteps( "Draw Perpendicular line from both end",
-          "Make Division each representing :"+division2Count+" "+ plainScaleUnit),
-          
-
-    11: defineSteps("Draw a line from start point of Scale line with 30 degree agle "),   
-    12: defineSteps( "Cut arcs of any length " +division3+" times",), 
-    13: defineSteps("Draw a line between last arc point and end point of fist division ", "Draw Parallel line from each arc point. ",), 
-    14:defineSteps("Divide the first part into "+division3+"equal divisions. ",
-        " Each division will show one "+ dScaleUnit),
-    15:defineSteps( "Draw Perpendicular line from both end",
-          "Make Division each representing one "+ dScaleUnit),
-
+          "Make Division each representing one "+ plainScaleUnit,
+          " Number the division-points,0,1,2...."),
     11:defineSteps("draw 2 line below the scale and write units as draw",
                    "marks points above the scale as shown in scale problem ")
 
@@ -417,7 +323,7 @@ export function drawParallelLine(pointStart,part,division,angle,length)
   
   let move=length/(division+2);
   let partPoints=[];
-// partPoints.push(...label(EndPoint(startPoint,0,part*i), ""+p, "down"));
+// partPoints.push(...calculateLabel(EndPoint(startPoint,0,part*i), ""+p, "down"));
   for(let i=division;i>=1;i--)
  {
   
@@ -451,37 +357,33 @@ export function drawMultipleLine(pointStart,pointEnd,division)
   let Y={x:endPoint.x,y:endPoint.y+100};
   const Unitline1=calculateLinePointsWithCircles(X,Y);
   const UnitLine2=calculateLinePointsWithCircles({x:X.x,y:Y.y+20},{x:Y.x,y:Y.y+20});
+
+  const Unit3line1=calculateLinePointsWithCircles({x:startPoint.x-100,y:startPoint.y},{x:startPoint.x-100,y:startPoint.y-leftLineLength});
+  const Unit3line2=calculateLinePointsWithCircles({x:startPoint.x-120,y:startPoint.y},{x:startPoint.x-120,y:startPoint.y-leftLineLength});
   
-  let Unit3line1=startPoint,Unit3line2=startPoint,WriteUnit3;
-   if(division3>0)
-   {
-      Unit3line1=calculateLinePointsWithCircles({x:startPoint.x-100,y:startPoint.y},{x:startPoint.x-100,y:startPoint.y-leftLineLength});
-      Unit3line2=calculateLinePointsWithCircles({x:startPoint.x-120,y:startPoint.y},{x:startPoint.x-120,y:startPoint.y-leftLineLength});
-      WriteUnit3 = label({x:startPoint.x-120,y:startPoint.y},drawUnit(dScaleUnit), "down");
-   } 
-  let WriteUnit1 = label(Y,drawUnit(maxlengthUnit), "End-Start");
-  let WriteUnit2 = label(X,drawUnit(plainScaleUnit), "down");
-  //if(division1Count>1)
-      //WriteUnit2 = label(X,drawUnit(maxlengthUnit), "down");
- //else
-    // WriteUnit2 = label(X,drawUnit(plainScaleUnit), "down");
+  let WriteUnit1 = calculateLabel(Y,drawUnit(maxlengthUnit), "End-Start");
+  let WriteUnit2;
+  if(showlengthUnit2=="")
+      WriteUnit2 = calculateLabel(X,drawUnit(showlengthUnit1), "down");
+ else
+     WriteUnit2 = calculateLabel(X,drawUnit(showlengthUnit2), "down");
  
   
     let RFX={x:startPoint.x,y:startPoint.y+200};
     let RFY={x:endPoint.x,y:endPoint.y+200};
     const RFLine1=calculateLinePointsWithCircles({x:X.x,y:Y.y+100},{x:Y.x,y:Y.y+120});
     const RFLine2=calculateLinePointsWithCircles({x:X.x,y:Y.y+120},{x:Y.x,y:Y.y+120});
-    const WriteRF = label({x:X.x+300,y:Y.y+120},"RF"+RF1+":"+RF2, "down");
+    const WriteRF = calculateLabel({x:X.x+300,y:Y.y+120},"RF"+RF1+":"+RF2, "down");
 
 
     X={x:startPoint.x+part2*(division2-showlength2),y:startPoint.y-140};
     Y={x:startPoint.x+part*(showlength1+1),y:startPoint.y-140}
     let answerLine=[];
      answerLine.push(...calculateLinePointsWithCircles(X,Y))
-     answerLine.push(...label(X,"<","exact"));
-     answerLine.push(...label(Y,">","exact"));
+     answerLine.push(...calculateLabel(X,"<","exact"));
+     answerLine.push(...calculateLabel(Y,">","exact"));
      answerLine.push(...darkPencil);
-    const answerUnit=label(
+    const answerUnit=calculateLabel(
     {x:X.x+(Y.x-X.x)/2,y:X.y},
     showlength1+" "+drawUnit(showlengthUnit1)+
     " "+showlength2+" "+drawUnit(showlengthUnit2)+
@@ -498,9 +400,8 @@ export function drawMultipleLine(pointStart,pointEnd,division)
 ...answerLine,
 ...answerUnit,
 ...WriteRF,
-//...Unit3line1,
-//...Unit3line2,
-//...WriteUnit3,
+...Unit3line1,
+...Unit3line2,
 
 ];
 
@@ -524,7 +425,7 @@ export function drawMultipleLine(pointStart,pointEnd,division)
        for(let i=division2-2;i>=0;i=i-2)
        {
         
-      digit2.push(...label({x:startPoint.x+part2*(i),y:startPoint.y}, ""+j, "down"));
+      digit2.push(...calculateLabel({x:startPoint.x+part2*(i),y:startPoint.y}, ""+j, "down"));
       digit2.push(...darkPencil);
       j=j+2;
      }
@@ -554,7 +455,7 @@ export function drawMultipleLine(pointStart,pointEnd,division)
      partPoints3.push(...calculateLinePointsWithCircles(EndPoint(dstartPoint,90,part3*(-i)),EndPoint(dstartPoint,angle3,move3*i)));
      partPoints3.push(...lightPencil);
      if(k%2==0)
-     partPoints3.push(...label(EndPoint(startPoint,90,part3*k), ""+k, "left-down"));
+     partPoints3.push(...calculateLabel(EndPoint(startPoint,90,part3*k), ""+k, "left-down"));
      k++;
     }
     //step-14

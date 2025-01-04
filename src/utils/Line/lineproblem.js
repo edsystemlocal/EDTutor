@@ -1,4 +1,4 @@
-import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDashLinePoints, calculateDistance, calculateHeight, calculateHypotenuse, calculateHypotenuseWithAngle, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawPerpendicularArrow, drawQuarterCircle, drawXYaxis, getCirclePoints } from "@/utils/functionHelper";
+import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDashLinePoints, calculateDistance, calculateHeight, calculateHypotenuse, calculateHypotenuseWithAngle, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawPerpendicularArrow, drawPointWithArrow, drawQuarterCircle, drawXYaxis, getCirclePoints } from "@/utils/functionHelper";
 import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalVariable";
 
 
@@ -89,17 +89,25 @@ export function getLineProblemSteps(values) {
   return steps;
 }
 
-function getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP) {
+function getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, firstPointAboveHPLength, firstpointfrontOfVPLength) {
   let sendToPoints = [];
-  let arrowHP = drawPerpendicularArrow(xyAxisLineStartPoint, firstPointAboveHP, "left");
-  const firstPointAboveHPPoints = calculateLinePointsWithCircles(xyAxisLineStartPoint, firstPointAboveHP, lightPencil);
-  const labelfirstPointAboveHPPoints = calculateLabel(firstPointAboveHP, "a'", "left-up");
-  sendToPoints.push(...firstPointAboveHPPoints, ...labelfirstPointAboveHPPoints, ...getCirclePoints(firstPointAboveHP), ...darkPencil, ...arrowHP);
+  //let arrowHP = drawPerpendicularArrow(xyAxisLineStartPoint, firstPointAboveHP, "left");
+  //const firstPointAboveHPPoints = calculateLinePointsWithCircles(xyAxisLineStartPoint, firstPointAboveHP, lightPencil);
+  //const labelfirstPointAboveHPPoints = calculateLabel(firstPointAboveHP, "a'", "left-up");
+  //sendToPoints.push(...firstPointAboveHPPoints, ...labelfirstPointAboveHPPoints, ...getCirclePoints(firstPointAboveHP), ...darkPencil, ...arrowHP);
 
-  let arrowVP = drawPerpendicularArrow(xyAxisLineStartPoint, firstPointFrontVP, "left");
-  const firstpointfrontOfVPPoints = calculateLinePointsWithCircles(xyAxisLineStartPoint, firstPointFrontVP, lightPencil);
-  const labelfirstpointfrontOfVPPoints = calculateLabel(firstPointFrontVP, "a", "left-down");
-  sendToPoints.push(...firstpointfrontOfVPPoints, ...labelfirstpointfrontOfVPPoints, ...getCirclePoints(firstPointFrontVP), ...darkPencil, ...arrowVP);
+   sendToPoints.push(
+        ...drawPointWithArrow(xyAxisLineStartPoint, firstPointAboveHP, "left", "a'", firstPointAboveHPLength, lightPencil)
+      );
+
+      sendToPoints.push(
+        ...drawPointWithArrow(xyAxisLineStartPoint, firstPointFrontVP, "left", "a", firstpointfrontOfVPLength, lightPencil)
+      );
+
+  //let arrowVP = drawPerpendicularArrow(xyAxisLineStartPoint, firstPointFrontVP, "left");
+  //const firstpointfrontOfVPPoints = calculateLinePointsWithCircles(xyAxisLineStartPoint, firstPointFrontVP, lightPencil);
+  //const labelfirstpointfrontOfVPPoints = calculateLabel(firstPointFrontVP, "a", "left-down");
+  //sendToPoints.push(...firstpointfrontOfVPPoints, ...labelfirstpointfrontOfVPPoints, ...getCirclePoints(firstPointFrontVP), ...darkPencil, ...arrowVP);
 
   return sendToPoints;
 }
@@ -277,7 +285,7 @@ export function getLineProblemPoints(payload) {
 
 
     if (counter === 2) {
-      sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP));
+      sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs.firstPointAboveHPLength), Number(inputs.firstpointfrontOfVPLength)));
     }
 
 
@@ -575,7 +583,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
 
   if (counter === 2) {
     console.log("Enter counter 2");
-    sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP));
+    sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs.firstPointAboveHPLength), Number(inputs.firstpointfrontOfVPLength)));
   }
 
   if (counter === 3) {
@@ -663,7 +671,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToFV),
-        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineLeftUp"),
+        ...calculateLineLabel(pointInclinedToFV, "b2'", "lineRightUp"),
         ...darkPencil,
       )
     }

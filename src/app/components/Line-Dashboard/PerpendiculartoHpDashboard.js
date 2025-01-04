@@ -12,9 +12,9 @@ export default function PerpendiculartoHpDashboard({ drawingType }) {
   const [firstPointAboveHPLength, setFirstPointAboveHPLength] = useState(40);
 
   const inputs = {
-    LineLength,
-    firstpointfrontOfVPLength,
-    firstPointAboveHPLength,
+     LineLength,
+     firstpointfrontOfVPLength,
+     firstPointAboveHPLength,
   };
 
   const inputStyle =
@@ -43,7 +43,7 @@ export default function PerpendiculartoHpDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Line Length:</span>
                   <input
                     type="text"
@@ -52,7 +52,7 @@ export default function PerpendiculartoHpDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">
                     First Point Front of VP Length:
                   </span>
@@ -63,9 +63,9 @@ export default function PerpendiculartoHpDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">
-                    First Point Above HP Length:
+                  First Point Front of HP Length:
                   </span>
                   <input
                     type="text"

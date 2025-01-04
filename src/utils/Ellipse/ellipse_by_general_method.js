@@ -1,5 +1,4 @@
-import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateHeight, calculateHeightFromBase, calculateLabel, calculateLinePointsWithCircles, defineSteps, getCirclePoints } from "../functionHelper";
-import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalVariable";
+
 
 function calculateAngle(base, height) {
     const angleInRadians = Math.atan(height / base);
@@ -26,7 +25,8 @@ function calculateArcPoints1(focus, linePoint, radius, upDown) {
     
 }
 
-
+import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateHeight, calculateHeightFromBase, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawParallelArrow, drawPerpendicularArrow, getCirclePoints } from "../functionHelper";
+import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalVariable";
 export function ellipse_by_generalmethodSteps(values) {
     const {
         distanceofthefocusfromthedirectrix
@@ -40,26 +40,28 @@ export function ellipse_by_generalmethodSteps(values) {
         ),
         3: defineSteps(
              `Mark the focus f on axis line of given lenght ${distanceofthefocusfromthedirectrix} from c`, 
-             " And eccentricity = vf/vc = 3/2 .",
-             "To construct the scale for the ratio 3/2 draw a line ve perpendicular to cd such that ve = vf.",  
+        ),
+        4: defineSteps(
+             "Divide Cf into 5 equal divisions (sum of numerator and denometer of the eccentricity.)(v) Mark the vertex V on the third division-point from C.  And eccentricity = vf/vc = 2/3 .",
+             "To construct the scale for the ratio 2/3 draw a line ve perpendicular to cd such that ve = vf.",  
         ),
       
-        4: defineSteps(
-            "Join c with e. thus , in triangle cve , ve/vc =vf/vc = 3/2 ."
-        ),
         5: defineSteps(
+            "Join c with e. thus , in triangle cve , ve/vc =vf/vc = 2/3 ."
+        ),
+        6: defineSteps(
             "Mark any point 1 on the axis and through it, draw a perpendicular meet CE-produced at 1 '. ",
         ),
-        6: defineSteps("With centre F and radius equal to 1-1' , draw arcs to intersect the perpendicula through 1 at points P1 and P' 1.",
+        7: defineSteps("With centre F and radius equal to 1-1' , draw arcs to intersect the perpendicula through 1 at points P1 and P' 1.",
             "Draw lower arcs"
         ),
-        7: defineSteps("connect the arc points for ellipse")
+        8: defineSteps("connect the arc points for ellipse")
     };
 }
 
 export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_InclinedtoVP
-    const { counter , inputs} = payload;
-    const startpoint = { x: startPoint.x, y: startPoint.y + 150 };
+    const { counter , inputs, finalDrawing } = payload;
+    const startpoint = { x: startPoint.x, y: startPoint.y };
 
     const {distanceofthefocusfromthedirectrix }= inputs
     let values ={ distanceofthefocusfromthedirectrix }
@@ -70,7 +72,7 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
     console.log(LineLengthfor_e, "LineLengthfor_e")
 
     const c_EndPoint = { x: startpoint.x + 500, y: startpoint.y };
-    const c_LinePoints = calculateLinePointsWithCircles(startpoint, c_EndPoint);
+    const c_LinePoints = calculateLinePointsWithCircles(startpoint, c_EndPoint ,lightPencil);
     const labeled_c_LinePoints = calculateLabel(startpoint, "c", "left");
 
     const ab_LinePoints = [{ x: startpoint.x, y: startpoint.y - 100 }, { x: startpoint.x, y: startpoint.y + 100 }];
@@ -105,23 +107,44 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
         verticalLines.push({ x: i, y: 400, label: `${(i - 100) / 10}` });
 
     }
-
+    let drawAll = false;
     const sendToPoints = [];
-    if (counter === 1) {
-        sendToPoints.push(...c_LinePoints, ...darkPencil, ...labeled_c_LinePoints, ...darkPencil,);
+    if (counter === 1 || drawAll) {
+        sendToPoints.push(...c_LinePoints, ...labeled_c_LinePoints, ...darkPencil,); 
+        if (finalDrawing) {
+            drawAll = true;
+        }
     }
-    if (counter === 2) {
-        sendToPoints.push(...ab_Line, ...darkPencil, ...labeledStartPoint, ...labeledEndPoint);
+    if (counter === 2 || drawAll) {
+        sendToPoints.push(...ab_Line, ...labeledStartPoint, ...labeledEndPoint); 
+        if (finalDrawing) {
+            drawAll = true;
+        }
     }
-    if (counter === 3) {
-        sendToPoints.push(...f_LinePoints, ...labeled_f_LinePoints, ...v_LinePoints, ...labeled_v_LinePoints,
-            ...e_LinePoints, ...labeled_e_LinePoints, ...darkPencil);
+    if (counter === 3 || drawAll) {
+        sendToPoints.push(...f_LinePoints, ...labeled_f_LinePoints); 
+            if (finalDrawing) {
+            drawAll = true;
+        }
     }
-    if (counter === 4) {
-        sendToPoints.push(...diagonalLinePoints, ...darkPencil);
+    if (counter === 4 || drawAll) {
+        sendToPoints.push(...drawParallelArrow(ab_LinePoints[0],{ x: startpoint.x + distanceofthefocusfromthedirectrix, y: startpoint.y - 100 },"Above","cf = "+distanceofthefocusfromthedirectrix));
+        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y-50  },{ x: startpoint.x + LineLengthfor_v, y: startpoint.y -50},"Above","cv = "+LineLengthfor_v));
+        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x-50, y: startPoint.y }, { x: startPoint.x-50, y: startPoint.y - LineLengthfor_e }, "right","ve = "+LineLengthfor_e));
+        sendToPoints.push( ...v_LinePoints, ...labeled_v_LinePoints,
+            ...e_LinePoints, ...labeled_e_LinePoints); 
+            if (finalDrawing) {
+            drawAll = true;
+        }
+    }
+    if (counter === 5 || drawAll) {
+        sendToPoints.push(...diagonalLinePoints); 
+        if (finalDrawing) {
+            drawAll = true;
+        }
     
     }
-    if (counter === 5 || counter === 6) {
+    if (counter === 6 || counter === 7 || drawAll) {
 
     
         verticalLines.forEach(({ x, y ,label},index) => {
@@ -136,21 +159,22 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
          const verticalLineMidPoint = { x, y: startpoint.y }; // Midpoint
 
     
-            if (counter === 5) {
+            if (counter === 6 || drawAll) {
                 // Calculate vertical line points
                 const linePoints = calculateLinePointsWithCircles(verticalLineStartPoint, verticalLineEndPoint,lightPencil);
                 // Add points to the array
                 const verticalLinePointsArray = [];
-                verticalLinePointsArray.push(
-                    ...linePoints,         // Vertical line
-                    ...lightPencil,
-             ...calculateLabel(verticalLineStartPoint, `${verticalLineNumber}'`,"left-up"), // Start point label 
-            ...calculateLabel(verticalLineMidPoint, `${verticalLineNumber}`,"up"), // Midpoint label 
+                verticalLinePointsArray.push(...linePoints, ...lightPencil,
+             ...calculateLabel(verticalLineStartPoint, `${verticalLineNumber}'`, "left-up"), // Start point label 
+            ...calculateLabel(verticalLineMidPoint, `${verticalLineNumber}`, "up"), // Midpoint label 
                 );
-                sendToPoints.push(...verticalLinePointsArray);
+                sendToPoints.push(...verticalLinePointsArray); 
+                if (finalDrawing) {
+            drawAll = true;
+        }
             }
 
-            if (counter === 6) {
+            if (counter === 7 || drawAll) {
 
                     const angleStart = calculateAngle(LineLengthfor_v, LineLengthfor_e);
             
@@ -165,19 +189,27 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
                     const lowerArc = calculateArcPoints1(f_LineEndPoint, verticalLineEndPoint, radius, "down"); // Arc towards the lower side
                     const arcs = [];
                     
-                    arcs.push(...upperArc, ...lightPencil, ...lowerArc, ...lightPencil);    
+                    arcs.push(...upperArc,...lightPencil,...lowerArc,...lightPencil);    
             
-                sendToPoints.push(...arcs,...darkPencil,);
+                sendToPoints.push(...arcs,...darkPencil); 
+                if (finalDrawing) {
+            drawAll = true;
+        }
             }
             
         });
     }
 
-    if (counter === 7) {        
-        sendToPoints.push(...getEclipsePoints(startpoint, f_LineEndPoint, LineLengthfor_v, LineLengthfor_e, v_LineEndPoint), ...darkPencil);
+    if (counter === 8 || drawAll) {        
+        sendToPoints.push(...getEclipsePoints(startpoint, f_LineEndPoint, LineLengthfor_v, LineLengthfor_e, v_LineEndPoint));
+         if (finalDrawing) {
+            drawAll = true;
+        }
     }
     const steps = ellipse_by_generalmethodSteps(values); // Generate steps dynamically
-    const step = steps[counter];
+    const step = drawAll
+    ? Object.values(steps).map((s, index) => `Step ${index + 1}: ${s}`).join("\n")
+    : steps[counter];
     return { points: sendToPoints, step }; // Return empty points and message for invalid counter
 }
 
@@ -211,18 +243,19 @@ export function getEclipsePoints(startpoint, pointF, LineLengthfor_v, LineLength
         const lowerIntersectionPoint = calculateEclipsePoint(pointF, verticalLineEndPoint, radius, "down"); // Arc towards the lower side
 
         if (upperIntersectionPoint && upperIntersectionPoint.y!=null && !isNaN(upperIntersectionPoint.y)) {
-            upperIntersectionPoints.push(upperIntersectionPoint);
+            upperIntersectionPoints.push(upperIntersectionPoint);       
           
         }
         if (lowerIntersectionPoint && lowerIntersectionPoint.y!=null && !isNaN(lowerIntersectionPoint.y)) {
             lowerIntersectionPoints.push(lowerIntersectionPoint);
+        
           
         }
     
     });
 
+
     let eclipseStartpoint = v_LineEndPoint;
-   
     eclipsePoints.push(...darkPencil);
     upperIntersectionPoints.forEach((point) => {        
         eclipsePoints.push(...calculateEclipseLinePoints(eclipseStartpoint, point));
@@ -268,7 +301,8 @@ function calculateEclipsePoint(focus, linePoint, radius, upDown) {
 export function calculateEclipseLinePoints(startPoint, endPoint) {
   const points = [];
   
-    if(startPoint.y!=null && endPoint.y!=null && !isNaN(startPoint.y) && !isNaN(endPoint.y)){    
+    if(startPoint.y!=null && endPoint.y!=null && !isNaN(startPoint.y) && !isNaN(endPoint.y)){
+    
         points.push({
         x: startPoint.x,
         y: startPoint.y,
@@ -277,7 +311,7 @@ export function calculateEclipseLinePoints(startPoint, endPoint) {
             x: endPoint.x,
             y: endPoint.y,
         });
-        points.push(...superDarkPencil);
+        points.push(...darkPencil);
     }
 
   return [...points];

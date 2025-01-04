@@ -12,8 +12,8 @@ export default function EpicycloidDashboard({ drawingType }) {
 
 
   const inputs = {
-    Diameter,
-    DirectingCircle
+ Diameter,
+   DirectingCircle
   };
 
   const inputStyle =
@@ -42,7 +42,7 @@ export default function EpicycloidDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Diameter:</span>
                   <input
                     type="number"
@@ -51,8 +51,8 @@ export default function EpicycloidDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
-                  <span className="text-gray-700">DirectingCircle:</span>
+                <label className="flex justify-between mb-3">
+                  <span className="text-gray-700">Directing Circle:</span>
                   <input
                     type="number"
                     value={DirectingCircle}

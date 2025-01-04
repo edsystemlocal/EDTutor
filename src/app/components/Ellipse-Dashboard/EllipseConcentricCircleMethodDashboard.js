@@ -7,12 +7,12 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
   const [isCanvas, setIsCanvas] = useState(false);
 
   // Ellipse properties
-  const [majorAxis, setMajorAxis] = useState(500);
-  const [minorAxis, setMinorAxis] = useState(300);
+  const [majorAxis, setmajorAxis] = useState(500);
+  const [minorAxis, setminorAxis] = useState(300);
 
   const inputs = {
     majorAxis,
-    minorAxis,
+    minorAxis  
   };
 
   const inputStyle =
@@ -41,21 +41,21 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Major Axis:</span>
                   <input
                     type="number"
                     value={majorAxis}
-                    onChange={(e) => setMajorAxis(Number(e.target.value))}
+                    onChange={(e) => setmajorAxis(Number(e.target.value))}
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Minor Axis:</span>
                   <input
                     type="number"
                     value={minorAxis}
-                    onChange={(e) => setMinorAxis(Number(e.target.value))}
+                    onChange={(e) => setminorAxis(Number(e.target.value))}
                     className={inputStyle}
                   />
                 </label>

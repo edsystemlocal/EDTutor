@@ -63,8 +63,6 @@ export const drawPointsWithLabels = (
   }
 };
 
-
-
 export const getPointsForDrawing = (points, pointIndex) => {
   let currentPoints = [];
   let pencilSize = 0.5;
@@ -77,7 +75,8 @@ export const getPointsForDrawing = (points, pointIndex) => {
   while (pointIndex < points.length) {
     const point = points[pointIndex];
     pointIndex += 1;
-if (themeSelect === "theme_colorful") {
+
+    if (themeSelect === "theme_colorful") {
       if (point.x === 4999 && point.y === 4999) {
         pencilSize = 0.5;
         //pencilColor = "#6A0DAD"; // Royal Purple (Dark and Elegant)
@@ -298,7 +297,7 @@ if (themeSelect === "theme_colorful") {
         break;
       }
     }
-
+    
     currentPoints.push(point);
   }
   return { currentPoints, pencilSize, pencilColor, pointIndex };
@@ -343,7 +342,8 @@ export const updateStepText = (data, setStepText, newCounter) => {
 export default function Canvas({ inputs, drawingType }) {
 
   // console.log("canvasjjjjjjj",themeSelect)
-
+    console.log(inputs,"ooooooooooooooooooooooooooooooo")
+    
   const [PointsArray, setPointsArray] = useState([]);
   const [counter, setCounter] = useState(0);
   const [stepText, setStepText] = useState("");
@@ -497,7 +497,7 @@ export default function Canvas({ inputs, drawingType }) {
     // Update zoom level
     const newZoomLevel = zoomLevel * scaleFactor;
     setZoomLevel(newZoomLevel);
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Apply scaling
     ctx.setTransform(newZoomLevel, 0, 0, newZoomLevel, 0, 0);
@@ -543,10 +543,11 @@ export default function Canvas({ inputs, drawingType }) {
             style={{ height: "30%" }}
           >
             <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700">
+              {/* Drawing Type: {label} */}
               Drawing Type: {drawingType}
             </div>
             <div className="w-full flex items-center justify-center">
-              <PrintInput inputs={inputs} />
+              <PrintInput inputs={inputs}  />
             </div>
           </section>
 
@@ -558,7 +559,7 @@ export default function Canvas({ inputs, drawingType }) {
           >
             {/* Clear Button */}
             <button
-               onClick={() => handleReset()}
+              onClick={() => handleReset()}
               disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
                 ? "bg-gray-400 cursor-not-allowed"
@@ -567,7 +568,7 @@ export default function Canvas({ inputs, drawingType }) {
             >
               <i className="fa-solid fa-eraser" title="Clear"></i>
             </button>
-         
+
 
             {/* Back Button */}
             <button
@@ -660,8 +661,3 @@ export default function Canvas({ inputs, drawingType }) {
     </main>
   );
 }
-
-
-
-
-

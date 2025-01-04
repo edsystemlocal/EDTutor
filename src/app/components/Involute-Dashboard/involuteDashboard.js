@@ -1,21 +1,18 @@
 "use client";
 import { useState } from "react";
-import Canvas from "../Canvas/canvas";
+import Canvas from "@/app/components/Canvas/canvas";
+import InvoluteDetails from "@/app/content/involute-details";
 
-import CycloidDetails from "@/app/content/cycloidal-details";
-
-export default function HypocycloidDashboard({ drawingType }) {
+export default function InvoluteDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
 
-  const [Diameter, setDiameter] = useState(200);
-  const [DirectingCircle, setDirectingCircle] = useState(300);
-
+  // Hyperbola properties
+  const [Diameter, setDiameter] = useState(100);
 
   const inputs = {
-   Diameter,
-     DirectingCircle
+    Diameter,
   };
-
+  
   const inputStyle =
     "w-16 p-2 m-1 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
   const buttonStyle =
@@ -42,21 +39,12 @@ export default function HypocycloidDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="flex justify-between mb-3">
+                <label className="block mb-3">
                   <span className="text-gray-700">Diameter:</span>
                   <input
                     type="number"
                     value={Diameter}
                     onChange={(e) => setDiameter(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <label className="flex justify-between mb-3">
-                  <span className="text-gray-700">Directing Circle:</span>
-                  <input
-                    type="number"
-                    value={DirectingCircle}
-                    onChange={(e) => setDirectingCircle(Number(e.target.value))}
                     className={inputStyle}
                   />
                 </label>
@@ -69,10 +57,10 @@ export default function HypocycloidDashboard({ drawingType }) {
 
           <div className="col-span-9">
             <section
-              id="ellipse-details-container"
+              id="hyperbola-details-container"
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll"
             >
-              <CycloidDetails drawingType={drawingType} />
+              <InvoluteDetails drawingType={drawingType} />
             </section>
           </div>
         </div>

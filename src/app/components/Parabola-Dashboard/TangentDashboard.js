@@ -41,7 +41,7 @@ export default function TangentDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Base:</span>
                   <input
                     type="number"
@@ -50,7 +50,7 @@ export default function TangentDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Height:</span>
                   <input
                     type="number"

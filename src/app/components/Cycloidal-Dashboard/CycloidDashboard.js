@@ -10,7 +10,7 @@ export default function CycloidDashboard({ drawingType }) {
   const [Diameter, setDiameter] = useState(200);
 
   const inputs = {
-    Diameter
+     Diameter
   };
 
   const inputStyle =
@@ -39,7 +39,7 @@ export default function CycloidDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Diameter:</span>
                   <input
                     type="number"

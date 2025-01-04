@@ -1,11 +1,11 @@
- 
+
 
 "use client";
 import { useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import LineDetails from "../../content/line-details";
 
-export default function ParalleltobothDashboard({ drawingType,themeSelect  }) {
+export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
 
   const [isCanvas, setIsCanvas] = useState(false);
   const [LineLength, setLineLength] = useState(100);
@@ -16,12 +16,12 @@ export default function ParalleltobothDashboard({ drawingType,themeSelect  }) {
   const inputs = {
     LineLength,
     firstpointfrontOfVPLength,
-    firstPointAboveHPLength,
-    
-  };
+   firstPointAboveHPLength
 
+  };
+  
   const inputStyle =
-    "w-16 p-2 m-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
+    "w-16 p-2 m-1 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
   const buttonStyle =
     "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
 
@@ -39,10 +39,10 @@ export default function ParalleltobothDashboard({ drawingType,themeSelect  }) {
       </header> */}
       <main id="main-container" className="w-full p-6">
         <div className="grid grid-cols-12 gap-6">
-        
+
           <div className="col-span-3 ">
             <section
-              id="input-container"  
+              id="input-container"
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
@@ -50,7 +50,11 @@ export default function ParalleltobothDashboard({ drawingType,themeSelect  }) {
               </div>
               <div>
                 {[
-                  { label: "Line Length", value: LineLength, setter: setLineLength },
+                  {
+                    label: "Line Length",
+                    value: LineLength,
+                    setter: setLineLength
+                  },
                   {
                     label: "First Point Front of VP Length",
                     value: firstpointfrontOfVPLength,
@@ -61,9 +65,9 @@ export default function ParalleltobothDashboard({ drawingType,themeSelect  }) {
                     value: firstPointAboveHPLength,
                     setter: setFirstPointAboveHPLength,
                   },
-                 
+
                 ].map(({ label, value, setter }) => (
-                  <label className="block mb-3" key={label}>
+                  <label className="flex justify-between mb-3" key={label}>
                     <span className="text-gray-700">{label}:</span>
                     <input
                       type="text"

@@ -5,6 +5,7 @@ import LineDetails from "../../content/line-details";
 export default function LineDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
 
+
   // Line lengths and angles
   const [LineLength, setLineLength] = useState(100);
   const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState(25);
@@ -15,14 +16,15 @@ export default function LineDashboard({ drawingType }) {
   const [InclinationToHP, setInclinationToHP] = useState("");
 
   const inputs = {
-    LineLength,
+     LineLength,
     firstpointfrontOfVPLength,
     firstPointAboveHPLength,
-    secondpointAboveHPLength,
-    secondpointFrontOfVPLength,
-    InclinationToVP,
-    InclinationToHP,
+   secondpointAboveHPLength,
+     secondpointFrontOfVPLength,
+     InclinationToVP,
+  InclinationToHP
   };
+
 
   const inputStyle =
     "w-16 p-2 m-1 border border-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
@@ -39,6 +41,7 @@ export default function LineDashboard({ drawingType }) {
 
   return (
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
+
       <main id="main-container" className="w-full p-6">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-3">
@@ -50,7 +53,7 @@ export default function LineDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Line Length:</span>
                   <input
                     type="text"
@@ -59,7 +62,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">First Point Front of VP Length:</span>
                   <input
                     type="text"
@@ -68,7 +71,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">First Point Above HP Length:</span>
                   <input
                     type="text"
@@ -77,7 +80,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Second Point Above HP Length:</span>
                   <input
                     type="text"
@@ -86,7 +89,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Second Point Front of VP Length:</span>
                   <input
                     type="text"
@@ -95,7 +98,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Inclination to VP:</span>
                   <input
                     type="text"
@@ -104,7 +107,7 @@ export default function LineDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Inclination to HP:</span>
                   <input
                     type="text"

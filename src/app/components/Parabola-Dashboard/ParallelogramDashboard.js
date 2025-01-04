@@ -12,9 +12,9 @@ export default function ParallelogramDashboard({ drawingType }) {
   const [angleInDegrees, setAngleInDegrees] = useState(30);
 
   const inputs = {
-    Base,
-    Height,
-    angleInDegrees,
+ Base,
+ Height,
+   angleInDegrees
   };
 
   const inputStyle =
@@ -43,7 +43,7 @@ export default function ParallelogramDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Base:</span>
                   <input
                     type="number"
@@ -52,7 +52,7 @@ export default function ParallelogramDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Height:</span>
                   <input
                     type="number"
@@ -61,7 +61,7 @@ export default function ParallelogramDashboard({ drawingType }) {
                     className={inputStyle}
                   />
                 </label>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Angle (degrees):</span>
                   <input
                     type="number"

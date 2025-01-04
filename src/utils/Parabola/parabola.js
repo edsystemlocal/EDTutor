@@ -1,5 +1,5 @@
 import { calculateAngle, calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDistance, calculateHeight, calculateHeightFromBase, calculateHypotenuseWithAngle, calculateLabel, calculateLinePointsWithCircles, calculateLinePointsWithCircles2, defineSteps, getCirclePoints }  from "../functionHelper";
-import { darkPencil, lightPencil, superDarkPencil } from "../globalVariable";
+import { darkPencil, lightPencil } from "../globalVariable";
 
 
 
@@ -107,7 +107,7 @@ export function ParabolaByTangentMethod(payload) {
             ...BaseLinePoints,
             ...calculateLabel(BaseLineStartPoint, "a", "left-down"),
             ...calculateLabel(BaseLineEndPoint, "b", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -117,7 +117,7 @@ export function ParabolaByTangentMethod(payload) {
         sendToPoints.push(
             ...PerpendicularLinePoints,
             ...calculateLabel(PerpendicularLineEndPoint, "P", "top-right"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -127,20 +127,20 @@ export function ParabolaByTangentMethod(payload) {
         sendToPoints.push(
             ...newPerpendicularLinePoints,
             ...calculateLabel(newPerpendicularLineEndPoint, "o", "top-right"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 4|| drawAll) {
-        sendToPoints.push(...verticalLinePoints, ...superDarkPencil);
+        sendToPoints.push(...verticalLinePoints, ...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 5|| drawAll) {
-        sendToPoints.push(...newverticalLinePoints, ...superDarkPencil);
+        sendToPoints.push(...newverticalLinePoints, ...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
@@ -156,7 +156,7 @@ export function ParabolaByTangentMethod(payload) {
             sendToPoints.push(...calculateLabel(point, label, "left")); // Adjust position as needed
         });
     
-        sendToPoints.push(...superDarkPencil);
+        sendToPoints.push(...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
@@ -173,7 +173,7 @@ export function ParabolaByTangentMethod(payload) {
             sendToPoints.push(...calculateLabel(point, label, "top")); // Adjust position as needed
         });
     
-        sendToPoints.push(...superDarkPencil);
+        sendToPoints.push(...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
@@ -195,7 +195,7 @@ export function ParabolaByTangentMethod(payload) {
             // Draw a line between these two dots
             const linePoints = calculateLinePointsWithCircles(startDot, endDot);
             sendToPoints.push(...linePoints);
-            sendToPoints.push(...superDarkPencil);
+            sendToPoints.push(...darkPencil);
         }
     
         if (finalDrawing) {
@@ -376,7 +376,7 @@ export function ParabolaByRectangularMethod(payload) {
             ...BaseLinePoints,
             ...calculateLabel(BaseLineStartPoint, "a", "left-down"),
             ...calculateLabel(BaseLineEndPoint, "b", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -387,7 +387,7 @@ export function ParabolaByRectangularMethod(payload) {
             ...PerpendicularLinePoints,
             ...calculateLabel(PerpendicularLineStartPoint, "o", "down"),
             ...calculateLabel(PerpendicularLineEndPoint, "c", "up"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -397,7 +397,7 @@ export function ParabolaByRectangularMethod(payload) {
         sendToPoints.push(
             ...newPerpendicularLinePoints,
             ...calculateLabel(newPerpendicularLineEndPoint, "d", "up"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -408,14 +408,14 @@ export function ParabolaByRectangularMethod(payload) {
         sendToPoints.push(
             ...secondnewaperpendicularalLinePoints,
             ...calculateLabel(secondnewaperpendicularalLineSEndPoint, "e", "up"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 5 || drawAll) {
-        sendToPoints.push(...verticalLinePoints, ...superDarkPencil);
+        sendToPoints.push(...verticalLinePoints, ...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
@@ -504,7 +504,7 @@ export function ParabolaByRectangularMethod(payload) {
         }
 const basetomid = calculateLinePointsWithCircles2(BaseLineStartPoint,MidPoint)
         // Add styling to the drawn points
-        sendToPoints.push(...basetomid,...superDarkPencil);
+        sendToPoints.push(...basetomid,...darkPencil);
 
         // Set the step description for this operation
         if (finalDrawing) {
@@ -550,7 +550,7 @@ const basetomid = calculateLinePointsWithCircles2(BaseLineStartPoint,MidPoint)
         const midtoend = calculateLinePointsWithCircles2(MidPoint,BaseLineEndPoint)
 
         // Finalize step
-        sendToPoints.push(...midtoend,...superDarkPencil);
+        sendToPoints.push(...midtoend,...darkPencil);
         if (finalDrawing) {
             drawAll = true;
         }
@@ -559,12 +559,14 @@ const basetomid = calculateLinePointsWithCircles2(BaseLineStartPoint,MidPoint)
     if (counter === 11 || drawAll) {       
         sendToPoints.push(
         ...getParabolaPoints(newPerpendicularLinePoints2, PerpendicularLineEndPoint, starttomidpointLinePoints, BaseLineStartPoint),
-        ...darkPencil);
+        ...darkPencil
+    );
 
         let eclipsePoints = getParabolaPoints(secondnewaperpendicularalLinePoints2, PerpendicularLineEndPoint, midpointtoendpointbaseLinePoints, BaseLineEndPoint);
         sendToPoints.push(
             ...eclipsePoints.reverse(),
-            ...darkPencil);
+            ...darkPencil
+        );
         if (finalDrawing) {
             drawAll = true;
         }
@@ -795,7 +797,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
             ...BaseLinePoints,
             ...calculateLabel(BaseLineStartPoint, "a", "left-down"),
             ...calculateLabel(BaseLineEndPoint, "b", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -805,7 +807,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...perpendicularPoints,
             ...calculateLabel(perpendicularEndPoint, "c", "left-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -815,7 +817,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...angledLinePoints,
             ...calculateLabel(angledEndPointUp, "d", "down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -825,7 +827,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...baseLineInAngledPoints,
             ...calculateLabel(baseLineInAngledEndPoint, "e", "down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -836,7 +838,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...HeightlinePoints,
             ...calculateLabel(HeightlineEndPoint, "f", "left-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -846,7 +848,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...NewHeightlinePoints,
             ...calculateLabel(NewHeightlineEndPoint, "g", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -856,7 +858,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
     if (counter === 7 || drawAll) {
         sendToPoints.push(
             ...horizontalLinePoints,
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -868,7 +870,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
             ...calculateLabel(MidPoint1, "p", "down"),
             ...calculateLabel(MidPoint2, "q", "left-up"),
             ...verticalLinePoints,
-            ...superDarkPencil
+            ...darkPencil
         );
         if (finalDrawing) {
             drawAll = true;
@@ -1182,7 +1184,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
             ...BaseLinePoints,
             ...calculateLabel(BaseLineStartPoint, "a", "left-down"),
             ...calculateLabel(BaseLineEndPoint, "b", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[1];
     }
@@ -1190,7 +1192,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...perpendicularPoints,
             ...calculateLabel(perpendicularEndPoint, "c", "left-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[2];
     }
@@ -1198,7 +1200,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...angledLinePoints,
             ...calculateLabel(angledEndPointUp, "d", "down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[3];
     }
@@ -1206,7 +1208,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...baseLineInAngledPoints,
             ...calculateLabel(baseLineInAngledEndPoint, "e", "down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[4];
     }
@@ -1215,7 +1217,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...HeightlinePoints,
             ...calculateLabel(HeightlineEndPoint, "f", "left-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[5];
     }
@@ -1223,7 +1225,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         sendToPoints.push(
             ...NewHeightlinePoints,
             ...calculateLabel(NewHeightlineEndPoint, "g", "right-down"),
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[6];
     }
@@ -1231,7 +1233,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
     if (counter === 7) {
         sendToPoints.push(
             ...horizontalLinePoints,
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[7];
     }
@@ -1241,7 +1243,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
             ...calculateLabel(MidPoint1, "p", "right-down"),
             ...calculateLabel(MidPoint2, "q", "left-up"),
             ...verticalLinePoints,
-            ...superDarkPencil
+            ...darkPencil
         );
         step = steps[8];
     }
@@ -1325,7 +1327,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
     }
     if (counter === 13) {
         const dotPoints1 = drawPoints(NewHeightlinePoints, 30, sendToPoints);
-        // sendToPoints.push(...superDarkPencil);
+        // sendToPoints.push(...darkPencil);
 
         // Add numbering to each dot
         dotPoints1.forEach((dot, index) => {
@@ -1335,7 +1337,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
         });
 
         const dotPoints2 = drawPoints(midtoendpointLinePoints, 30, sendToPoints);
-        // sendToPoints.push(...superDarkPencil);
+        // sendToPoints.push(...darkPencil);
 
         // Add numbering to each dot
         dotPoints2.forEach((dot, index) => {
@@ -1357,7 +1359,7 @@ const angle = calculateAngleInDegrees(BaseLineStartPoint, MidPoint2)
             const linePoints = calculateLinePointsWithCircles(dot, MidPoint2);
             sendToPoints.push(
                 ...linePoints,
-                // ...superDarkPencil,
+                // ...darkPencil,
             ); // Push the calculated points to sendToPoints
         }
 

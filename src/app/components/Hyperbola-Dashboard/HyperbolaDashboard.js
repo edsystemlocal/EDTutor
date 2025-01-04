@@ -10,7 +10,7 @@ export default function HyperbolaDashboard({ drawingType }) {
   const [distanceofthefocusfromthedirectrix, setDistanceOfTheFocusFromTheDirectrix] = useState(100);
 
   const inputs = {
-    distanceofthefocusfromthedirectrix,
+   distanceofthefocusfromthedirectrix,
   };
 
   const inputStyle =
@@ -39,7 +39,7 @@ export default function HyperbolaDashboard({ drawingType }) {
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="block mb-3">
+                <label className="flex justify-between mb-3">
                   <span className="text-gray-700">Distance of Focus from Directrix:</span>
                   <input
                     type="number"

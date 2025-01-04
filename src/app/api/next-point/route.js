@@ -6,7 +6,6 @@ import { PScale } from "@/utils/Scale/Scale";
 // import { getProblem_6_Points } from "@/utils/Line/lineproblem";
 import { ellipse_by_concentricCriclemethodPoint } from "@/utils/Ellipse/ellipse_by_concentricCriclemethodPoint";
 import { ellipse_by_generalmethodPoint } from "@/utils/Ellipse/ellipse_by_general_method";
-import {  ParabolaByPARALLELOGRAMMethod, ParabolaByRectangularMethod, ParabolaByTangentMethod } from "@/utils/Parabola/parabola";
 import { parabola_by_generalmethodPoint } from "@/utils/Parabola/parabola_general_method";
 import { hyperbola_by_generalmethod } from "@/utils/Hyperbola/hyperbola_genral_method";
 import { PointExercises } from "@/utils/General/point";
@@ -15,6 +14,10 @@ import { Solid } from "@/utils/Solid/solid";
 import { cycloidPoint } from "@/utils/Cycloidal/cycloid";
 import { hypocycloidPoint } from "@/utils/Cycloidal/hypocycloid";
 import { epicycloidPoint } from "@/utils/Cycloidal/epicycloid";
+import { ParabolaByPARALLELOGRAMMethod, ParabolaByRectangularMethod, ParabolaByTangentMethod } from "@/utils/Parabola/parabola";
+import { scaleOfChords } from "@/utils/Scale/ScaleOfChords";
+import { AngleInscaleOfChords } from "@/utils/Scale/angleInScaleOfChords";
+import { involute_by_generalmethod } from "@/utils/Involute/involute";
 
 export async function POST(request, response) {
   try {
@@ -110,6 +113,15 @@ export async function POST(request, response) {
     }
     if (drawingType === "epicycloid") {
       ({ points: pointsToSend, step } = epicycloidPoint(payload));
+    }
+    if (drawingType === "Involute") {
+      ({ points: pointsToSend, step } = involute_by_generalmethod(payload));
+    }
+    if (drawingType === "scaleOfChords") {
+      ({ points: pointsToSend, step } = scaleOfChords(payload));
+    }
+    if (drawingType === "angleInScaleOfChords") {
+      ({ points: pointsToSend, step } = AngleInscaleOfChords(payload));
     }
 
     // Return the appropriate points

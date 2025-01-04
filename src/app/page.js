@@ -27,28 +27,38 @@ import SliderPanel from "./components/Slider-Panel/SliderPanel";
 import LineExercise from "./exercise_questions/LineExercise";
 import ScaleExercise from "./exercise_questions/ScaleExercise";
 import PlaneExercise from "./exercise_questions/PlaneExercise";
+import PointExercise from "./exercise_questions/PointExercise";
 import SolidDashboard from "./components/Solid-Dashboard/solidDashboard";
 import CycloidDashboard from "./components/Cycloidal-Dashboard/CycloidDashboard";
 import HypocycloidDashboard from "./components/Cycloidal-Dashboard/HypocycloidDashboard";
 import EpicycloidDashboard from "./components/Cycloidal-Dashboard/EpicycloidDashboard";
+import ScaleOfChordsDashboard from "./components/Scale_Of_Chords/scaleOfChordsDashboard";
+import AngleInScaleOfChordsDashboard from "./components/Scale_Of_Chords/angleInScaleofChordsDashboard";
+import InvoluteDashboard from "./components/Involute-Dashboard/involuteDashboard";
+
 
 export default function Page() {
   const [drawingType, setDrawingType] = useState("home");
 
   const resetDrawing = (path) => {
+
     if (drawingType === path) {
       setDrawingType(null); // Reset to null
       setTimeout(() => setDrawingType(path), 0); // Update after reset
+
     } else {
       setDrawingType(path); // Direct update for new selection
+     
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSlider = () => {
-    setIsOpen(!isOpen);
-  };
+
+  // const [isOpen, setIsOpen] = useState(false);
+  // const toggleSlider = () => {
+  //   setIsOpen(!isOpen);
+  // };
+
   return (
 
     <div className="flex flex-col w-full  ">
@@ -71,9 +81,9 @@ export default function Page() {
       )}
 
       {drawingType === "plainScale" && <ScaleDashboard drawingType={drawingType} />}
-      {drawingType === "parallelToHP" && <LineDashboard drawingType={drawingType} />}
-      {drawingType === "parallelToVP" && <LineDashboard drawingType={drawingType} />}
-      {drawingType === "parallelToBoth" && <ParalleltobothDashboard drawingType={drawingType} />}
+      {/* {drawingType === "parallelToHP" && <LineDashboard drawingType={drawingType} />}
+      {drawingType === "parallelToVP" && <LineDashboard drawingType={drawingType} />} */}
+      {drawingType === "parallelToBoth" && <ParalleltobothDashboard drawingType={drawingType}  />}
       {drawingType === "parallelToHPAndInclinationToVP" && <LineDashboard drawingType={drawingType} />}
       {drawingType === "parallelToVPAndInclinationToHP" && <LineDashboard drawingType={drawingType} />}
       {drawingType === "inclinationToBoth" && <InclinationtobothDashboard drawingType={drawingType} />}
@@ -92,6 +102,7 @@ export default function Page() {
 
       {drawingType === "ellipseGeneralMethod" && <EllipseGeneralMethodDashboard drawingType={drawingType} />}
       {drawingType === "ellipseConcentricCircleMethod" && <EllipseConcentricCircleMethodDashboard drawingType={drawingType} />}
+
       {drawingType === "plane" && <PlaneDashboard drawingType={drawingType} />}
 
 
@@ -104,9 +115,9 @@ export default function Page() {
       {drawingType === "epicycloid" && <EpicycloidDashboard drawingType={drawingType} />}
 
 
-
-
-
+      {drawingType === "Involute" && <InvoluteDashboard drawingType={drawingType} />}
+      {drawingType === "scaleOfChords" && <ScaleOfChordsDashboard drawingType={drawingType} />}
+      {drawingType === "angleInScaleOfChords" && <AngleInScaleOfChordsDashboard drawingType={drawingType} />}
 
 
       {drawingType === "June_2023" && <Paper_June_2023 />}
@@ -116,7 +127,7 @@ export default function Page() {
       {drawingType === "june_2020_CBGS" && <Paper_June_2020_CBGS />}
 
 
-
+      {drawingType === "PointExercise" && <PointExercise />}
       {drawingType === "lineExercise" && <LineExercise />}
       {drawingType === "scaleExercise" && <ScaleExercise />}
       {drawingType === "planeExercise" && <PlaneExercise />}

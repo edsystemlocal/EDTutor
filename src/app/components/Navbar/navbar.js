@@ -24,7 +24,13 @@ const menuItems = [
       { label: "Diagonal Scales", path: "diagonalScale" },
       { label: "Comparative Scales", path: "comparativeScale" },
       { label: "Vernier Scales", path: "vernierScale" },
-      { label: "Scale of Chords", path: "scaleOfChords" },
+      {
+        label: "Scale of Chords",
+        children: [
+          { label: "Scale of Chords", path: "scaleOfChords" },
+          { label: "Angle in Scale of Chords ", path: "angleInScaleOfChords" },
+        ],
+      },
     ],
   },
 
@@ -103,6 +109,7 @@ const menuItems = [
           { label: "Epicycloid", path: "epicycloid" },
         ],
       },
+      { label: "Involute", path: "Involute" },
     ],
   },
 
@@ -137,6 +144,7 @@ const menuItems = [
   {
     label: "Exercise Solutions",
     children: [
+       { label: "Point Exercise", path: "PointExercise" },
       { label: "Line Exercise", path: "lineExercise" },
       { label: "Scales Exercise", path: "scaleExercise" },
       { label: "Plane Exercise", path: "planeExercise" },
@@ -156,7 +164,10 @@ export default function Navbar({ resetDrawing }) {
 
   const route = (path, label) => {
     resetDrawing(path, label);
+    // console.log(label,"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
   };
+
+
 
   return (
     <>

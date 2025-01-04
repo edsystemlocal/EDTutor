@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import Canvas from "../Canvas/canvas";
@@ -8,19 +7,21 @@ export default function PointDashboard({ drawingType }) {
   // State for variables
   const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState(50);
   const [firstPointAboveHP, setFirstPointAboveHP] = useState(50);
+  const [firstpointPositionVP, setfirstpointPositionVP] = useState("front");
+  const [firstpointPositionHP, setfirstpointPositionHP] = useState("above");
   const [isCanvas, setIsCanvas] = useState(false);
 
-  // Inputs for Canvas
-  const inputs = {
-    firstPointFrontOfVP,
-    firstPointAboveHP,
-  };
+ // Inputs for Canvas with labels
+ const inputs = 
+ {
+   "First Point Front of VP": firstPointFrontOfVP,
+ 
+   "First Point Above HP": firstPointAboveHP,
+   "First Point Position VP": firstpointPositionVP,
 
-  const inputStyle =
-    "w-16 p-2 m-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-
+   "First Point Position HP": firstpointPositionHP,
+ 
+}
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -29,12 +30,20 @@ export default function PointDashboard({ drawingType }) {
     );
   }
 
+  const inputStyle =
+    "w-12 p-2 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
+  const selectInputStyle =
+    "w-22 p-2 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
+  const labelStyle = "text-gray-700 font-medium";
+  const buttonStyle =
+    "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+
   return (
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-6">
         <div className="grid grid-cols-12 gap-6">
           {/* Input Form Section */}
-          <div className="col-span-3">
+          <div className="col-span-4 h-150">
             <section
               id="input-container"
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen"
@@ -42,37 +51,72 @@ export default function PointDashboard({ drawingType }) {
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {drawingType}
               </div>
-              <div>
-                {/* Front of VP */}
-                <label className="block mb-3">
-                  <span className="text-gray-700">First Point Front of VP:</span>
-                  <input
-                    type="text"
-                    value={firstPointFrontOfVP}
-                    onChange={(e) => setFirstPointFrontOfVP(e.target.value)}
-                    className={inputStyle}
-                  />
-                </label>
-                {/* Above HP */}
-                <label className="block mb-3">
-                  <span className="text-gray-700">First Point Above HP:</span>
-                  <input
-                    type="text"
-                    value={firstPointAboveHP}
-                    onChange={(e) => setFirstPointAboveHP(e.target.value)}
-                    className={inputStyle}
-                  />
-                </label>
-                <button onClick={() => setIsCanvas(true)} className={buttonStyle}>
+
+              {/* Table for Input Alignment */}
+              <table className="w-full border-collapse border-spacing-2">
+                <tbody>
+                  <tr>
+                    <td className={labelStyle}>First Point Above HP:</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={firstPointAboveHP}
+                        onChange={(e) => setFirstPointAboveHP(e.target.value)}
+                        className={inputStyle}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={firstpointPositionHP}
+                        onChange={(e) => setfirstpointPositionHP(e.target.value)}
+                        className={selectInputStyle}
+                      >
+                        <option value="above">Above</option>
+                        <option value="below">Below</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={labelStyle}>First Point Front of VP:</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={firstPointFrontOfVP}
+                        onChange={(e) => setFirstPointFrontOfVP(e.target.value)}
+                        className={inputStyle}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={firstpointPositionVP}
+                        onChange={(e) => setfirstpointPositionVP(e.target.value)}
+                        className={selectInputStyle}
+                      >
+                        <option value="front">Front</option>
+                        <option value="behind">Behind</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div className="text-center">
+                <button
+                  onClick={() => {
+                    console.log(inputs); // Log inputs for debugging
+                    setIsCanvas(true);
+                  }}
+                  className={buttonStyle}
+                >
                   Submit
                 </button>
               </div>
             </section>
           </div>
 
-          <div className="col-span-9">
+          <div className="col-span-8 h-150">
             <section
-              id="parabola-details-container"
+              id="point-details-container"
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll"
             >
               <PointDetails />
