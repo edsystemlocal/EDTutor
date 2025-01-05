@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react'
 import Canvas from '../components/Canvas/canvas';
 import "../components/Style/paperStyle.css" // Import the CSS file
@@ -12,11 +10,18 @@ const PlaneExercise = () => {
             setCurrentDrawing({
                 drawingType: "plane",
                 inputs: {
-                    "Plane Type": "Hexagone", // Static value
-                    "Side Length": 40, // Static value
-                    "Plane Position": "Corner -> in -> HP", // Static value
-                    "Incline With HP":45 , // Replace with the actual value
-                    "Inclined With VP": 60, // Replace with the actual value
+                    "Plane Type":"Hexagone",
+                    "Side Length":40,
+                    "Plane Position":"Corner",
+                    "Plane in/parallel Postion":"in",
+                    "Plane HP/VP Postion":"HP",
+                    "Incline With HP":45,
+                    "Inclined With VP":60
+                    //"Plane Type": "Hexagone", // Static value
+                    //"Side Length": 40, // Static value
+                   // "Plane Position": "Corner -> in -> HP", // Static value
+                   // "Incline With HP":45 , // Replace with the actual value
+                   // "Inclined With VP": 60, // Replace with the actual value
                 },
             });
         }
@@ -25,11 +30,13 @@ const PlaneExercise = () => {
             setCurrentDrawing({
                 drawingType: "plane",
                 inputs: {
-                    "Plane Type": "Pentagone", // Static value
-                    "Side Length": 40, // Static value
-                    "Plane Position": "Side -> Parallel -> HP", // Static value
-                    "Incline With HP":30, // Replace with the actual value
-                    "Inclined With VP": 60, // Replace with the actual value
+                    "Plane Type":"Pentagone",
+                    "Side Length":40,
+                    "Plane Position":"Side",
+                    "Plane in/parallel Postion":"Parallel",
+                    "Plane HP/VP Postion":"HP",
+                    "Incline With HP": 30,
+                    "Inclined With VP":60
                 },
             });
         }
@@ -38,11 +45,13 @@ const PlaneExercise = () => {
             setCurrentDrawing({
                 drawingType: "plane",
                 inputs: {
-                    "Plane Type": "Hexagone", // Static value
-                    "Side Length": 25, // Static value
-                    "Plane Position": "Side -> in -> HP", // Static value
-                    "Incline With HP":45, // Replace with the actual value
-                    "Inclined With VP": 60, // Replace with the actual value
+                    "Plane Type":"Hexagone",
+                    "Side Length":25,
+                    "Plane Position":"Side",
+                    "Plane in/parallel Postion":"in",
+                    "Plane HP/VP Postion":"HP",
+                    "Incline With HP": 45,
+                    "Inclined With VP":60
                 },
             });
         }
@@ -51,11 +60,13 @@ const PlaneExercise = () => {
             setCurrentDrawing({
                 drawingType: "plane",
                 inputs: {
-                    "Plane Type": "Square", // Static value
-                    "Side Length": 50, // Static value
-                    "Plane Position": "Corner -> in -> HP", // Static value
-                    "Incline With HP":30, // Replace with the actual value
-                    "Inclined With VP": 45, // Replace with the actual value
+                    "Plane Type":"Square",
+                    "Side Length":50,
+                    "Plane Position":"Corner",
+                    "Plane in/parallel Postion":"in",
+                    "Plane HP/VP Postion":"HP",
+                    "Incline With HP": 30,
+                    "Inclined With VP":45
                 },
             });
         }
@@ -64,11 +75,13 @@ const PlaneExercise = () => {
             setCurrentDrawing({
                 drawingType: "plane",
                 inputs: {
-                    "Plane Type": "Pentagone", // Static value
-                    "Side Length": 26, // Static value
-                    "Plane Position": "Side -> Parallel -> VP", // Static value
-                    "Incline With HP":45 , // Replace with the actual value
-                    "Inclined With VP": 30, // Replace with the actual value
+                    "Plane Type":"Pentagone",
+                    "Side Length":26,
+                    "Plane Position":"Side",
+                    "Plane in/parallel Postion":"Parallel",
+                    "Plane HP/VP Postion":"VP",
+                    "Incline With HP": 45,
+                    "Inclined With VP":30
                 },
             });
         }

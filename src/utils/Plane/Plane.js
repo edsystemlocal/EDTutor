@@ -37,7 +37,7 @@ let shapeEdge,angle,move,shape,hAway,vAway;
 export function Calculation()
 {
   //default value
-  shapeEdge=side*2;
+  shapeEdge=side*1.5;
   hAway=100;
   vAway=100;
   shape= TypeOfPlane(PlaneName);
@@ -49,7 +49,8 @@ export function Calculation()
  
   
   if(sideCorner=="Corner")
-    angle=move;
+    angle=CornerAngle(PlaneName);
+    //angle=move;
   
  
   
@@ -248,7 +249,8 @@ export function Plane(payload)
       for (let i = 1; i <= shape; i++)
       {
         let j = i + 1;
-        if (j > shape) j = 1;
+         if (j > shape) j = 1;
+        
         tv3length[i] = Linelength(tv2EndPoint[i], tv2EndPoint[j]);
         tv3EndPoint[j] = EndPoint(tv3EndPoint[i], newangle, tv3length[i]);
      
@@ -270,6 +272,7 @@ export function Plane(payload)
         
         let y1 = tv2EndPoint[j].y;
         newangle = y1 > y2 ? angle3 - inclinedAngle : 360 - angle3 - inclinedAngle;
+        if(i>1)
         tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
         tv3LinePoints.push(...darkPencil);
         tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
@@ -286,6 +289,7 @@ export function Plane(payload)
                     let j=i+1;
                     if(j>shape)
                           j=1;      
+                        
                     tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i],tv3EndPoint[j]));
                     tv3LinePoints.push(...darkPencil);
                
@@ -399,14 +403,25 @@ if(PlaneName==="Pentagone")
 if(PlaneName==="Hexagone")
   type=6;
 if(PlaneName==="Circle")
-  type=16;
-  
-  
-  
-  
-  return type;
+  type=16; 
 
-   
+return type;   
+}
+
+export function CornerAngle(PlaneName) {
+  let angle;
+if(PlaneName==="Traingle")
+  angle=30;
+if(PlaneName==="Square")
+  angle=45;
+if(PlaneName==="Pentagone")
+  angle=54;
+if(PlaneName==="Hexagone")
+  angle=60;
+if(PlaneName==="Circle")
+  angle=16; 
+
+return angle;   
 }
  export function MaxMinY(Points=[],step)
  {
