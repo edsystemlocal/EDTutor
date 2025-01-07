@@ -15,6 +15,8 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 25,
                     firstPointAboveHPLength: 25,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -26,7 +28,9 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 0,
                     firstPointAboveHPLength: 30,
-                    InclinationToVP: 0
+                    InclinationToVP: 0,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -38,7 +42,9 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 40,
                     firstPointAboveHPLength: 0,
-                    InclinationToHP: 0
+                    InclinationToHP: 0,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -49,7 +55,9 @@ const LineExercise = () => {
                 inputs: {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 20,
-                    firstPointAboveHPLength: 15
+                    firstPointAboveHPLength: 15,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -61,7 +69,8 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 0,
                     firstPointAboveHPLength: 25,
-
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
 
                 },
 
@@ -75,6 +84,8 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 0,
                     firstPointAboveHPLength: 0,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -87,6 +98,8 @@ const LineExercise = () => {
                     firstpointfrontOfVPLength: 0,
                     firstPointAboveHPLength: 0,
                     InclinationToVP: 45,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
 
             });
@@ -100,6 +113,8 @@ const LineExercise = () => {
                     firstpointfrontOfVPLength: 30,
                     firstPointAboveHPLength: 20,
                     InclinationToHP: 30,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -110,7 +125,9 @@ const LineExercise = () => {
                     LineLength: 75,
                     firstpointfrontOfVPLength: 15,
                     firstPointAboveHPLength: 25,
-                    InclinationToVP: 60
+                    InclinationToVP: 60,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -123,6 +140,8 @@ const LineExercise = () => {
                     firstpointfrontOfVPLength: 25,
                     firstPointAboveHPLength: 40,
                     secondpointFrontOfVPLength: 50,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -135,6 +154,8 @@ const LineExercise = () => {
                     firstpointfrontOfVPLength: 25,
                     firstPointAboveHPLength: 0,
                     secondpointAboveHPLength: 50,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -146,7 +167,9 @@ const LineExercise = () => {
                     LineLength: 65,
                     firstpointfrontOfVPLength: 30,
                     firstPointAboveHPLength: 40,
-                    InclinationToVP: 30
+                    InclinationToVP: 30,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
 
             });
@@ -156,12 +179,14 @@ const LineExercise = () => {
             //Problem 10-17
             setCurrentDrawing({
                 drawingType: "inclinationToBoth",
-                inputs: { 
+                inputs: {
                     LineLength: 90,
-                    firstpointfrontOfVPLength: 20, 
-                    firstPointAboveHPLength: 12, 
-                    InclinationToHP: 30, 
-                    frontViewLength: 65 
+                    firstpointfrontOfVPLength: 20,
+                    firstPointAboveHPLength: 12,
+                    InclinationToHP: 30,
+                    frontViewLength: 65,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
             });
         }
@@ -171,13 +196,15 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "inclinationToBoth",
                 inputs: {
-                     LineLength:90, 
-                     firstpointfrontOfVPLength:12,
-                     firstPointAboveHPLength:20,                    
-                     InclinationToHP:45,
-                     TopviewAngle:60,
-                     },
-          
+                    LineLength: 90,
+                    firstpointfrontOfVPLength: 12,
+                    firstPointAboveHPLength: 20,
+                    InclinationToHP: 45,
+                    TopviewAngle: 60,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
+                },
+
             });
         }
 
@@ -185,13 +212,15 @@ const LineExercise = () => {
             //Problem 10-11
             setCurrentDrawing({
                 drawingType: "inclinationToBoth",
-                    inputs: { 
-                        LineLength:75, 
-                        firstpointfrontOfVPLength:12,
-                        firstPointAboveHPLength:10,
-                        frontViewLength:50, 
-                        topViewLength:65
-                    },  
+                inputs: {
+                    LineLength: 75,
+                    firstpointfrontOfVPLength: 12,
+                    firstPointAboveHPLength: 10,
+                    frontViewLength: 50,
+                    topViewLength: 65,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
+                },
             });
         }
 
@@ -199,42 +228,82 @@ const LineExercise = () => {
             //Problem 10-9
             setCurrentDrawing({
                 drawingType: "inclinationToBoth",
-                    inputs: { 
-                        LineLength:75, 
-                        firstpointfrontOfVPLength:0,
-                        firstPointAboveHPLength:0, 
-                        InclinationToVP:60, 
-                        InclinationToHP:30                        
-                    },            
+                inputs: {
+                    LineLength: 75,
+                    firstpointfrontOfVPLength: 0,
+                    firstPointAboveHPLength: 0,
+                    InclinationToVP: 60,
+                    InclinationToHP: 30,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
+                },
             });
         }
         else if (question === "q17") {
             //Problem 10-8
             setCurrentDrawing({
-                drawingType: "inclinationToBoth",                
-                        inputs: { 
-                            LineLength: 50, 
-                            firstpointfrontOfVPLength:0,
-                            firstPointAboveHPLength:0, 
-                            InclinationToVP:45, 
-                            InclinationToHP:30, 
-                        },
+                drawingType: "inclinationToBoth",
+                inputs: {
+                    LineLength: 50,
+                    firstpointfrontOfVPLength: 0,
+                    firstPointAboveHPLength: 0,
+                    InclinationToVP: 45,
+                    InclinationToHP: 30,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
+                },
             });
         }
         else if (question === "q18") {
             //Problem 10-8
             setCurrentDrawing({
-                drawingType: "inclinationToBoth",                
-                inputs: { 
-                    LineLength: 65, 
-                    firstpointfrontOfVPLength:25,
-                    firstPointAboveHPLength:20,                     
-                    secondpointAboveHPLength: 40, 
-                    secondpointFrontOfVPLength:65
+                drawingType: "inclinationToBoth",
+                inputs: {
+                    LineLength: 65,
+                    firstpointfrontOfVPLength: 25,
+                    firstPointAboveHPLength: 20,
+                    secondpointAboveHPLength: 40,
+                    secondpointFrontOfVPLength: 65,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
                 },
-                      
+
             });
         }
+        else if (question === "q19") {
+            //Problem 10-8
+            setCurrentDrawing({
+                drawingType: "inclinationToBoth",
+                inputs: {
+                    LineLength: 70,
+                    firstpointfrontOfVPLength: 50,
+                    firstPointAboveHPLength: 50,
+                    secondpointAboveHPLength: 25,
+                    secondpointFrontOfVPLength: 25,
+                    firstpointPositionHP: "above",
+                    firstpointPositionVP: "front"
+                },
+
+            });
+        } else if (question === "q20") {
+            //Problem 10-17
+            setCurrentDrawing({
+                drawingType: "inclinationToBoth",
+                inputs: {
+                    LineLength: 100,
+                    firstpointfrontOfVPLength: -1,
+                    firstpointPositionHP: "above",
+                    firstPointAboveHPLength: -1,
+                    firstpointPositionVP: "front",
+                    InclinationToHP: 30,
+                    InclinationToVP: 45,
+                    MidpointHPLength: 20,
+                    midpointPositionHP: "above",
+                    MidpointVPLength: 1,
+                    midpointPositionVP: "front"
+                },
+            });
+        } 
 
 
 
@@ -257,7 +326,18 @@ const LineExercise = () => {
             <div className="max-w-4xl mx-auto space-y-6">
 
 
-
+            <div className="card">
+                    <p className="card-text">
+                        20. A line PQ  
+100 mm long, is inclined at 30° to the H.P. 
+and at 45° to the V.P. Its mid-point is in the 
+V.P. and 20 mm above the H.P. Draw its 
+projections, if its end P is in the third quadrant 
+and Q in the first quadrant.  </p>
+                    <button onClick={() => handleClick("q20")} className="button-blue">
+                        Click Here
+                    </button>
+                </div>
 
                 <div className="card">
                     <p className="card-text">
@@ -384,7 +464,7 @@ const LineExercise = () => {
 
                 <div className="card">
                     <p className="card-text">
-                    
+
                         13. A line AB, 90 mm long is inclined at 30° to the H.P. Its end A is 12 mm above the H.P. and 20 mm in front of the V.P. Its front view measures 65 mm. Draw the top view of AB and determine its inclination with the V.P
                     </p>
                     <button onClick={() => handleClick("q13")} className="button-blue">
@@ -394,10 +474,10 @@ const LineExercise = () => {
 
                 <div className="card">
                     <p className="card-text">
-                        14. A line AB, 90 mm long, is inclined at 45° to the 
-H.P. and its top view makes an angle of 60° with the V.P. The end A is in the H.P. 
-and 12 mm in front of the V.P. Draw its front view and find its true inclination with 
-the V.P.    </p>
+                        14. A line AB, 90 mm long, is inclined at 45° to the
+                        H.P. and its top view makes an angle of 60° with the V.P. The end A is in the H.P.
+                        and 12 mm in front of the V.P. Draw its front view and find its true inclination with
+                        the V.P.    </p>
                     <button onClick={() => handleClick("q14")} className="button-blue">
                         Click Here
                     </button>
@@ -405,12 +485,12 @@ the V.P.    </p>
 
                 <div className="card">
                     <p className="card-text">
-                        15. The top view of 
-a 75 mm long line AB measures 65 mrn, while the 
-length of its front view is 50 mm. Its one end A 
-is in the H.P. and 12 mm in front of the V.P. 
-Draw the projections of AB and determine its 
-inclinations with the H.P. and the V.P    </p>
+                        15. The top view of
+                        a 75 mm long line AB measures 65 mrn, while the
+                        length of its front view is 50 mm. Its one end A
+                        is in the H.P. and 12 mm in front of the V.P.
+                        Draw the projections of AB and determine its
+                        inclinations with the H.P. and the V.P    </p>
                     <button onClick={() => handleClick("q15")} className="button-blue">
                         Click Here
                     </button>
@@ -418,9 +498,9 @@ inclinations with the H.P. and the V.P    </p>
 
                 <div className="card">
                     <p className="card-text">
-                        16. A line PQ 75 mm long, has its end P in the V.P. 
-and the end Q in the H.P. The line is inclined at 30° to the H.P. and at 60° to 
-the V.P. Draw its projections.    </p>
+                        16. A line PQ 75 mm long, has its end P in the V.P.
+                        and the end Q in the H.P. The line is inclined at 30° to the H.P. and at 60° to
+                        the V.P. Draw its projections.    </p>
                     <button onClick={() => handleClick("q16")} className="button-blue">
                         Click Here
                     </button>
@@ -428,22 +508,33 @@ the V.P. Draw its projections.    </p>
                 <div className="card">
                     <p className="card-text">
                         17. A line 50 mm long, has its end A in both the both
-H.P. and the V.P. It is inclined at 30' to the H.P. and at 45" to the V.P. Draw its 
-projections.     </p>
+                        H.P. and the V.P. It is inclined at 30' to the H.P. and at 45" to the V.P. Draw its
+                        projections.     </p>
                     <button onClick={() => handleClick("q17")} className="button-blue">
                         Click Here
                     </button>
                 </div>
                 <div className="card">
                     <p className="card-text">
-                        18. A line AB, 65 mm long has its end A 20 mm 
-above the H.P. and 25 mm in front of the V.P. The end B is 40 mm above the H.P. 
-and 65 mm in front of the V.J~ Draw the projections of AB and show its inclinations 
-with the H.P. and the V.P. </p>
+                        18. A line AB, 65 mm long has its end A 20 mm
+                        above the H.P. and 25 mm in front of the V.P. The end B is 40 mm above the H.P.
+                        and 65 mm in front of the V.P. Draw the projections of AB and show its inclinations
+                        with the H.P. and the V.P. </p>
                     <button onClick={() => handleClick("q18")} className="button-blue">
                         Click Here
                     </button>
                 </div>
+                <div className="card">
+                    <p className="card-text">
+                        19. A line AB, 70 mm long has its end A 50 mm
+                        above the H.P. and 50 mm in front of the V.P. The end B is 25 mm above the H.P.
+                        and 25 mm in front of the V.P. Draw the projections of AB and show its inclinations
+                        with the H.P. and the V.P. </p>
+                    <button onClick={() => handleClick("q19")} className="button-blue">
+                        Click Here
+                    </button>
+                </div>
+                
 
 
 

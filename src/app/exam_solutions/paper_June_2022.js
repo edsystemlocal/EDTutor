@@ -15,11 +15,11 @@ const Paper_June_2022 = () => {
           inputs: {
             LineLength:70,
             firstpointfrontOfVPLength:15,
+            firstpointPositionHP: "above",
             firstPointAboveHPLength:10,
-            InclinationToVP:"",
-            InclinationToHP:"",
-            Topview:60,
-            Frontview:50
+            firstpointPositionVP: "front",
+            topViewLength:60,
+            frontViewLength:50,           
           },
         });
       }
@@ -28,12 +28,12 @@ const Paper_June_2022 = () => {
             drawingType: "inclinationToBoth",
             inputs: {
               LineLength:60,
-              firstpointfrontOfVPLength:10,
               firstPointAboveHPLength:15,
+              firstpointPositionHP: "above",              
+              firstpointfrontOfVPLength:10,
+              firstpointPositionVP: "front",
               InclinationToVP:30,
               InclinationToHP:45,
-              //Topview:60,
-              //Frontview:50
             },
           });
       } 
@@ -98,7 +98,7 @@ const Paper_June_2022 = () => {
 		   Draw the projections of the line and determine its inclinations with H.P. and V.P.
             </p>
             <button onClick={() => handleClick("q2(a)")} className="button-blue">
-              Click Here
+              Click Here*
             </button>
           </div>
           <div className="card">
@@ -106,7 +106,7 @@ const Paper_June_2022 = () => {
 			b) A line AB, 60 mm long has its end A 15 mm above HP and 10 mm in front of V.P. 
 			It is inclined at 45° to the HP and 30° to V.P. Draw it's projections.</p>
             <button onClick={() => handleClick("q2(b)")} className="button-blue">
-              Click Here
+              Click Here*
             </button>
           </div>
           <div className="card">
