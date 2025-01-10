@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react'
 import Canvas from '../components/Canvas/canvas';
 import "../components/Style/paperStyle.css" // Import the CSS file
@@ -85,6 +87,35 @@ const PlaneExercise = () => {
                 },
             });
         }
+        else if (question === "q6") {
+            setCurrentDrawing({
+                drawingType: "plane",
+                inputs: {
+                    "Plane Type":"Circle",
+                    "Side Length":50,
+                    "Plane Position":"Side",
+                    "Plane in/parallel Postion":"Parallel",
+                    "Plane HP/VP Postion":"VP",
+                    "Incline With HP": 30,
+                    "Inclined With VP":0
+                },
+            });
+        }
+        else if (question === "q7a") {
+            setCurrentDrawing({
+                drawingType: "plane",
+                inputs: {
+                    "Plane Type":"Circle",
+                    "Side Length":50,
+                    "Plane Position":"Side",
+                    "Plane in/parallel Postion":"Parallel",
+                    "Plane HP/VP Postion":"HP",
+                    "Incline With HP": 45,
+                    "Inclined With VP":30
+                },
+            });
+        }
+
 
 
       
@@ -165,7 +196,37 @@ const PlaneExercise = () => {
                             Click Here
                         </button>
                     </div>
-                 
+                    <div className="card">
+                        <p className="card-text">
+                        6.  Draw the projections of a circle of 50 mm diamete1~having its plane vertical and inclined at 30° to the V.P. 
+                        Its centre is 30 mm above the H.P. and 20 mm in front of the V.P. Show also its traces..
+                        </p>
+                        <button onClick={() => handleClick("q6")} className="button-blue">
+                            *Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        7a.  Draw the projections of a circle of 50 mm diameter resting in the H.P. on a point A on the circumference,
+                         its plane inclined at 45° to the H.P. and
+                         (a) the top view of the diameter AB making 30° angle with the V.P.;
+                         (b) the diameter AB making 30° angle with the V. P.
+                        </p>
+                        <button onClick={() => handleClick("q7a")} className="button-blue">
+                            *Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        7b. Draw the projections of a circle of 50 mm diameter resting in the H.P. on a point A on the circumference,
+                         its plane inclined at 45° to the H.P. and
+                         (a) the top view of the diameter AB making 30° angle with the V.P.;
+                         (b) the diameter AB making 30° angle with the V. P.
+                        </p>
+                        <button onClick={() => handleClick("q7b")} className="button-blue">
+                            *Click Here
+                        </button>
+                    </div>
                  
 
 

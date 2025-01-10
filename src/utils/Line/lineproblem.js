@@ -71,15 +71,15 @@ export function getLineProblemSteps(values) {
           ]
           : ["No valid drawingTypes to draw the inclined line"],
     6:
-    drawingType === "parallelToVPAndInclinationToHP"
-      ? [
-        `Calculate θ and write value at right corner`,
-      ]
-      : drawingType === "parallelToHPAndInclinationToVP"
+      drawingType === "parallelToVPAndInclinationToHP"
         ? [
-          `Calculate Φ and write value at right below`,
+          `Calculate θ and write value at right corner`,
         ]
-        : ["No valid drawingTypes to draw the inclined line"],
+        : drawingType === "parallelToHPAndInclinationToVP"
+          ? [
+            `Calculate Φ and write value at right below`,
+          ]
+          : ["No valid drawingTypes to draw the inclined line"],
   };
 
   // Return step based on counter
@@ -92,14 +92,14 @@ export function getLineProblemSteps(values) {
 
 function getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, firstPointAboveHPLength, firstpointfrontOfVPLength) {
   let sendToPoints = [];
-  
-   sendToPoints.push(
-        ...drawPointWithArrow(xyAxisLineStartPoint, firstPointAboveHP, "left", "a'", firstPointAboveHPLength, lightPencil)
-      );
 
-      sendToPoints.push(
-        ...drawPointWithArrow(xyAxisLineStartPoint, firstPointFrontVP, "left", "a", firstpointfrontOfVPLength, lightPencil)
-      );
+  sendToPoints.push(
+    ...drawPointWithArrow(xyAxisLineStartPoint, firstPointAboveHP, "left", "a'", firstPointAboveHPLength, lightPencil)
+  );
+
+  sendToPoints.push(
+    ...drawPointWithArrow(xyAxisLineStartPoint, firstPointFrontVP, "left", "a", firstpointfrontOfVPLength, lightPencil)
+  );
 
   return sendToPoints;
 }
@@ -356,33 +356,33 @@ export function getLineProblemPoints(payload) {
           calculatedAngle = calculateAngleInDegrees(firstPointFrontVP, secondPointFrontVP);
           angleDraw = drawFi(firstPointFrontVP, calculatedAngle, secondPointFrontVP);
           inclinedLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil);
-          
+
         }
 
         sendToPoints = [...angleDraw, ...inclinedLinePoints];
       }
 
-    //   if (counter === 6) {
-    //     console.log("Enter counter 6");
-    //     if (drawingType === "parallelToVPAndInclinationToHP") {
-          
-        
-        
-    //     sendToPoints.push(
-    //       ...drawTheta(firstPointAboveHP, theta, secondPointFrontVP),
-          
-    //     );
-    //   }else if (drawingType === "parallelToHPAndInclinationToVP") {
-    //     const fi = calculateAngleInDegrees(firstPointFrontVP, secondPointFrontVP);
-    //     sendToPoints.push(
-    //       ...drawFi(firstPointAboveHP, fi, secondPointFrontVP),
-    //     );
-    //   }
-     
-    // }
-  }
+      //   if (counter === 6) {
+      //     console.log("Enter counter 6");
+      //     if (drawingType === "parallelToVPAndInclinationToHP") {
 
-    
+
+
+      //     sendToPoints.push(
+      //       ...drawTheta(firstPointAboveHP, theta, secondPointFrontVP),
+
+      //     );
+      //   }else if (drawingType === "parallelToHPAndInclinationToVP") {
+      //     const fi = calculateAngleInDegrees(firstPointFrontVP, secondPointFrontVP);
+      //     sendToPoints.push(
+      //       ...drawFi(firstPointAboveHP, fi, secondPointFrontVP),
+      //     );
+      //   }
+
+      // }
+    }
+
+
   }
 
   let values = {
@@ -414,7 +414,7 @@ function itbPointParalllelToHP(frontViewLength, topViewAngle, InclinationToVP, f
     let height = secondpointFrontOfVPLength - (firstPointFrontVP.y - startPoint.y);
     let base = calculateHeight(LineLength, height);
     let pointInclinedToVPTemp = { x: firstPointAboveHP.x + base, y: startPoint.y + secondpointFrontOfVPLength };
-    console.log("height: ", height, ",base: ", base, ",pointInclinedToVPTemp: ",pointInclinedToVPTemp , ", firstPointFrontVP.y - startPoint.y = ", firstPointFrontVP.y - startPoint.y, ", secondpointFrontOfVPLength: ", secondpointFrontOfVPLength);
+    console.log("height: ", height, ",base: ", base, ",pointInclinedToVPTemp: ", pointInclinedToVPTemp, ", firstPointFrontVP.y - startPoint.y = ", firstPointFrontVP.y - startPoint.y, ", secondpointFrontOfVPLength: ", secondpointFrontOfVPLength);
     pointParalllelToHP = { x: pointInclinedToVPTemp.x, y: firstPointAboveHP.y };
   }
 
@@ -464,7 +464,7 @@ function itbPointParallelToVP(topViewLength, InclinationToHP, firstPointAboveHP,
 function itbPointInclinedToHP(firstPointAboveHP, LineLength, pointParallelToVP, secondpointAboveHPLength) {
   let pointInclinedToHP = null;
 
-  if(isPositive(secondpointAboveHPLength)){
+  if (isPositive(secondpointAboveHPLength)) {
     let height = secondpointAboveHPLength - (startPoint.y - firstPointAboveHP.y);
     let base = calculateHeight(LineLength, height);
     pointInclinedToHP = { x: firstPointAboveHP.x + base, y: startPoint.y - secondpointAboveHPLength };
@@ -477,8 +477,8 @@ function itbPointInclinedToHP(firstPointAboveHP, LineLength, pointParallelToVP, 
 
 function itbPointInclinedToVP(firstPointFrontVP, LineLength, pointParalllelToHP, secondpointFrontOfVPLength) {
   let pointInclinedToVP = null;
-  if(isPositive(secondpointFrontOfVPLength)){
-  let height = secondpointFrontOfVPLength - (firstPointFrontVP.y - startPoint.y);
+  if (isPositive(secondpointFrontOfVPLength)) {
+    let height = secondpointFrontOfVPLength - (firstPointFrontVP.y - startPoint.y);
     let base = calculateHeight(LineLength, height);
     pointInclinedToVP = { x: firstPointFrontVP.x + base, y: startPoint.y + secondpointFrontOfVPLength };
   } else if (pointParalllelToHP != null && isPositive(LineLength)) {
@@ -495,7 +495,7 @@ function itbPointInclinedToFV(firstPointAboveHP, pointInclinedToHP, pointParalll
     let hype = pointParalllelToHP.x - firstPointAboveHP.x;
     let height = pointParalllelToHP.y - pointInclinedToHP.y;
     let base = calculateHeight(hype, height);
-    if(!isPositive(base) && (hype - height < 1)){
+    if (!isPositive(base) && (hype - height < 1)) {
       base = 0;
     }
     console.log("hype1: ", hype, ", height1: ", height);
@@ -511,7 +511,7 @@ function itbPointInclinedToTV(firstPointFrontVP, pointInclinedToVP, pointParalle
     let hype = pointParallelToVP.x - firstPointFrontVP.x;
     let height = pointInclinedToVP.y - firstPointFrontVP.y;
     let base = calculateHeight(hype, height);
-    if(!isPositive(base) && (hype - height <1)){
+    if (!isPositive(base) && (hype - height < 1)) {
       base = 0;
     }
     console.log("hype: ", hype, ", height: ", height);
@@ -522,8 +522,8 @@ function itbPointInclinedToTV(firstPointFrontVP, pointInclinedToVP, pointParalle
   return pointInclinedToTV;
 }
 
-function getPoint(pointXY, pointLength, position){
-  
+function getPoint(pointXY, pointLength, position) {
+
   let firstPointAboveHPPoint = pointXY;
   if (position === "above") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y - pointLength };
@@ -534,13 +534,13 @@ function getPoint(pointXY, pointLength, position){
   } else if (position === "behind") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y - pointLength };
   }
-  
-  console.log("getPoint(), pointXY=",pointXY, ", pointLength=", pointLength, ", position=", position, ", firstPointAboveHPPoint=", firstPointAboveHPPoint)
+
+  console.log("getPoint(), pointXY=", pointXY, ", pointLength=", pointLength, ", position=", position, ", firstPointAboveHPPoint=", firstPointAboveHPPoint)
   return firstPointAboveHPPoint;
 }
 
 export function getMidPointProblemPoints(payload, updatedInputs, xyAxisLineStartPoint) {
-  const { counter, inputs, drawingType } = payload;
+  const { counter, inputs, finalDrawing, drawingType } = payload;
 
   console.log(getMidPointProblemPoints);
 
@@ -550,83 +550,169 @@ export function getMidPointProblemPoints(payload, updatedInputs, xyAxisLineStart
     frontViewLength, InclinationToHP, frontViewAngle, topViewAngle, InclinationToVP, MidpointHPLength, MidpointVPLength
   } = updatedInputs;
 
-  let midpointAboveHP = {x: xyAxisLineStartPoint.x+LineLength/2, y: xyAxisLineStartPoint.y-MidpointHPLength};
-  let midpointFrontVP = {x: xyAxisLineStartPoint.x+LineLength/2, y: xyAxisLineStartPoint.y+MidpointVPLength};
+  let midpointAboveHP = { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint.y - MidpointHPLength };
+  let midpointFrontVP = { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint.y + MidpointVPLength };
 
   let firstPointInclinedHP;
   let secondPointInclinedHP;
-  if(isPositive(MidpointHPLength) && isRealPositive(LineLength) && isRealPositive(InclinationToHP)){
+  if (isPositive(MidpointHPLength) && isRealPositive(LineLength) && isRealPositive(InclinationToHP)) {
     console.log("Getting it from midpoint");
-    firstPointInclinedHP = calculateAngledLinePoints(midpointAboveHP, 180+InclinationToHP, LineLength/2);
-    secondPointInclinedHP = calculateAngledLinePoints(midpointAboveHP, InclinationToHP, LineLength/2);
+    firstPointInclinedHP = calculateAngledLinePoints(midpointAboveHP, 180 + InclinationToHP, LineLength / 2);
+    secondPointInclinedHP = calculateAngledLinePoints(midpointAboveHP, InclinationToHP, LineLength / 2);
   }
 
   let firstPointInclinedVP;
   let secondPointInclinedVP;
-  if(isPositive(MidpointVPLength) && isRealPositive(LineLength) && isRealPositive(InclinationToVP)){
+  if (isPositive(MidpointVPLength) && isRealPositive(LineLength) && isRealPositive(InclinationToVP)) {
     console.log("Getting it from midpoint VP");
-    firstPointInclinedVP = calculateAngledLinePoints(midpointFrontVP, 180+InclinationToVP, LineLength/2);
-    secondPointInclinedVP = calculateAngledLinePoints(midpointFrontVP, InclinationToVP, LineLength/2);
+    firstPointInclinedVP = calculateAngledLinePoints(midpointFrontVP, 180 + InclinationToVP, LineLength / 2);
+    secondPointInclinedVP = calculateAngledLinePoints(midpointFrontVP, InclinationToVP, LineLength / 2);
   }
 
-  let pointParallelFirstAboveHP = {x: firstPointInclinedHP.x, y: midpointFrontVP.y};
-  let pointParallelSecondAboveHP =  {x: secondPointInclinedHP.x, y: midpointFrontVP.y};
-  let pointParallelFirstFrontVP = {x: firstPointInclinedVP.x, y: midpointAboveHP.y};
-  let pointParallelSecondFrontVP =  {x: secondPointInclinedVP.x, y: midpointAboveHP.y};
+  let pointParallelFirstAboveHP = { x: firstPointInclinedHP.x, y: midpointFrontVP.y };
+  let pointParallelSecondAboveHP = { x: secondPointInclinedHP.x, y: midpointFrontVP.y };
+  let pointParallelFirstFrontVP = { x: firstPointInclinedVP.x, y: midpointAboveHP.y };
+  let pointParallelSecondFrontVP = { x: secondPointInclinedVP.x, y: midpointAboveHP.y };
 
-  let base1 = calculateHeight(midpointFrontVP.x - firstPointInclinedHP.x,midpointFrontVP.y - firstPointInclinedVP.y);
-  let firstPointFrontVP = {x: midpointFrontVP.x - base1, y: firstPointInclinedVP.y};
+  let base1 = calculateHeight(midpointFrontVP.x - firstPointInclinedHP.x, midpointFrontVP.y - firstPointInclinedVP.y);
+  let firstPointFrontVP = { x: midpointFrontVP.x - base1, y: firstPointInclinedVP.y };
 
-  let base2 = calculateHeight(midpointFrontVP.x - secondPointInclinedHP.x,midpointFrontVP.y - secondPointInclinedVP.y);
-  let secondPointFrontVP = {x: midpointFrontVP.x + base2, y: secondPointInclinedVP.y};
+  let base2 = calculateHeight(midpointFrontVP.x - secondPointInclinedHP.x, midpointFrontVP.y - secondPointInclinedVP.y);
+  let secondPointFrontVP = { x: midpointFrontVP.x + base2, y: secondPointInclinedVP.y };
 
   let base3 = calculateHeight(midpointAboveHP.x - firstPointInclinedVP.x, midpointAboveHP.y - firstPointInclinedHP.y);
-  let firstPointAboveHP = {x: midpointAboveHP.x - base3, y: firstPointInclinedHP.y};
+  let firstPointAboveHP = { x: midpointAboveHP.x - base3, y: firstPointInclinedHP.y };
 
-  let base4 = calculateHeight(midpointAboveHP.x - secondPointInclinedVP.x,midpointAboveHP.y - secondPointInclinedHP.y);
-  let secondPointAboveHP = {x: midpointAboveHP.x + base4, y: secondPointInclinedHP.y};
+  let base4 = calculateHeight(midpointAboveHP.x - secondPointInclinedVP.x, midpointAboveHP.y - secondPointInclinedHP.y);
+  let secondPointAboveHP = { x: midpointAboveHP.x + base4, y: secondPointInclinedHP.y };
 
   console.log("midpointAboveHP.x - secondPointInclinedVP.x: ", midpointAboveHP.x - secondPointInclinedVP.x);
   console.log("xyAxisLineStartPoint.y - secondPointInclinedHP.y: ", xyAxisLineStartPoint.y - secondPointInclinedHP.y);
   console.log("secondPointAboveHP: ", secondPointAboveHP);
 
-
+  let drawAll = false;
   const sendToPoints = [];
-  if (counter === 1) {
-    console.log("Enter counter 1", {x: xyAxisLineStartPoint.x+LineLength/2, y: xyAxisLineStartPoint-MidpointHPLength});
+  if (counter === 1 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
     sendToPoints.push(...drawXYaxis(),
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 2 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
       ...calculateLinePointsWithCircles(midpointAboveHP, midpointFrontVP, lightPencil),
+
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 3 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
 
       ...calculateLinePointsWithCircles(firstPointInclinedHP, secondPointInclinedHP, lightPencil),
       ...calculateLinePointsWithCircles(firstPointInclinedVP, secondPointInclinedVP, lightPencil),
 
-      ...calculateDashLinePoints(firstPointInclinedVP, {x: midpointAboveHP.x, y: firstPointInclinedVP.y}, lightPencil),
-      ...calculateDashLinePoints(firstPointInclinedHP, {x: midpointAboveHP.x, y: firstPointInclinedHP.y}, lightPencil),
-      ...calculateDashLinePoints(secondPointInclinedHP, {x: midpointAboveHP.x, y: secondPointInclinedHP.y}, lightPencil),
-      ...calculateDashLinePoints(secondPointInclinedVP, {x: midpointAboveHP.x, y: secondPointInclinedVP.y}, lightPencil),
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
 
+  if (counter === 4 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+      ...calculateDashLinePoints(firstPointInclinedVP, { x: midpointAboveHP.x, y: firstPointInclinedVP.y }, lightPencil),
+      ...calculateDashLinePoints(firstPointInclinedHP, { x: midpointAboveHP.x, y: firstPointInclinedHP.y }, lightPencil),
+      ...calculateDashLinePoints(secondPointInclinedHP, { x: midpointAboveHP.x, y: secondPointInclinedHP.y }, lightPencil),
+      ...calculateDashLinePoints(secondPointInclinedVP, { x: midpointAboveHP.x, y: secondPointInclinedVP.y }, lightPencil),
+
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 5 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+      
       ...calculateLinePointsWithCircles(pointParallelFirstAboveHP, pointParallelSecondAboveHP, lightPencil),
       ...calculateLinePointsWithCircles(firstPointInclinedHP, pointParallelFirstAboveHP, lightPencil),
       ...calculateLinePointsWithCircles(secondPointInclinedHP, pointParallelSecondAboveHP, lightPencil),
 
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 5 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+      
       ...drawQuarterCircle(midpointFrontVP, 180, 90, (midpointFrontVP.x - firstPointInclinedHP.x)), ...lightPencil,
       ...drawQuarterCircle(midpointFrontVP, 180, 90, (midpointFrontVP.x - secondPointInclinedHP.x)), ...lightPencil,
 
-      ...calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, lightPencil),
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
 
+  if (counter === 6 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+     
+      ...calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, superDarkPencil),
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 7 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+     
       ...calculateLinePointsWithCircles(pointParallelFirstFrontVP, pointParallelSecondFrontVP, lightPencil),
       ...calculateLinePointsWithCircles(firstPointInclinedVP, pointParallelFirstFrontVP, lightPencil),
       ...calculateLinePointsWithCircles(secondPointInclinedVP, pointParallelSecondFrontVP, lightPencil),
 
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
+  if (counter === 8 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
       ...drawQuarterCircle(midpointAboveHP, 0, 90, (midpointAboveHP.x - firstPointInclinedVP.x)), ...lightPencil,
       ...drawQuarterCircle(midpointAboveHP, 0, 90, (midpointAboveHP.x - secondPointInclinedVP.x)), ...lightPencil,
 
-      ...calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, lightPencil),
-      
-      
-      
     );
+    if (finalDrawing) {
+      drawAll = true;
   }
+  }
+
+  if (counter === 9 || drawAll) {
+    console.log("Enter counter 1", { x: xyAxisLineStartPoint.x + LineLength / 2, y: xyAxisLineStartPoint - MidpointHPLength });
+    sendToPoints.push(
+      ...calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, superDarkPencil),
+    );
+    if (finalDrawing) {
+      drawAll = true;
+  }
+  }
+
 
   const steps = projectionOfLine_4Steps(); // Generate steps dynamically
   let step = steps[counter];
@@ -637,7 +723,7 @@ export function getMidPointProblemPoints(payload, updatedInputs, xyAxisLineStart
 export function getLineInclinedToBothPlanesPoints(payload) {
   const isPositive = (value) => typeof value === "number" && value >= 0;
   const isRealPositive = (value) => typeof value === "number" && value > 0;
- 
+
   //Problem 10-8 (fig 10-31) page 214
   //Problem 10-9 (fig 10-33) page 215 Done
   //Problem 10-11 (fig 10-35) page 216 Done
@@ -648,7 +734,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
   // Work on it New parameter needed
   //Problem 10-10 (fig 10-34) page 216 Work on it New parameter needed for midpoint check in question paper
 
-  const { counter, inputs, drawingType } = payload;
+  const { counter, inputs, finalDrawing, drawingType } = payload;
 
   let zoom = 2;
   let updatedInputs = getParameters(inputs, zoom);
@@ -660,19 +746,19 @@ export function getLineInclinedToBothPlanesPoints(payload) {
 
   const xyAxisLineStartPoint = { x: startPoint.x + 100, y: startPoint.y };
 
-  if(isPositive(MidpointHPLength) || isPositive(MidpointVPLength)){
+  if (isPositive(MidpointHPLength) || isPositive(MidpointVPLength)) {
     console.log("MidPoint");
     return getMidPointProblemPoints(payload, updatedInputs, xyAxisLineStartPoint);
   }
-  let firstPointFrontOfVPPosition = inputs["firstpointPositionVP"]; 
+  let firstPointFrontOfVPPosition = inputs["firstpointPositionVP"];
   let firstPointAboveHPPosition = inputs["firstpointPositionHP"];
-  
+
   console.log("LineLength : " + LineLength);
   console.log(inputs);
 
   // Calculate XY axis line points
-  
 
+  
   let firstPointAboveHP = xyAxisLineStartPoint;
 
   if (isPositive(firstPointAboveHPLength)) {
@@ -698,15 +784,13 @@ export function getLineInclinedToBothPlanesPoints(payload) {
 
   //Project point of top view which is equal to Inclination to HP Normally b2'
   let pointInclinedToHP = itbPointInclinedToHP(firstPointAboveHP, LineLength, pointParallelToVP, secondpointAboveHPLength);
-  
+
   //final point of front view which is equal to final front view angle Inclination to HP Normally b'
-  
   let pointInclinedToFV = itbPointInclinedToFV(firstPointAboveHP, pointInclinedToHP, pointParalllelToHP);
-  
 
   //Project point of front view which is equal to Inclination to VP Normally b2
   let pointInclinedToVP = itbPointInclinedToVP(firstPointFrontVP, LineLength, pointParalllelToHP, secondpointFrontOfVPLength);
-  
+
   //final point of front view which is equal to final top view angle Inclination to VP Normally b
   let pointInclinedToTV = itbPointInclinedToTV(firstPointFrontVP, pointInclinedToVP, pointParallelToVP);
 
@@ -723,21 +807,27 @@ export function getLineInclinedToBothPlanesPoints(payload) {
   const beta = calculateAngleInDegrees(firstPointFrontVP, pointInclinedToTV);
   const theta = calculateAngleInDegrees(firstPointAboveHP, pointInclinedToHP);
   const fi = calculateAngleInDegrees(firstPointFrontVP, pointInclinedToVP);
-
+  let drawAll = false;
   const sendToPoints = [];
   // Return points and step description based on the counter value
-  if (counter === 1) {
+  if (counter === 1 || drawAll) {
     console.log("Enter counter 1");
     sendToPoints.push(...drawXYaxis(),
     );
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 2) {
+  if (counter === 2 || drawAll) {
     console.log("Enter counter 2");
     sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs.firstPointAboveHPLength), Number(inputs.firstpointfrontOfVPLength)));
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 3) {
+  if (counter === 3 || drawAll) {
     console.log("Enter counter 3");
     if (isPositive(InclinationToHP) && isPositive(frontViewLength)) {
       sendToPoints.push(
@@ -749,7 +839,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...lightPencil
       )
     } else if (isPositive(InclinationToHP)) {
-      
+
       sendToPoints.push(
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...lightPencil,
@@ -768,7 +858,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     } else if (isPositive(secondpointAboveHPLength)) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil),
-        ...drawPerpendicularArrow({ x: pointInclinedToHP.x + 50, y: xyAxisLineStartPoint.y },{ x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, "", roundUpToTwoDecimalPlaces(secondpointAboveHPLength/zoom)),
+        ...drawPerpendicularArrow({ x: pointInclinedToHP.x + 50, y: xyAxisLineStartPoint.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, "", roundUpToTwoDecimalPlaces(secondpointAboveHPLength / zoom)),
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP, lightPencil),
         ...lightPencil,
@@ -776,9 +866,12 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...lightPencil
       )
     }
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 4) {
+  if (counter === 4 || drawAll) {
     console.log("Enter counter 4");
     if (isPositive(topViewLength)) {
       sendToPoints.push(
@@ -797,7 +890,7 @@ export function getLineInclinedToBothPlanesPoints(payload) {
     } else if (isPositive(secondpointFrontOfVPLength)) {
       sendToPoints.push(
         ...calculateDashLinePoints({ x: firstPointFrontVP.x, y: pointInclinedToVP.y }, { x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }, lightPencil),
-        ...drawPerpendicularArrow({ x: pointInclinedToVP.x + 50, y: xyAxisLineStartPoint.y },{ x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }, "", roundUpToTwoDecimalPlaces(secondpointFrontOfVPLength/zoom)),
+        ...drawPerpendicularArrow({ x: pointInclinedToVP.x + 50, y: xyAxisLineStartPoint.y }, { x: pointInclinedToVP.x + 50, y: pointInclinedToVP.y }, "", roundUpToTwoDecimalPlaces(secondpointFrontOfVPLength / zoom)),
         ...calculateArcPoints(firstPointFrontVP, pointInclinedToVP),
         ...calculateLinePointsWithCircles(firstPointFrontVP, pointInclinedToVP, lightPencil),
         ...lightPencil,
@@ -805,17 +898,20 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...lightPencil
       )
     }
+    if (finalDrawing) {
+      drawAll = true;
+  }
 
   }
 
-  if (counter === 5) {
+  if (counter === 5 || drawAll) {
     console.log("Enter counter 5");
     if (isPositive(topViewLength)) {
       sendToPoints.push(
         ...calculateLinePointsWithCircles(pointParallelToVP, pointInclinedToHP, lightPencil),
         ...calculateLineLabel(pointInclinedToHP, "b'", "lineRightUp"),
         ...calculateArcPoints(firstPointAboveHP, pointInclinedToHP),
-        ...lightPencil,        
+        ...lightPencil,
         ...calculateLinePointsWithCircles(firstPointAboveHP, pointInclinedToHP),
         ...calculateDashLinePoints({ x: firstPointAboveHP.x, y: pointInclinedToHP.y }, { x: pointInclinedToHP.x + 50, y: pointInclinedToHP.y }, lightPencil)
       )
@@ -868,9 +964,12 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...darkPencil,
       )
     }
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 6) {
+  if (counter === 6 || drawAll) {
     console.log("Enter counter 6");
     if (isPositive(topViewLength)) {
       sendToPoints.push(
@@ -926,10 +1025,12 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...darkPencil,
       )
     }
-
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 7) {
+  if (counter === 7 || drawAll) {
     console.log("Enter counter 7");
     if (isPositive(frontViewLength) && !isPositive(InclinationToHP)) {
       sendToPoints.push(
@@ -995,9 +1096,12 @@ export function getLineInclinedToBothPlanesPoints(payload) {
         ...calculateLineLabel(pointInclinedToVP, "b", "lineRightDown"),
       )
     }
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
-  if (counter === 8) {
+  if (counter === 8 || drawAll) {
     console.log("Enter counter 8");
     sendToPoints.push(
       ...drawTheta(firstPointAboveHP, theta, pointInclinedToVP),
@@ -1005,6 +1109,10 @@ export function getLineInclinedToBothPlanesPoints(payload) {
       ...drawAlpha(firstPointAboveHP, alpha, pointInclinedToVP),
       ...drawBeta(firstPointFrontVP, beta, pointInclinedToVP),
     )
+
+    if (finalDrawing) {
+      drawAll = true;
+  }
   }
 
   const steps = projectionOfLine_4Steps(); // Generate steps dynamically
@@ -1019,29 +1127,29 @@ export const roundUpToTwoDecimalPlaces = (num) => {
 
 function drawTheta(center, endAngle, angleBottomPoint) {
   return [
-  ...drawAngle(center, 20, endAngle, "up", "θ"),
-  ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 40 }, "θ = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
+    ...drawAngle(center, 20, endAngle, "up", "θ"),
+    ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 40 }, "θ = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
   ]
 }
 
 function drawFi(center, endAngle, angleBottomPoint) {
   return [
-  ...drawAngle(center, 20, endAngle, "down", "Φ"),
-  ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 60 }, "Φ = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left"),
+    ...drawAngle(center, 20, endAngle, "down", "Φ"),
+    ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 60 }, "Φ = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left"),
   ]
 }
 
 function drawAlpha(center, endAngle, angleBottomPoint) {
   return [
-  ...drawAngle(center, 40, endAngle, "up", "α"),
-  ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 80 }, "α = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
+    ...drawAngle(center, 40, endAngle, "up", "α"),
+    ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 80 }, "α = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
   ]
 }
 
 function drawBeta(center, endAngle, angleBottomPoint) {
   return [
-  ...drawAngle(center, 40, endAngle, "down", "β"),
-  ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 100 }, "β = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
+    ...drawAngle(center, 40, endAngle, "down", "β"),
+    ...calculateLabel({ x: angleBottomPoint.x + 100, y: angleBottomPoint.y + 100 }, "β = " + roundUpToTwoDecimalPlaces(Math.abs(endAngle)), "left")
   ]
 }
 
@@ -1050,18 +1158,18 @@ function drawAngle(center, radius, endAngle, arcPosition, label) {
   console.log("drawAngle, radius: ", radius);
 
   if (isPositive(radius)) {
-    let labelPoint = calculateAngledLinePoints(center, -endAngle/2, radius);  
+    let labelPoint = calculateAngledLinePoints(center, -endAngle / 2, radius);
     let drawLowerCircle;
     let calculateLabel1;
-    if(arcPosition == "up"){
+    if (arcPosition == "up") {
       drawLowerCircle = drawQuarterCircle(center, 0, -endAngle, radius);
-      calculateLabel1 = calculateLabel({x: labelPoint.x, y: labelPoint.y+5}, label, "right");
-    } else if(arcPosition == "down"){
+      calculateLabel1 = calculateLabel({ x: labelPoint.x, y: labelPoint.y + 5 }, label, "right");
+    } else if (arcPosition == "down") {
       drawLowerCircle = drawQuarterCircle(center, 0, -endAngle, radius);
-      calculateLabel1 = calculateLabel({x: labelPoint.x, y: labelPoint.y+5}, label, "right");
+      calculateLabel1 = calculateLabel({ x: labelPoint.x, y: labelPoint.y + 5 }, label, "right");
     }
     sendToPoints.push(
-      ...calculateLinePointsWithCircles(center, {x: center.x + radius, y: center.y}, lightPencil),
+      ...calculateLinePointsWithCircles(center, { x: center.x + radius, y: center.y }, lightPencil),
       ...drawLowerCircle,
       ...calculateLabel1,
       ...lightPencil,
@@ -1101,11 +1209,11 @@ function drawUpperCircleArc(center, pointParalllelToHP) {
 
 function drawArc(center, pointParallelToHP) {
   //let radius = Math.abs(pointParallelToHP.x - center.x);
- 
+
   let radius = calculateDistance(pointParallelToHP, center);
   console.log("radius of Arc: ", radius)
   let endAngle = calculateAngleInDegrees(center, pointParallelToHP);
-  endAngle = endAngle<0 ? endAngle - 10: endAngle + 10;
+  endAngle = endAngle < 0 ? endAngle - 10 : endAngle + 10;
 
   let sendToPoints = [];
   console.log("drawArc, radius: ", radius);
@@ -1121,11 +1229,11 @@ function drawArc(center, pointParallelToHP) {
 
 function drawArcOpposite(center, pointParallelToHP) {
   //let radius = Math.abs(pointParallelToHP.x - center.x);
- 
+
   let radius = calculateDistance(pointParallelToHP, center);
   console.log("radius of Arc: ", radius)
   let endAngle = calculateAngleInDegrees(center, pointParallelToHP);
-  endAngle = endAngle<0 ? endAngle - 10: endAngle + 10;
+  endAngle = endAngle < 0 ? endAngle - 10 : endAngle + 10;
 
   let sendToPoints = [];
   console.log("drawArc, radius: ", radius);
@@ -1196,7 +1304,7 @@ export function calculateLineLabel(point, label, alignment) {
       break;
     case "lineRight":
       labelX += 10; // Adjust X to the right
-      break;    
+      break;
     default:
       break; // No adjustment if no alignment is specified
   }
