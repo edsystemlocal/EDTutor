@@ -12,11 +12,11 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToBoth",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 25,
-                    firstPointAboveHPLength: 25,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 25,
+                    "First Point Above of HP": 25,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -25,12 +25,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToHPAndInclinationToVP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 0,
-                    firstPointAboveHPLength: 30,
-                    InclinationToVP: 0,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 0,
+                    "First Point Above of HP": 30,
+                    "Inclination To VP": 0,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -39,12 +39,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToVPAndInclinationToHP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 40,
-                    firstPointAboveHPLength: 0,
-                    InclinationToHP: 0,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 40,
+                    "First Point Above of HP": 0,
+                    "Inclination To HP": 0,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -53,11 +53,11 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "perpendicularToHP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 20,
-                    firstPointAboveHPLength: 15,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 20,
+                    "First Point Above of HP": 15,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -66,11 +66,11 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "perpendicularToVP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 0,
-                    firstPointAboveHPLength: 25,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 0,
+                    "First Point Above of HP": 25,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
 
                 },
 
@@ -81,11 +81,11 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "perpendicularToHP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 0,
-                    firstPointAboveHPLength: 0,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 0,
+                    "First Point Above of HP": 0,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -94,12 +94,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToHPAndInclinationToVP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 0,
-                    firstPointAboveHPLength: 0,
-                    InclinationToVP: 45,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 0,
+                    "First Point Above of HP": 0,
+                    "Inclination To VP": 45,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
 
             });
@@ -109,12 +109,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToVPAndInclinationToHP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 30,
-                    firstPointAboveHPLength: 20,
-                    InclinationToHP: 30,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 30,
+                    "First Point Above of HP": 20,
+                    "Inclination To HP": 30,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -122,12 +122,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToHPAndInclinationToVP",
                 inputs: {
-                    LineLength: 75,
-                    firstpointfrontOfVPLength: 15,
-                    firstPointAboveHPLength: 25,
-                    InclinationToVP: 60,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 75,
+                    "First Point Front of VP": 15,
+                    "First Point Above of HP": 25,
+                    "Inclination To VP": 60,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -136,12 +136,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToHPAndInclinationToVP",
                 inputs: {
-                    LineLength: 100,
-                    firstpointfrontOfVPLength: 25,
-                    firstPointAboveHPLength: 40,
-                    secondpointFrontOfVPLength: 50,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 100,
+                    "First Point Front of VP": 25,
+                    "First Point Above of HP": 40,
+                    "Second Point Front of VP": 50,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -150,12 +150,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToVPAndInclinationToHP",
                 inputs: {
-                    LineLength: 90,
-                    firstpointfrontOfVPLength: 25,
-                    firstPointAboveHPLength: 0,
-                    secondpointAboveHPLength: 50,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 90,
+                    "First Point Front of VP": 25,
+                    "First Point Above of HP": 0,
+                    "Second Point Above of HP": 50,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
             });
         }
@@ -164,12 +164,12 @@ const LineExercise = () => {
             setCurrentDrawing({
                 drawingType: "parallelToHPAndInclinationToVP",
                 inputs: {
-                    LineLength: 65,
-                    firstpointfrontOfVPLength: 30,
-                    firstPointAboveHPLength: 40,
-                    InclinationToVP: 30,
-                    firstpointPositionHP: "above",
-                    firstpointPositionVP: "front"
+                    "Line Length": 65,
+                    "First Point Front of VP": 30,
+                    "First Point Above of HP": 40,
+                    "Inclination To VP": 30,
+                    "First Point HP Position": "above",
+                    "First Point VP Position": "front"
                 },
 
             });
@@ -299,7 +299,7 @@ const LineExercise = () => {
                     InclinationToVP: 45,
                     MidpointHPLength: 20,
                     midpointPositionHP: "above",
-                    MidpointVPLength: 1,
+                    MidpointVPLength: -1,
                     midpointPositionVP: "front"
                 },
             });

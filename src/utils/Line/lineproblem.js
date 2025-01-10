@@ -166,8 +166,9 @@ function getSecondPointAboveHP(drawingType, xyAxisLineStartPoint, firstPointAbov
 
   if (drawingType === "parallelToHPAndInclinationToVP") {
     secondPointAboveHP = { x: firstPointAboveHP.x + LineLength, y: firstPointAboveHP.y };
+    console.log("here secondpointFrontOfVPLength=", secondpointFrontOfVPLength);
     if (isPositive(secondpointFrontOfVPLength)) {
-      console.log("here");
+      console.log("here secondpointFrontOfVPLength=", secondpointFrontOfVPLength);
       secondPointFrontVP = { x: secondPointAboveHP.x, y: xyAxisLineStartPoint.y + secondpointFrontOfVPLength };
     } else if (isPositive(InclinationToVP)) {
       console.log("here it is");
@@ -224,13 +225,13 @@ export function getLineProblemPoints(payload) {
   // Helper function to validate if a value is greater than 0
   let zoom = 2;
   let updatedInputs = getParameters(inputs, zoom);
-  let LineLength = Number(inputs["Line Length"]) || 0;
+  let LineLength = Number(inputs["Line Length"])  * zoom || 0;
   let firstPointAboveHPLength = Number(inputs["First Point Above of HP"]) * zoom || 0;
-  let secondpointAboveHPLength = Number(inputs["Second Point Above of HP"]) * zoom || 0;
+  let secondpointAboveHPLength = Number(inputs["Second Point Above of HP"]) * zoom || -1;
   let firstpointfrontOfVPLength = Number(inputs["First Point Front of VP"])* zoom || 0;
-  let secondpointFrontOfVPLength = Number(inputs["Second Point Front of VP"])* zoom || 0; 
-  let InclinationToVP = Number(inputs["Inclination To VP"])* zoom || -1;
-  let InclinationToHP = Number(inputs["Inclination To HP"]) * zoom || -1;
+  let secondpointFrontOfVPLength = Number(inputs["Second Point Front of VP"])* zoom || -1; 
+  let InclinationToVP = 360-Number(inputs["Inclination To VP"]) || -1;
+  let InclinationToHP = Number(inputs["Inclination To HP"]) || -1;
 
   // const {
   //   LineLength, firstPointAboveHPLength, firstpointfrontOfVPLength,
@@ -272,14 +273,8 @@ export function getLineProblemPoints(payload) {
 
     console.log("InclinationToVP: ", InclinationToVP);
     console.log("firstPointAboveHP: ", firstPointAboveHP);
+    console.log("firstPointFrontVP: ", firstPointFrontVP);
     console.log("secondPointFrontVP: ", secondPointFrontVP);
-
-    console.log("try", calculateAngledLinePoints(
-      firstPointFrontVP,
-      InclinationToVP,
-      secondPointAboveHP.x - firstPointAboveHP.x
-    ));
-
 
     if (counter === 1) {
       sendToPoints.push(...drawXYaxis());
@@ -357,16 +352,20 @@ export function getLineProblemPoints(payload) {
         let angleDraw;
         if (drawingType === "parallelToVPAndInclinationToHP") {
           calculatedAngle = calculateAngleInDegrees(firstPointAboveHP, secondPointAboveHP);
-          angleDraw = drawTheta(firstPointAboveHP, calculatedAngle, secondPointFrontVP);
+          if(calculatedAngle>0){
+            sendToPoints.push(...drawTheta(firstPointAboveHP, calculatedAngle, secondPointFrontVP));
+          }
           inclinedLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);
         } else if (drawingType === "parallelToHPAndInclinationToVP") {
           calculatedAngle = calculateAngleInDegrees(firstPointFrontVP, secondPointFrontVP);
-          angleDraw = drawFi(firstPointFrontVP, calculatedAngle, secondPointFrontVP);
-          inclinedLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil);
+          if(calculatedAngle>0){
+            sendToPoints.push(...angleDraw = drawFi(firstPointFrontVP, calculatedAngle, secondPointFrontVP));
+          }
+            inclinedLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil);
 
         }
 
-        sendToPoints = [...angleDraw, ...inclinedLinePoints];
+        sendToPoints.push(...inclinedLinePoints);
       }
 
       //   if (counter === 6) {
