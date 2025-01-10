@@ -224,12 +224,19 @@ export function getLineProblemPoints(payload) {
   // Helper function to validate if a value is greater than 0
   let zoom = 2;
   let updatedInputs = getParameters(inputs, zoom);
+  let LineLength = Number(inputs["Line Length"]) || 0;
+  let firstPointAboveHPLength = Number(inputs["First Point Above of HP"]) * zoom || 0;
+  let secondpointAboveHPLength = Number(inputs["Second Point Above of HP"]) * zoom || 0;
+  let firstpointfrontOfVPLength = Number(inputs["First Point Front of VP"])* zoom || 0;
+  let secondpointFrontOfVPLength = Number(inputs["Second Point Front of VP"])* zoom || 0; 
+  let InclinationToVP = Number(inputs["Inclination To VP"])* zoom || -1;
+  let InclinationToHP = Number(inputs["Inclination To HP"]) * zoom || -1;
 
-  const {
-    LineLength, firstPointAboveHPLength, firstpointfrontOfVPLength,
-    secondpointAboveHPLength, secondpointFrontOfVPLength, topViewLength,
-    frontViewLength, InclinationToHP, frontViewAngle, topViewAngle, InclinationToVP, MidpointHPLength, MidpointVPLength
-  } = updatedInputs;
+  // const {
+  //   LineLength, firstPointAboveHPLength, firstpointfrontOfVPLength,
+  //   secondpointAboveHPLength, secondpointFrontOfVPLength, topViewLength,
+  //   frontViewLength, InclinationToHP, frontViewAngle, topViewAngle, InclinationToVP, MidpointHPLength, MidpointVPLength
+  // } = updatedInputs;
 
   let sendToPoints = [];
 

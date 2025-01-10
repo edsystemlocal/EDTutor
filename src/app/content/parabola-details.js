@@ -1,6 +1,6 @@
 export default function ParabolaDetails({drawingType}) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full text-gray-700">
        <div>
       ➽ <b>Parabola :</b>A parabola is a U-shaped curve formed by all points equidistant from a fixed point (focus) and a line (directrix). 
         Its key features include the vertex (turning point), 

@@ -531,7 +531,7 @@ export default function Canvas({ inputs, drawingType }) {
   return (
     <main
       id="drawing-container"
-      className="w-full p-4 bg-gradient-to-r from-blue-50 to-blue-200 min-h-screen"
+      className="w-full p-4 bg-gradient-to-r from-blue-50 to-blue-200 min-h-screen text-gray-700"
     >
       <div className="grid grid-cols-12 gap-4">
         {/* Left Panel */}
@@ -543,11 +543,19 @@ export default function Canvas({ inputs, drawingType }) {
             style={{ height: "30%" }}
           >
             <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700">
-              {/* Drawing Type: {label} */}
               Drawing Type: {drawingType}
             </div>
             <div className="w-full flex items-center justify-center">
-              <PrintInput inputs={inputs}  />
+              <table className="">
+                <tbody>
+                  {Object.entries(inputs).map(([key, value], index) => (
+                    <tr key={index}>
+                      <td className="font-bold">{key} :</td>
+                      <td className="font-bold">{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </section>
 
@@ -661,3 +669,8 @@ export default function Canvas({ inputs, drawingType }) {
     </main>
   );
 }
+
+
+
+
+

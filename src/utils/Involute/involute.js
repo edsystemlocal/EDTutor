@@ -34,7 +34,7 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
     const { counter, inputs, finalDrawing } = payload;
     const startPoint = { x: 300, y: 400 };
 
-    const { Diameter } = inputs;
+    let Diameter = Number(inputs["Diameter"]) || 0;
     const string = 22 / 7 * Diameter;
     console.log("string = ", string)
 
@@ -241,7 +241,7 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
         let involutePoints = [];
         const circleDivision11 = circleDivisions1(midpoint, halfLength, 1);
 
-        let arcRadius1 = 0.87;//roundUpToOneoDecimalPlaces(Math.abs((BaseLineStartPoint.x - BaseLineEndPoint.x)) / 270);
+        let arcRadius1 = Math.abs((BaseLineStartPoint.x - BaseLineEndPoint.x) / 360);
         console.log(BaseLineStartPoint.x - BaseLineEndPoint.x);
         for (let i = 0; i < 360; i++) {
             console.log(arcRadius1 * (i));

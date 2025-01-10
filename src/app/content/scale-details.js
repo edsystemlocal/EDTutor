@@ -1,6 +1,6 @@
 export default function ScaleDetails({drawingType}) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full text-gray-700">
       {drawingType === "plainScale" && (
         <div>
  <b>➽ plainScale :</b>A plain scale consists of a line divided into suitable number of

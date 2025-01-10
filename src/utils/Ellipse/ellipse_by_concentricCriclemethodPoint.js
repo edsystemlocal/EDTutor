@@ -70,11 +70,9 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
     const { counter, inputs, finalDrawing } = payload;
 
     const startpoint = { x: 100, y: 400 };
-    const {
-        majorAxis,
-        minorAxis
 
-    } = inputs;
+    let majorAxis = Number(inputs["Major Axis"]) || 0;
+    let minorAxis = Number(inputs["Minor Axis"]) || 0;
     let values = {
         majorAxis,
         minorAxis

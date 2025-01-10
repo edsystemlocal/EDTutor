@@ -1,6 +1,6 @@
 export default function LineDetails({ drawingType }) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full text-gray-700">
       <div>
       <b> ➽ Line :</b> A straight line is the shortest distance between two points. Hence, the projections
         of a straight line may be drawn by joining the respective projections of its endswhich are points.<br />

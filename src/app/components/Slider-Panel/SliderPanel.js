@@ -64,8 +64,9 @@ const SliderPanel = () => {
                             id="dropdown"
                             value={selectedValue}
                             onChange={handleDropdownChange}
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-700 "
                         >
+                            <option value="theme_colorful">Theme Colorful</option>
                             <option value="theme_b_and_w">Theme_B_&_W</option>
                             <option value="theme_red">Theme Red</option>
                             <option value="classic_grayscale">Classic Grayscale</option>
@@ -75,7 +76,7 @@ const SliderPanel = () => {
                             <option value="sunny_days">Sunny Days</option>
                             <option value="modern_neutrals">Modern Neutrals</option>
                             <option value="purple_rain">Purple Rain</option>
-                            <option value="theme_colorful">Theme Colorful</option>
+                            
                         </select>
                     </div>
                     {selectedValue && (
@@ -107,7 +108,7 @@ const SliderPanel = () => {
 
             <button
                 onClick={toggleSlider}
-                className={`fixed top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-l ${
+                className={`fixed transform -translate-y-50  bg-gradient-to-r from-blue-300 to-green-200 p-2 rounded-l ${
                     isOpen ? "right-64" : "right-0"
                 }`}
             >

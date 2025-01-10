@@ -63,7 +63,7 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
     const { counter , inputs, finalDrawing } = payload;
     const startpoint = { x: startPoint.x, y: startPoint.y };
 
-    const {distanceofthefocusfromthedirectrix }= inputs
+    let distanceofthefocusfromthedirectrix = Number(inputs["Distance From focus To Directrix"]) || 0;
     let values ={ distanceofthefocusfromthedirectrix }
     const LineLengthfor_v = 3 * distanceofthefocusfromthedirectrix / 5;
     const LineLengthfor_e = distanceofthefocusfromthedirectrix - LineLengthfor_v;
@@ -122,15 +122,15 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
         }
     }
     if (counter === 3 || drawAll) {
+        sendToPoints.push(...drawParallelArrow(ab_LinePoints[0],{ x: startpoint.x + distanceofthefocusfromthedirectrix, y: startpoint.y - 100 },"Above","cf = "+distanceofthefocusfromthedirectrix));
         sendToPoints.push(...f_LinePoints, ...labeled_f_LinePoints); 
             if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 4 || drawAll) {
-        sendToPoints.push(...drawParallelArrow(ab_LinePoints[0],{ x: startpoint.x + distanceofthefocusfromthedirectrix, y: startpoint.y - 100 },"Above","cf = "+distanceofthefocusfromthedirectrix));
-        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y-50  },{ x: startpoint.x + LineLengthfor_v, y: startpoint.y -50},"Above","cv = "+LineLengthfor_v));
-        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x-50, y: startPoint.y }, { x: startPoint.x-50, y: startPoint.y - LineLengthfor_e }, "right","ve = "+LineLengthfor_e));
+        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y -50 },{ x: startpoint.x + LineLengthfor_v, y: startpoint.y -50},"Above","cv = "+LineLengthfor_v));
+        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x-50, y: startPoint.y }, { x: startPoint.x-50, y: startPoint.y -LineLengthfor_e }, "right","ve = "+LineLengthfor_e));
         sendToPoints.push( ...v_LinePoints, ...labeled_v_LinePoints,
             ...e_LinePoints, ...labeled_e_LinePoints); 
             if (finalDrawing) {

@@ -12,14 +12,16 @@ export default function EpicycloidDashboard({ drawingType }) {
 
 
   const inputs = {
- Diameter,
-   DirectingCircle
+    "Diameter":Diameter,
+    "Directing Circle":DirectingCircle
   };
 
   const inputStyle =
-    "w-16 p-2 m-1 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+  "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
+const selectInputStyle =
+  "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
+const labelStyle = "text-gray-700 font-bold px-10 ";
+const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
 
   if (isCanvas) {
     return (
@@ -31,46 +33,76 @@ export default function EpicycloidDashboard({ drawingType }) {
 
   return (
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
-      <main id="main-container" className="w-full p-6">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-3">
+      <main id="main-container" className="w-full p-2">
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-4 h-150">
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen"
+              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen  bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
             >
-              <div className="mb-6 text-center text-xl font-semibold text-blue-700">
+              <div className="mb-6 text-center text-xl font-semibold text-blue-700 ">
                 Drawing Type: {drawingType}
               </div>
               <div>
-                <label className="flex justify-between mb-3">
-                  <span className="text-gray-700">Diameter:</span>
-                  <input
-                    type="number"
-                    value={Diameter}
-                    onChange={(e) => setDiameter(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <label className="flex justify-between mb-3">
-                  <span className="text-gray-700">Directing Circle:</span>
-                  <input
-                    type="number"
-                    value={DirectingCircle}
-                    onChange={(e) => setDirectingCircle(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <button onClick={() => setIsCanvas(true)} className={buttonStyle}>
-                  Submit
-                </button>
+                <table className="table-auto w-full">
+                  <tbody>
+                    <tr>
+                      <td className="p-2">
+                        <span className={labelStyle}>Diameter:</span>
+                      </td>
+                      <td className="p-2">
+                        <input
+                          type="text"
+                          value={Diameter}
+                          onChange={(e) => setDiameter(Number(e.target.value))}
+                          className={inputStyle}
+                    />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                      <td className="p-2">
+                        <span className={labelStyle}>Directing Circle:</span>
+                      </td>
+                      <td className="p-2">
+                        <input
+                          type="text"
+                          value={DirectingCircle}
+                          onChange={(e) => setDirectingCircle(Number(e.target.value))}
+                          className={inputStyle}
+                    />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+                <div className="text-center">
+                  <button
+                    onClick={() => {
+                      console.log(inputs); // Log inputs for debugging
+                      setIsCanvas(true);
+                    }}
+                    className={buttonStyle}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </section>
           </div>
 
-          <div className="col-span-9">
+          <div className="col-span-8 h-150">
             <section
               id="ellipse-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll"
+              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200  h-screen shadow-lg bg-white h-screen overflow-scroll"
             >
               <CycloidDetails drawingType={drawingType} />
             </section>

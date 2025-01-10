@@ -1,6 +1,6 @@
 export default function ElipseDetails({ drawingType }) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full text-gray-700">
 
        <b>➽ Ellipse :</b>An ellipse is a smooth, oval-shaped curve that resembles a stretched circle. It has two fixed points called foci.
       For any point on the ellipse, the total distance to these two foci remains constant.  <br />

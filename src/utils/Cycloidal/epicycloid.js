@@ -21,7 +21,10 @@ export function epicycloidSteps(values) {
 export function epicycloidPoint(payload) {
     const { counter, inputs, finalDrawing } = payload;
     const startPoint = { x: 300, y: 400 };
-    const { Diameter, DirectingCircle } = inputs;
+    
+    let Diameter = Number(inputs["Diameter"]) || 0;
+    let DirectingCircle = Number(inputs["Directing Circle"]) || 0;
+
     let values = { Diameter, DirectingCircle }
     let r = Diameter / 2;
     // let R = DirectingCircle / 2;

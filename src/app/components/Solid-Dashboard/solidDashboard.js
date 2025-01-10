@@ -1,144 +1,131 @@
 "use client";
 import { useState } from "react";
-import Canvas from "../Canvas/canvas";
+import Canvas from "@/app/components/Canvas/canvas";
+import Navbar from "../Navbar/navbar";
+import ScaleDetails from "@/app/content/scale-details";
+import LineDetails from "../../content/line-details";
 import SolidDetails from "@/app/content/solid-details";
 
-export default function PlaneDashboard({ drawingType }) {
-  let [setDrawingType] = useState("solid");
-  const [isCanvas, setIsCanvas] = useState(false); // Default value
-
-  const [PlaneType, setPlaneType] = useState("Pentagone"); // Default value
+export default function SolidDashboard({ drawingType }) {
+  // State for variables
+    const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState(60);
+    const [firstPointAboveHP, setFirstPointAboveHP] = useState(40);
+    const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
+    const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
+    const [isCanvas, setIsCanvas] = useState(false);
   
-  const [PlaneSideLength, setPlaneSideLength] = useState(25); // Default value
- 
-  const [PlaneHPAngle, setPlaneHPAngle] = useState(30); // Default value
- 
-  const [PlaneVPAngle, setPlaneVPAngle] = useState(60); // Default value
-  const [PlanePosition1, setPlanePosition1] = useState("side"); // Default value
- 
-  const [PlanePosition2, setPlanePosition2] = useState("Parallel"); // Default value
-  const [PlanePosition3, setPlanePosition3] = useState("HP");
-
-  const inputs = {
-    "Plane Type": PlaneType,
-    "Side Length": PlaneSideLength,
-    "Plane Position":PlanePosition1,
-    "Plane in/parallel Postion":PlanePosition2,
-    "Plane HP/VP Postion":PlanePosition3,
-    "Incline With HP": PlaneHPAngle,
-    "Inclined With VP": PlaneVPAngle 
-  };
-
-  const inputStyle =
-    "w-16 p-2 m-1 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-
-  if (isCanvas) {
-    return (
-      <div className="flex flex-col w-full">
-        <Canvas inputs={inputs} drawingType={drawingType} />
-      </div>
-    );
+   // Inputs for Canvas with labels
+   const inputs = 
+   {
+    // "First Point Above HP": `${firstPointAboveHP} ${firstpointPositionHP}`,
+    // "First Point Front of VP": `${firstPointFrontOfVP} ${firstpointPositionVP}`,
+  
+  
+     "First Point Of HP": firstPointAboveHP,
+     "First Point Position HP": firstpointPositionHP,
+     "First Point Of VP": firstPointFrontOfVP,
+     "First Point Position VP": firstpointPositionVP,
+  
+   
   }
-
-  return (
-    <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
-      <main id="main-container" className="w-full p-6">
-        <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-3">
-            <section
-              id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen"
-            >
-              <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
-              </div>
-              <div>
-                <label className="block mb-3">
-                  <span className="text-gray-700">Plane Type:</span>
-                  <select
-                    value={PlaneType}
-                    onChange={(e) => setPlaneType(e.target.value)}
-                    className={inputStyle}
+    if (isCanvas) {
+      return (
+        <div className="flex flex-col w-full">
+          <Canvas inputs={inputs} drawingType={drawingType} />
+        </div>
+      );
+    }
+  
+    const inputStyle =
+      "w-12 p-2 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold";
+    const selectInputStyle =
+      "w-22 p-2 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold";
+    const labelStyle = "text-gray-700 font-bold px-10 ";
+    const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+  
+    return (
+      <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
+        <main id="main-container" className="w-full p-1">
+          <div className="grid grid-cols-12 gap-5">
+            {/* Input Form Section */}
+            <div className="col-span-4 h-150">
+              <section
+                id="input-container"
+                className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen"
+              >
+                <div className="mb-6 text-center text-xl font-semibold text-blue-700">
+                  Drawing Type: {drawingType}
+                </div>
+  
+                {/* Table for Input Alignment */}
+                <table className="w-full border-collapse border-spacing-2">
+                  <tbody>
+                    <tr>
+                      <td  className={labelStyle}>First Point Above HP:</td>
+                      <td>
+                        <input
+                          type="text"
+                          value={firstPointAboveHP}
+                          onChange={(e) => setFirstPointAboveHP(e.target.value)}
+                          className={inputStyle}
+                        />
+                      </td>
+                      <td>
+                        <select
+                          value={firstpointPositionHP}
+                          onChange={(e) => setfirstpointPositionHP(e.target.value)}
+                          className={selectInputStyle}
+                        >
+                          <option value="Above">Above</option>
+                          <option value="Below">Below</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td  className={labelStyle}>First Point Front of VP:</td>
+                      <td>
+                        <input
+                          type="text"
+                          value={firstPointFrontOfVP}
+                          onChange={(e) => setFirstPointFrontOfVP(e.target.value)}
+                          className={inputStyle}
+                        />
+                      </td>
+                      <td>
+                        <select
+                          value={firstpointPositionVP}
+                          onChange={(e) => setfirstpointPositionVP(e.target.value)}
+                          className={selectInputStyle}
+                        >
+                          <option value="Front">Front</option>
+                          <option value="Behind">Behind</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+  
+                <div className="text-center">
+                  <button
+                    onClick={() => {
+                      console.log(inputs); // Log inputs for debugging
+                      setIsCanvas(true);
+                    }}
+                    className={buttonStyle}
                   >
-                    <option value="Traingle">Triangle</option>
-                    <option value="Square">Square</option>
-                    <option value="Pentagone">Pentagon</option>
-                    <option value="Hexagone">Hexagon</option>
-                    <option value="Circle">Circle</option>
-                  </select>
-                </label>
-                <label className="block mb-3">
-                  <span className="text-gray-700">Side Length:</span>
-                  <input
-                    type="number"
-                    value={PlaneSideLength}
-                    onChange={(e) => setPlaneSideLength(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <label className="block mb-3">
-                  <span className="text-gray-700">Plane Position:</span>
-                  <div className="flex items-center">
-                    <select
-                      value={PlanePosition1}
-                      onChange={(e) => setPlanePosition1(e.target.value)}
-                      className={`${inputStyle} w-auto`}
-                    >
-                      <option value="Side">Side</option>
-                      <option value="Corner">Corner</option>
-                    </select>
-                    <select
-                      value={PlanePosition2}
-                      onChange={(e) => setPlanePosition2(e.target.value)}
-                      className={`${inputStyle} w-auto`}
-                    >
-                      <option value="in">In</option>
-                      <option value="Parallel">Parallel</option>
-                      <option value="Perpendicular">Perpendicular</option>
-                    </select>
-                    <select
-                      value={PlanePosition3}
-                      onChange={(e) => setPlanePosition3(e.target.value)}
-                      className={`${inputStyle} w-auto`}
-                    >
-                      <option value="HP">HP</option>
-                      <option value="VP">VP</option>
-                    </select>
-                  </div>
-                </label>
-                <label className="block mb-3">
-                  <span className="text-gray-700">Inclined With HP:</span>
-                  <input
-                    type="number"
-                    value={PlaneHPAngle}
-                    onChange={(e) => setPlaneHPAngle(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <label className="block mb-3">
-                  <span className="text-gray-700">Inclined With VP:</span>
-                  <input
-                    type="number"
-                    value={PlaneVPAngle}
-                    onChange={(e) => setPlaneVPAngle(Number(e.target.value))}
-                    className={inputStyle}
-                  />
-                </label>
-                <button onClick={() => setIsCanvas(true)} className={buttonStyle}>
-                  Submit
-                </button>
-              </div>
-            </section>
-          </div>
+                    Submit
+                  </button>
+                </div>
+              </section>
+            </div>
+  
+            <div className="col-span-8 h-150 ">
+              <section
+                id="point-details-container"
+                className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll"
+              >
+              <SolidDetails drawingType={drawingType} />
 
-          <div className="col-span-9">
-            <section
-              id="plane-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll"
-            >
-              <SolidDetails />
             </section>
           </div>
         </div>

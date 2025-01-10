@@ -46,7 +46,8 @@ export function ParabolaByTangentMethodSteps(values) {
 export function ParabolaByTangentMethod(payload) {
     const { counter, inputs , finalDrawing } = payload;
   
-    const { Base, Height } = inputs;
+    let Base = Number(inputs["Base"]) || 0;
+    let Height = Number(inputs["Height"]) || 0;
     let values ={
         Base,
         Height ,
@@ -324,7 +325,8 @@ export function ParabolaByRectangularMethod(payload) {
 
 
     const startPoint = { x: 50, y: 400 };
-    const {Base ,Height} = inputs;
+    let Base = Number(inputs["Base"]) || 0;
+    let Height = Number(inputs["Height"]) || 0;
     let values ={
         Base,
         Height ,
@@ -760,8 +762,10 @@ export function ParabolaByPARALLELOGRAMMethodSteps(values) {
 export function ParabolaByPARALLELOGRAMMethod(payload) {
     const { counter , inputs , finalDrawing} = payload;
     const startPoint = { x: 50, y: 400 };
-    const {Base ,Height ,angleInDegrees } = inputs;
-
+    let Base = Number(inputs["Base"]) || 0;
+    let Height = Number(inputs["Height"]) || 0;
+    let angleInDegrees = Number(inputs["Angle (Degrees)"]) || 0;
+    
     let values ={
         Base,
         Height ,

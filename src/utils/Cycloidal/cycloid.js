@@ -1,5 +1,8 @@
 
 
+
+
+
 import { generateFullCircle } from "../Ellipse/ellipse_by_concentricCriclemethodPoint";
 import { calculateAngle, calculateAngledLinePoints , calculateArcPoints, calculateArcRadius, calculateBase, calculateLabel, calculateLinePointsWithCircles, defineSteps, getCirclePoints } from "../functionHelper";
 import { darkPencil, lightPencil, numPoints } from "../globalVariable";
@@ -31,7 +34,7 @@ export function cycloidSteps(values) {
 export function cycloidPoint(payload) {
     const { counter, inputs, finalDrawing } = payload;
     const startPoint = { x: 100, y: 400 };
-    const { Diameter } = inputs;
+    let Diameter = Number(inputs["Diameter"]) || 0;
     let values = { Diameter }
 
     const Diameter_LineEndPoint = { x: startPoint.x + Diameter, y: startPoint.y };
@@ -82,13 +85,16 @@ export function cycloidPoint(payload) {
 
         const xMajor = midpoint.x + major_half * Math.cos(angle);
         const yMajor = midpoint.y + major_half * Math.sin(angle);
-        divisionPoints.push({ x: xMajor, y: yMajor });         
+        divisionPoints.push({ x: xMajor, y: yMajor });
+          
     }
     // Create horizontal lines parallel to the baseline
     const horizontalLines = [];
     const baseLineLength = BaseLineEndPoint.x - p_Point.x; // Calculate baseline length
 
-    divisionPoints.forEach((point) => {
+//     // Iterate over the last 5 division points
+const lastFivePoints = divisionPoints.slice(-5); // Get the last 5 points
+divisionPoints.forEach((point) => {
         // Calculate the horizontal line start and end points
         const horizontalLineStart = { x: point.x, y: point.y };
         const horizontalLineEnd = { x: point.x + baseLineLength, y: point.y }; // Extend parallel to the baseline
@@ -176,8 +182,15 @@ export function cycloidPoint(payload) {
             const verticalLine = calculateLinePointsWithCircles(divisionPoints[i], divisionPoints[i + 6], lightPencil);
             const Circlelabel_labelstartpoint = calculateLabel(divisionPoints[i], `${i + 1}`, "up");
             const Circlelabel_labelendpoint=calculateLabel(divisionPoints[i + 6], `${i + 7}`, "up");
-            verticalLines.push(...verticalLine, ...lightPencil,...Circlelabel_labelstartpoint,...Circlelabel_labelendpoint);
+            verticalLines.push(...verticalLine, ...lightPencil
+                ,...Circlelabel_labelstartpoint,...Circlelabel_labelendpoint
+            );
+            
         }
+        // for (let i = 0; i < 12; i++) {
+        //     const labelPointsCircle = calculateLabel(divisionPoints[i], i + 1, "up"); // Position label above the point
+        //     sendToPoints.push(...labelPointsCircle);
+        // }
         sendToPoints.push(
             ...verticalLines,
             ...lightPencil,
@@ -267,7 +280,6 @@ export function cycloidPoint(payload) {
             ...calculateArcPoints(cycloidCenterPoint[9], {x: cycloidCenterPoint[9].x + x10, y: divisionPoints[2].y}),
             ...calculateArcPoints(cycloidCenterPoint[10], {x: cycloidCenterPoint[10].x + x11, y: divisionPoints[1].y}),
             ...calculateArcPoints(cycloidCenterPoint[11], {x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y}),
-
 
 
 
