@@ -1,6 +1,5 @@
-
-import { calculateLabel, calculateLinePointsWithCircles, defineSteps, drawParallelArrow, drawPerpendicularArrow, drawPointWithArrow, drawXYaxis, getCirclePoints } from "../functionHelper";
-import { lightPencil, startPoint, superDarkPencil } from "../globalVariable";
+import {  defineSteps, drawPointWithArrow, drawXYaxis } from "../functionHelper";
+import { lightPencil, startPoint } from "../globalVariable";
 
 export function PointExercisSteps() {
   return {
@@ -18,13 +17,13 @@ export function PointExercisSteps() {
 }
 
 export function PointExercises(payload) {
-  const { counter, finalDrawing, inputs } = payload;
+  const { counter, finalDrawing, inputs } = payload;  
 
   // Convert to Number and apply default
-  let firstPointFrontOfVP = Number(inputs["First Point Front of VP"]) || 0;
-  let firstPointAboveHP = Number(inputs["First Point Above HP"]) || 0;
-  let firstPointFrontOfVPPosition = inputs["First Point Position VP"]; 
-  let firstPointAboveHPPosition = inputs["First Point Position HP"];
+  let firstPointAboveHP = Number(inputs["First Point Of HP"]) || 0;
+  let firstPointFrontOfVP = Number(inputs["First Point Of VP"]) || 0;
+  let firstPointFrontOfVPPosition = inputs["First Point Position VP"]
+  let firstPointAboveHPPosition = inputs["First Point Position HP"]
 
   let zoom = 2;
   let updatedFirstPointFrontOfVP = firstPointFrontOfVP * zoom;
@@ -33,16 +32,16 @@ export function PointExercises(payload) {
   let pointStartPoint = { x: startPoint.x + 100, y: startPoint.y };
 
   let firstPointAboveHPPoint = pointStartPoint;
-  if (firstPointAboveHPPosition === "above") {
+  if (firstPointAboveHPPosition === "Above") {
     firstPointAboveHPPoint = { x: pointStartPoint.x, y: pointStartPoint.y - updatedFirstPointAboveHP };
-  } else if (firstPointAboveHPPosition === "below") {
+  } else if (firstPointAboveHPPosition === "Below") {
     firstPointAboveHPPoint = { x: pointStartPoint.x, y: pointStartPoint.y + updatedFirstPointAboveHP };
   }
 
   let firstPointFrontOfVPPoint = pointStartPoint;
-  if (firstPointFrontOfVPPosition === "front") {
+  if (firstPointFrontOfVPPosition === "Front") {
     firstPointFrontOfVPPoint = { x: pointStartPoint.x, y: pointStartPoint.y + updatedFirstPointFrontOfVP };
-  } else if (firstPointFrontOfVPPosition === "behind") {
+  } else if (firstPointFrontOfVPPosition === "Behind") {
     firstPointFrontOfVPPoint = { x: pointStartPoint.x, y: pointStartPoint.y - updatedFirstPointFrontOfVP };
   }
 

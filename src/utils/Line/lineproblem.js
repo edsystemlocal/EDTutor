@@ -287,7 +287,7 @@ export function getLineProblemPoints(payload) {
 
 
     if (counter === 2) {
-      sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs.firstPointAboveHPLength), Number(inputs.firstpointfrontOfVPLength)));
+      sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs["First Point Above of HP"]),Number(inputs["First Point Front of VP"])));
     }
 
 

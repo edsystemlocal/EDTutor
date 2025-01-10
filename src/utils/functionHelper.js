@@ -556,14 +556,13 @@ export function calculateLinePointsWithCircles(startPoint, endPoint,pencil=darkP
       y: startPoint.y + i * yStep,
     }
     points.push(startPoint1);
-    //points.push(...pencil);
+    points.push(...pencil);
     
   }
-  points.push(...pencil);
   // Add circles at the start and end points
   const startCirclePoints = getCirclePoints(startPoint); // Circle with radius 1 at startPoint
   const endCirclePoints = getCirclePoints(endPoint); // Circle with radius 1 at endPoint
-  return [...startCirclePoints, ...points, ...endCirclePoints, ...lightPencil];
+  return [...startCirclePoints, ...darkPencil, ...points, ...endCirclePoints, ...darkPencil];
 }
 
 
@@ -626,8 +625,6 @@ export function GenerateFullCircle(center, radius) {
 
 
 // --------------------------------
-
-
 
 export function drawPerpendicularArrow(verticalStartPointUp, verticalEndPointUp, position, label) {
   let sendToPoints = [];
