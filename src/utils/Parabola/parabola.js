@@ -147,8 +147,8 @@ export function ParabolaByTangentMethod(payload) {
     }
     if (counter === 6|| drawAll) {
         // Draw points but exclude the first two and the last point
-        const allDotPoints1 = drawPoints(SecoundverticalLinePoints, 7, sendToPoints);
-        const dotPoints1 = allDotPoints1.slice(2, allDotPoints1.length - 1); // Exclude first 2 and last point
+        const allDotPoints1 = drawPoints(SecoundverticalLinePoints, 14, sendToPoints);
+        const dotPoints1 = allDotPoints1.slice(1, allDotPoints1.length); // Exclude first 2 and last point
     
         // Add labels to the remaining points
         dotPoints1.forEach((point, index) => {
@@ -164,8 +164,8 @@ export function ParabolaByTangentMethod(payload) {
     
     if (counter === 7|| drawAll) {
         // Draw points but exclude the first two and the last point
-        const allDotPoints2 = drawPoints(SecoundnewverticalLinePoints, 7, sendToPoints);
-        const dotPoints2 = allDotPoints2.slice(2, allDotPoints2.length - 1); // Exclude first 2 and last point
+        const allDotPoints2 = drawPoints(SecoundnewverticalLinePoints, 14, sendToPoints);
+        const dotPoints2 = allDotPoints2.slice(1, allDotPoints2.length); // Exclude first 2 and last point
     
         // Add labels to the remaining points
         dotPoints2.forEach((point, index) => {
@@ -181,8 +181,8 @@ export function ParabolaByTangentMethod(payload) {
     
 
     if (counter === 8|| drawAll) {
-        const dotPoints1 = drawPoints(SecoundverticalLinePoints, 7, sendToPoints);
-        const dotPoints2 = drawPoints(SecoundnewverticalLinePoints, 7, sendToPoints);
+        const dotPoints1 = drawPoints(SecoundverticalLinePoints, 14, sendToPoints);
+        const dotPoints2 = drawPoints(SecoundnewverticalLinePoints, 14, sendToPoints);
     
         // Ensure the number of points matches in both sets
         const totalDots = Math.min(dotPoints1.length, dotPoints2.length);
@@ -193,10 +193,58 @@ export function ParabolaByTangentMethod(payload) {
             const endDot = dotPoints2[i]; // Corresponding dot from the second vertical line (e.g., 1')
     
             // Draw a line between these two dots
-            const linePoints = calculateLinePointsWithCircles(startDot, endDot);
+            const linePoints = calculateLinePointsWithCircles(startDot, endDot, lightPencil);
             sendToPoints.push(...linePoints);
-            sendToPoints.push(...darkPencil);
+            sendToPoints.push(...lightPencil);
         }
+
+        // const secondnewaperpendicularalLinePoints2 = calculateLinePointsWithCircles2(
+        //     secondnewaperpendicularalLineStartPoint,
+        //     secondnewaperpendicularalLineSEndPoint
+        // );
+
+       
+    
+        if (finalDrawing) {
+            drawAll = true;
+        }
+    }
+
+    if (counter === 9|| drawAll) {
+        
+        const starttomidpointLinePoints = calculateLinePointsWithCircles2(
+            BaseLineStartPoint,
+            MidPoint
+        );
+
+        const newPerpendicularLinePointsPara = calculateLinePointsWithCircles2(
+            BaseLineStartPoint,
+            {x: BaseLineStartPoint.x, y: PerpendicularLineEndPoint.y}
+        );
+
+        const secondPerpendicularLinePointsPara = calculateLinePointsWithCircles2(
+            BaseLineEndPoint,
+            {x: BaseLineEndPoint.x, y: PerpendicularLineEndPoint.y}
+        );
+
+        const MidPointToEndPointPara = calculateLinePointsWithCircles2(
+            BaseLineEndPoint,
+            {x: MidPoint.x, y: BaseLineEndPoint.y}
+        );
+
+        
+        
+
+        sendToPoints.push(
+            ...getParabolaPoints(newPerpendicularLinePointsPara, PerpendicularLineEndPoint, starttomidpointLinePoints, BaseLineStartPoint),
+            ...darkPencil
+        );
+    
+            let eclipsePoints = getParabolaPoints(secondPerpendicularLinePointsPara, PerpendicularLineEndPoint, MidPointToEndPointPara, BaseLineEndPoint);
+            sendToPoints.push(
+                ...eclipsePoints.reverse(),
+                ...darkPencil
+            );
     
         if (finalDrawing) {
             drawAll = true;
@@ -454,8 +502,6 @@ export function ParabolaByRectangularMethod(payload) {
         if (finalDrawing) {
             drawAll = true;
         }
-
-
     }
 
     if (counter === 8 || drawAll) {
@@ -608,6 +654,7 @@ export function calculateParabolaLinePoints(startPoint, endPoint) {
   }
 
 export function getParabolaPoints(verticalPoints, PerpendicularLineEndPoint, horizontalPoints, BaseLineStartPoint){
+    console.log("verticalPoints: ", verticalPoints);
     let hyperbolaPoints = [];
     let startingPoint = verticalPoints[0];
 
@@ -635,11 +682,11 @@ export function hyperbolaPoints1(verticalPoint, horizontalPoint, BaseLineStartPo
 
     let hype = calculateHypotenuseWithAngle(firstPointHorizontalLength, angle1);
     let endPoint11 = calculateAngledLinePoints(verticalPoint, angle1, hype);
-    console.log("My Point: ", endPoint11);
-    console.log("verticalPoint: ", verticalPoint);
-    console.log("horizontalPoint: ", horizontalPoint);
-    console.log("BaseLineStartPoint: ", BaseLineStartPoint);
-    console.log("angle1: ", angle1);
+    // console.log("My Point: ", endPoint11);
+    // console.log("verticalPoint11: ", verticalPoint);
+    // console.log("horizontalPoint: ", horizontalPoint);
+    // console.log("BaseLineStartPoint: ", BaseLineStartPoint);
+    // console.log("angle1: ", angle1);
     return endPoint11;
 }
 

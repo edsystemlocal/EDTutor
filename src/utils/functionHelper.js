@@ -61,7 +61,7 @@ export function getCirclePoints(center, radius = 1) {
   ];
   // circlePoints.push(...darkPencil);
 
-  return [...circlePoints,...darkPencil];
+  return [...circlePoints];
 }
 // ---------------------------------------------------------------------------------------
 
@@ -125,8 +125,8 @@ export function calculateAngleInDegrees(startPoint, endPoint) {
 
 // Function to calculate the distance between two points
 export function calculateDistance(startPoint, endPoint) {
-  const dx = endPoint.x - startPoint.x;
-  const dy = endPoint.y - startPoint.y;
+  const dx = Math.abs(endPoint.x - startPoint.x);
+  const dy = Math.abs(endPoint.y - startPoint.y);
   return Math.sqrt(dx * dx + dy * dy);
 }
 
@@ -556,9 +556,10 @@ export function calculateLinePointsWithCircles(startPoint, endPoint,pencil=darkP
       y: startPoint.y + i * yStep,
     }
     points.push(startPoint1);
-    points.push(...pencil);
+    //points.push(...pencil);
     
   }
+  points.push(...pencil);
   // Add circles at the start and end points
   const startCirclePoints = getCirclePoints(startPoint); // Circle with radius 1 at startPoint
   const endCirclePoints = getCirclePoints(endPoint); // Circle with radius 1 at endPoint
@@ -671,10 +672,13 @@ export function drawPerpendicularArrow(verticalStartPointUp, verticalEndPointUp,
 
   let arrowLabel;
   if(position=="left"){
-    arrowLabel = calculateLabel({x: verticalStartPointUp.x -20, y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
+    arrowLabel = calculateLabel({x: verticalStartPointUp.x - 20, y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
     sendToPoints.push(...arrowLabel);
+  } else if(position=="right"){
+    arrowLabel = calculateLabel({x: verticalStartPointUp.x + 10 , y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
+    sendToPoints.push(...arrowLabel, ...lightPencil);
   } else {
-    arrowLabel = calculateLabel({x: verticalStartPointUp.x + 5 , y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, position);
+    arrowLabel = calculateLabel({x: verticalStartPointUp.x, y: verticalStartPointUp.y-((verticalStartPointUp.y - verticalEndPointUp.y)/2)} ,label, "right");
     sendToPoints.push(...arrowLabel, ...lightPencil);
   }
  

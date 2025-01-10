@@ -21,8 +21,8 @@ export function PointExercises(payload) {
   const { counter, finalDrawing, inputs } = payload;
 
   // Convert to Number and apply default
-  let firstPointFrontOfVP = Number(inputs["First Point Above HP"]) || 0;
-  let firstPointAboveHP = Number(inputs["First Point Front of VP"]) || 0;
+  let firstPointFrontOfVP = Number(inputs["First Point Front of VP"]) || 0;
+  let firstPointAboveHP = Number(inputs["First Point Above HP"]) || 0;
   let firstPointFrontOfVPPosition = inputs["First Point Position VP"]; 
   let firstPointAboveHPPosition = inputs["First Point Position HP"];
 

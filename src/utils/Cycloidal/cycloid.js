@@ -1,7 +1,7 @@
 
 
 import { generateFullCircle } from "../Ellipse/ellipse_by_concentricCriclemethodPoint";
-import { calculateAngle, calculateAngledLinePoints , calculateArcRadius, calculateLabel, calculateLinePointsWithCircles, defineSteps, getCirclePoints } from "../functionHelper";
+import { calculateAngle, calculateAngledLinePoints , calculateArcPoints, calculateArcRadius, calculateBase, calculateLabel, calculateLinePointsWithCircles, defineSteps, getCirclePoints } from "../functionHelper";
 import { darkPencil, lightPencil, numPoints } from "../globalVariable";
 import { drawParallelLine } from "../Scale/Scale";
 export function cycloidSteps(values) {
@@ -82,8 +82,7 @@ export function cycloidPoint(payload) {
 
         const xMajor = midpoint.x + major_half * Math.cos(angle);
         const yMajor = midpoint.y + major_half * Math.sin(angle);
-        divisionPoints.push({ x: xMajor, y: yMajor });
-          
+        divisionPoints.push({ x: xMajor, y: yMajor });         
     }
     // Create horizontal lines parallel to the baseline
     const horizontalLines = [];
@@ -108,6 +107,7 @@ export function cycloidPoint(payload) {
     const connectingLines = []; // Store lines connecting 1' to 1, 2' to 2, etc.
     const verticalLinesFrombaseline = []; // New array to store vertical lines
  
+    const cycloidCenterPoint = [];
 
     // Generate circles along the base line
     for (let i = 1; i < numCircles; i++) {
@@ -130,7 +130,6 @@ export function cycloidPoint(payload) {
         const inclinedPoint = circleCenters[i - 1]; // Corresponding 1', 2', ..., 12'
         if (inclinedPoint) {
             const linePoints = calculateLinePointsWithCircles(inclinedPoint, circleCenter, lightPencil);
-
             connectingLines.push(...linePoints, ...lightPencil);
         }
 
@@ -139,6 +138,7 @@ export function cycloidPoint(payload) {
         const verticalLineEnd = {
             x: circleCenter.x, y: circleCenter.y - (Diameter / 2)
         };
+        cycloidCenterPoint.push(verticalLineEnd);
         const verticalLinePoints = calculateLinePointsWithCircles(verticalLineStart, verticalLineEnd, lightPencil);
         const label_c = calculateLabel(verticalLineEnd, `c${i + 0}`, "down");
         verticalLinesFrombaseline.push(...verticalLinePoints, ...lightPencil, ...label_c, ...darkPencil);
@@ -150,14 +150,22 @@ export function cycloidPoint(payload) {
     if (counter === 1 || drawAll) {
         const majorCirclePoints = generateFullCircle(midpoint, major_half);
 
+        console.log("cycloidCenterPoint = ", cycloidCenterPoint[0]);
+        console.log("divisionPoints = ", divisionPoints[0]);
+        
+        
         sendToPoints.push(
             ...Diameter_LinePoints,
             ...darkPencil,
             ...majorCirclePoints,
             ...darkPencil,
             ...labelmid,
-            ...darkPencil
+            ...darkPencil,
+            
         );
+
+
+
         if (finalDrawing) {
             drawAll = true;
         }
@@ -232,11 +240,66 @@ export function cycloidPoint(payload) {
             drawAll = true; // Ensure no unintended infinite loop
         }
     }
+
+    if(counter === 7 || drawAll){
+        let x1 = calculateBase(Diameter/2, cycloidCenterPoint[0].y -  divisionPoints[11].y);
+        let x2 = calculateBase(Diameter/2, cycloidCenterPoint[1].y -  divisionPoints[10].y);
+        let x3 = calculateBase(Diameter/2, cycloidCenterPoint[2].y -  divisionPoints[9].y);
+        let x4 = calculateBase(Diameter/2, cycloidCenterPoint[3].y -  divisionPoints[8].y);
+        let x5 = calculateBase(Diameter/2, cycloidCenterPoint[4].y -  divisionPoints[7].y);
+        let x6 = calculateBase(Diameter/2, cycloidCenterPoint[5].y -  divisionPoints[6].y);
+        let x7 = calculateBase(Diameter/2, cycloidCenterPoint[6].y -  divisionPoints[5].y);
+        let x8 = calculateBase(Diameter/2, cycloidCenterPoint[7].y -  divisionPoints[4].y);
+        let x9 = calculateBase(Diameter/2, cycloidCenterPoint[8].y -  divisionPoints[3].y);
+        let x10 = calculateBase(Diameter/2, cycloidCenterPoint[9].y -  divisionPoints[2].y);
+        let x11 = calculateBase(Diameter/2, cycloidCenterPoint[10].y -  divisionPoints[1].y);
+        let x12 = calculateBase(Diameter/2, cycloidCenterPoint[11].y -  divisionPoints[0].y);
+        sendToPoints.push(
+            ...calculateArcPoints(cycloidCenterPoint[0], {x: cycloidCenterPoint[0].x - x1, y: divisionPoints[11].y}),
+            ...calculateArcPoints(cycloidCenterPoint[1], {x: cycloidCenterPoint[1].x - x2, y: divisionPoints[10].y}),
+            ...calculateArcPoints(cycloidCenterPoint[2], {x: cycloidCenterPoint[2].x - x3, y: divisionPoints[9].y}),
+            ...calculateArcPoints(cycloidCenterPoint[3], {x: cycloidCenterPoint[3].x - x4, y: divisionPoints[8].y}),
+            ...calculateArcPoints(cycloidCenterPoint[4], {x: cycloidCenterPoint[4].x - x5, y: divisionPoints[7].y}),
+            ...calculateArcPoints(cycloidCenterPoint[5], {x: cycloidCenterPoint[5].x - x6, y: divisionPoints[6].y}),
+            ...calculateArcPoints(cycloidCenterPoint[6], {x: cycloidCenterPoint[6].x + x7, y: divisionPoints[5].y}),
+            ...calculateArcPoints(cycloidCenterPoint[7], {x: cycloidCenterPoint[7].x + x8, y: divisionPoints[4].y}),
+            ...calculateArcPoints(cycloidCenterPoint[8], {x: cycloidCenterPoint[8].x + x9, y: divisionPoints[3].y}),
+            ...calculateArcPoints(cycloidCenterPoint[9], {x: cycloidCenterPoint[9].x + x10, y: divisionPoints[2].y}),
+            ...calculateArcPoints(cycloidCenterPoint[10], {x: cycloidCenterPoint[10].x + x11, y: divisionPoints[1].y}),
+            ...calculateArcPoints(cycloidCenterPoint[11], {x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y}),
+
+
+
+
+            ...calculateLinePointsWithCircles(p_Point, {x: cycloidCenterPoint[0].x - x1, y: divisionPoints[11].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[0].x - x1, y: divisionPoints[11].y}, {x: cycloidCenterPoint[1].x - x2, y: divisionPoints[10].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[1].x - x2, y: divisionPoints[10].y}, {x: cycloidCenterPoint[2].x - x3, y: divisionPoints[9].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[2].x - x3, y: divisionPoints[9].y}, {x: cycloidCenterPoint[3].x - x4, y: divisionPoints[8].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[3].x - x4, y: divisionPoints[8].y}, {x: cycloidCenterPoint[4].x - x5, y: divisionPoints[7].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[4].x - x5, y: divisionPoints[7].y}, {x: cycloidCenterPoint[5].x - x6, y: divisionPoints[6].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[5].x - x6, y: divisionPoints[6].y}, {x: cycloidCenterPoint[6].x + x7, y: divisionPoints[5].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[6].x + x7, y: divisionPoints[5].y}, {x: cycloidCenterPoint[7].x + x8, y: divisionPoints[4].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[7].x + x8, y: divisionPoints[4].y}, {x: cycloidCenterPoint[8].x + x9, y: divisionPoints[3].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[8].x + x9, y: divisionPoints[3].y}, {x: cycloidCenterPoint[9].x + x10, y: divisionPoints[2].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[9].x + x10, y: divisionPoints[2].y}, {x: cycloidCenterPoint[10].x + x11, y: divisionPoints[1].y}),
+            ...calculateLinePointsWithCircles({x: cycloidCenterPoint[10].x + x11, y: divisionPoints[1].y}, {x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y})
+         
+
+        );
+
+        if (finalDrawing) {
+            drawAll = true; // Ensure no unintended infinite loop
+        }
+    }
     const steps = cycloidSteps(values); // Generate steps dynamically
     const step = drawAll
         ? Object.values(steps).map((s, index) => `Step ${index + 1}: ${s}`).join("\n")
         : steps[counter];
     return { points: sendToPoints, step }; // Return empty points and message for invalid counter
+}
+
+function calculateCycloidPoints(){
+
 }
 
 

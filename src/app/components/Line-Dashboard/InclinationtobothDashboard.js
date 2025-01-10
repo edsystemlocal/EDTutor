@@ -8,9 +8,9 @@ export default function InclinationtobothDashboard({ drawingType }) {
 
   const [LineLength, setLineLength] = useState(70);
   const [firstPointAboveHPLength, setFirstPointAboveHPLength] = useState(10);
-  const [firstpointPositionHP, setfirstpointPositionHP] = useState("");
+  const [firstpointPositionHP, setfirstpointPositionHP] = useState("above");
   const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState(15);
-  const [firstpointPositionVP, setfirstpointPositionVP] = useState("");
+  const [firstpointPositionVP, setfirstpointPositionVP] = useState("front");
   const [secondpointAboveHPLength, setSecondPointAboveHPLength] = useState(25);
   const [secondpointPositionHP, setsecondpointPositionHP] = useState("");
   const [secondpointFrontOfVPLength, setSecondPointFrontOfVPLength] = useState(40);
