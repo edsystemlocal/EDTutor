@@ -4,26 +4,23 @@ import Canvas from "../Canvas/canvas";
 import PlaneDetails from "@/app/content/plane-details";
 
 export default function PlaneDashboard({ drawingType }) {
-  let [setDrawingType] = useState("Plane");
-  const [isCanvas, setIsCanvas] = useState(false); // Default value
-  const [PlaneType, setPlaneType] = useState("Pentagone"); // Default value
-  const [PlaneSideLength, setPlaneSideLength] = useState(25); // Default value
-  const [PlaneHPAngle, setPlaneHPAngle] = useState(30); // Default value
-  const [PlaneVPAngle, setPlaneVPAngle] = useState(60); // Default value
-  const [PlanePosition1, setPlanePosition1] = useState("side"); // Default value
-  const [PlanePosition2, setPlanePosition2] = useState("Parallel"); // Default value
+  const [isCanvas, setIsCanvas] = useState(false);
+
+  const [PlaneType, setPlaneType] = useState("Pentagone");
+  const [PlaneSideLength, setPlaneSideLength] = useState(25);
+  const [PlaneHPAngle, setPlaneHPAngle] = useState(30);
+  const [PlaneVPAngle, setPlaneVPAngle] = useState(60);
+  const [PlanePosition1, setPlanePosition1] = useState("Side");
+  const [PlanePosition2, setPlanePosition2] = useState("Parallel");
   const [PlanePosition3, setPlanePosition3] = useState("HP");
 
   const inputs = {
     "Plane Type": PlaneType,
     "Side Length": PlaneSideLength,
-    "Plane Position":PlanePosition1,
-    "Plane in/parallel Postion":PlanePosition2,
-    "Plane HP/VP Postion":PlanePosition3,
+    "Plane Position": `${PlanePosition1} -> ${PlanePosition2} -> ${PlanePosition3}`,
     "Incline With HP": PlaneHPAngle,
-    "Inclined With VP": PlaneVPAngle 
+    "Inclined With VP": PlaneVPAngle,
   };
-
 
   const inputStyle =
   "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";

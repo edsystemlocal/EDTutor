@@ -3,7 +3,7 @@ import { useState } from "react";
 import Canvas from "../Canvas/canvas";
 import LineDetails from "@/app/content/line-details";
 
-export default function InclinationtobothDashboard({ drawingType }) {
+export default function MidpointDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
 
   const [LineLength, setLineLength] = useState(70);
@@ -15,13 +15,17 @@ export default function InclinationtobothDashboard({ drawingType }) {
   const [secondpointPositionHP, setsecondpointPositionHP] = useState("Above");
   const [secondpointFrontOfVPLength, setSecondPointFrontOfVPLength] = useState(40);
   const [secondpointPositionVP, setSecondpointPositionVP] = useState("Front");
+  
   const [InclinationToVP, setInclinationToVP] = useState("");
   const [InclinationToHP, setInclinationToHP] = useState("");
   const [topViewLength, settopViewLength] = useState("50");
   const [frontViewLength, setfrontViewLength] = useState("60");
   const [TopviewAngle, setTopviewAngle] = useState("");
   const [FrontviewAngle, setFrontviewAngle] = useState("");
-
+  const [MidpointHPLength, setMidpointHPLength] = useState("");
+  const [midpointPositionHP, setmidpointPositionHP] = useState("");
+  const [MidpointVPLength, setMidpointVPLength] = useState("");
+  const [midpointPositionVP, setmidpointPositionVP] = useState("");
 
 
   const inputs = {
@@ -40,6 +44,10 @@ export default function InclinationtobothDashboard({ drawingType }) {
     frontViewLength,
     TopviewAngle,
     FrontviewAngle,
+    MidpointHPLength,
+    midpointPositionHP,
+    MidpointVPLength,
+    midpointPositionVP,
 
     // "Line Length": LineLength,
     // "First Point Above of HP": firstPointAboveHPLength,
@@ -311,6 +319,58 @@ export default function InclinationtobothDashboard({ drawingType }) {
                   <tr>
                     <td colSpan="3">
                       <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={labelstyle}>Mid Point of HP Length:</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={MidpointHPLength}
+                        onChange={(e) => setMidpointHPLength(Number(e.target.value))}
+                        className={inputStyle}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={midpointPositionHP}
+                        onChange={(e) => setmidpointPositionHP(e.target.value)}
+                        className={selectStyle}
+                      >
+                        <option value="above">Above</option>
+                        <option value="below">Below</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={labelstyle}>Mid Point of VP Length:</td>
+                    <td>
+                      <input
+                        type="text"
+                        value={MidpointVPLength}
+                        onChange={(e) => setMidpointVPLength(Number(e.target.value))}
+                        className={inputStyle}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={midpointPositionVP}
+                        onChange={(e) => setmidpointPositionVP(e.target.value)}
+                        className={selectStyle}
+                      >
+                        <option value="front">Front</option>
+                        <option value="behind">Behind</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3 ">
+                      <hr/>
                     </td>
                   </tr>
                 </tbody>

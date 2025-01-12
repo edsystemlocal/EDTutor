@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import companyDetails from "../Company-Details/companyDetails";
 
 const menuItems = [
-  { label: "Home", path: "home" },
+
 
   {
     label: "General",
@@ -39,16 +39,6 @@ const menuItems = [
     label: "Lines",
     children: [
       { label: "Parallel to Both", path: "parallelToBoth" },
-
-      {
-        label: "Parallel with Inclination Line",
-        children: [
-          { label: "Parallel to HP & Inclination to VP", path: "parallelToHPAndInclinationToVP" },
-          { label: "Parallel to VP & Inclination to HP", path: "parallelToVPAndInclinationToHP" },
-        ],
-      },
-      { label: "InclinationToBoth", path: "inclinationToBoth" },
-
       {
         label: "Perpendicular Line",
         children: [
@@ -56,7 +46,19 @@ const menuItems = [
           { label: "Perpendicular to VP", path: "perpendicularToVP" },
         ],
       },
-     
+      {
+        label: "Parallel with Inclination Line",
+        children: [
+          { label: "Parallel to HP & Inclination to VP", path: "parallelToHPAndInclinationToVP" },
+          { label: "Parallel to VP & Inclination to HP", path: "parallelToVPAndInclinationToHP" },
+        ],
+      },
+
+      { label: "InclinationToBoth", path: "inclinationToBoth" },
+      { label: "MidPoint", path: "MidPoint" },
+
+    
+
     ],
   },
 
@@ -82,10 +84,10 @@ const menuItems = [
       {
         label: "Parabola",
         children: [
+          { label: "General Method", path: "parabolaGeneralMethod" },
           { label: "Tangent Method", path: "parabolaTangentMethod" },
           { label: "Rectangular Method", path: "parabolaRectangularMethod" },
           { label: "Parallelogram Method", path: "parabolaParallelogramMethod" },
-          { label: "General Method", path: "parabolaGeneralMethod" },
         ],
       },
       {
@@ -117,7 +119,7 @@ const menuItems = [
 
 
   {
-    label: "Exam Solutions",
+    label: "Exam Paper",
     children: [
       {
         label: "RGPV University",
@@ -143,7 +145,7 @@ const menuItems = [
   },
 
   {
-    label: "Exercise Solutions",
+    label: "Exercise",
     children: [
       { label: "Point Exercise", path: "PointExercise" },
       { label: "Line Exercise", path: "lineExercise" },
@@ -166,9 +168,9 @@ export default function Navbar({ resetDrawing }) {
     resetDrawing(path, label);
     console.log(label, "clicked");
     setHoveredParent(null);
-  setHoveredChild(null);
-  setHoveredSubChild(null);
-  setHoveredGrandChild(null);
+    setHoveredChild(null);
+    setHoveredSubChild(null);
+    setHoveredGrandChild(null);
 
   };
 
@@ -190,12 +192,12 @@ export default function Navbar({ resetDrawing }) {
               onMouseLeave={() => setHoveredParent(null)}
             >
               <div className="flex items-center space-x-2 ">
-<button
-  className="my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transform hover:scale-105 active:scale-95 hover:-translate-y-1 active:translate-y-1"
-  onClick={() => item.path && route(item.path, item.label)}
->
-  {item.label}
-</button>
+                <button
+                  className="my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transform hover:scale-105 active:scale-95 hover:-translate-y-1 active:translate-y-1"
+                  onClick={() => item.path && route(item.path, item.label)}
+                >
+                  {item.label}
+                </button>
 
                 {/* {item.children && (
                   <svg
@@ -225,7 +227,7 @@ export default function Navbar({ resetDrawing }) {
                       onMouseLeave={() => setHoveredChild(null)}
                     >
                       <button
-                        className="block w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-red-400 hover:scale-105 hover:underline"
+                        className="block  w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-red-400 hover:scale-105 hover:underline"
                         onClick={() => child.path && route(child.path, child.label)}
                       >
                         {child.label}

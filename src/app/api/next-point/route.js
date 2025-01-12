@@ -1,6 +1,6 @@
 
 import { getBisectLinePoints } from "@/utils/General/bisectLineHelper";
-import { getLineInclinedToBothPlanesPoints, getLineProblemPoints } from "@/utils/Line/lineproblem";
+import { getLineInclinedToBothPlanesPoints, getLineProblemPoints, projectionOfLine_1Points, projectionOfLine_2Points, projectionOfLine_3Points, projectionOfLine_4Points } from "@/utils/Line/lineproblem";
 
 import { PScale } from "@/utils/Scale/Scale";
 // import { getProblem_6_Points } from "@/utils/Line/lineproblem";
@@ -29,7 +29,7 @@ export async function POST(request, response) {
     let pointsToSend = null;
     let step = null;
 
-    // Select points based on the drawing type    
+    // Select points based on the drawing type
     if (drawingType === "plainScale") {
       ({ points: pointsToSend, step } = PScale(payload));
     } 
@@ -71,6 +71,12 @@ export async function POST(request, response) {
     }
     if (drawingType === "perpendicularToVP") {
       ({ points: pointsToSend, step } = getLineProblemPoints(payload));
+    }
+    if (drawingType === "projectionOfLine_3") {
+      ({ points: pointsToSend, step } = projectionOfLine_3Points(payload));
+    }
+    if (drawingType === "projectionOfLine_4") {
+      ({ points: pointsToSend, step } = projectionOfLine_4Points(payload));
     }
     if (drawingType === "ellipseGeneralMethod") {
       ({ points: pointsToSend, step } = ellipse_by_generalmethodPoint(payload));

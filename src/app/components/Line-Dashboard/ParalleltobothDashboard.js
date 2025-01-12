@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Canvas from "@/app/components/Canvas/canvas";
+import Canvas from "../Canvas/canvas";
 import LineDetails from "../../content/line-details";
 
 export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
@@ -9,6 +9,8 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
   const [LineLength, setLineLength] = useState(100);
   const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState(25);
   const [firstPointAboveHPLength, setFirstPointAboveHPLength] = useState(40);
+  const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
+  const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
 
   const inputs = {
     // LineLength,
@@ -18,7 +20,8 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
     "Line Length": LineLength,
     "First Point Above of HP": firstPointAboveHPLength,
     "First Point Front of VP": firstpointfrontOfVPLength,
-   
+    "First Point Position HP ":firstpointPositionHP,
+    "First point Position VP": firstpointPositionVP,
   };
 
 
@@ -27,6 +30,8 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
   const buttonStyle =
     "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
  const labelstyle ="px-10 font-bold ";
+ const selectStyle =
+ "w-22 p-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -75,7 +80,17 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
                         className={inputStyle}
                       />
                     </td>
-                   
+                    <td>
+                      <select
+                        value={firstpointPositionHP}
+                        onChange={(e) => setfirstpointPositionHP(e.target.value)}
+                        className={selectStyle}
+                      >
+                        <option  value="above">Above</option>
+                        <option value="below">Below</option>
+
+                      </select>
+                    </td>
                   </tr>
                   <tr>
                     <td colSpan="3">
@@ -91,7 +106,17 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
                         onChange={(e) => setFirstPointFrontOfVPLength(e.target.value)}
                         className={inputStyle}
                       />
-                    </td>              
+                    </td> 
+                    <td>
+                      <select
+                        value={firstpointPositionVP}
+                        onChange={(e) => setfirstpointPositionVP(e.target.value)}
+                        className={selectStyle}
+                      >
+                        <option value="front">Front</option>
+                        <option value="behind">Behind</option>
+                      </select>
+                    </td>             
                   </tr>
                   <tr>
                     <td colSpan="3">

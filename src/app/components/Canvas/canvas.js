@@ -528,6 +528,96 @@ export default function Canvas({ inputs, drawingType }) {
 
   };
 
+  function getDisplayValueOfType(drawingType){
+    if (drawingType === "plainScale") {
+          return "Plain Scale"
+        } 
+    if (drawingType === "plane") {
+      return "Plain"
+    } 
+        if (drawingType === "bisectLine") {
+          return "Bisect Line"
+        }
+        if (drawingType === "point") {
+          return "Point"
+        }
+        if (drawingType === "parallelToHP") {
+          return "Parallel To HP"
+        }
+        if (drawingType === "parallelToVP") {
+          return "Parallel To VP"
+        }
+        if (drawingType === "parallelToBoth") {
+          return "Parallel To Both"
+        }
+        if (drawingType === "parallelToHPAndInclinationToVP") {
+          return "Parallel To HP And Inclination To VP"
+        }
+        if (drawingType === "parallelToVPAndInclinationToHP") {
+          return "Parallel To VP And Inclination To HP"
+        }
+        if (drawingType === "inclinationToBoth") {
+          return "Inclination To Both"
+        }
+        if (drawingType === "perpendicularToHP") {
+          return "Perpendicular To HP"
+        }
+        if (drawingType === "perpendicularToVP") {
+          return "Perpendicular To VP"
+        }
+        if (drawingType === "projectionOfLine_3") {
+          return "Projection Of Line 3"
+        }
+        if (drawingType === "projectionOfLine_4") {
+          return "Projection Of Line 4"
+        }
+        if (drawingType === "ellipseGeneralMethod") {
+          return "Ellipse General Method"
+        }
+        if (drawingType === "ellipseConcentricCircleMethod") {
+          return "Ellipse Concentric Circle Method"
+        }
+        if (drawingType === "parabolaTangentMethod") {
+          return "Parabola Tangent Method"
+        }
+        if (drawingType === "parabolaRectangularMethod") {
+          return "Parabola Rectangular Method"
+        }
+        if (drawingType === "parabolaParallelogramMethod") {
+          return "Parabola Parallelogram Method"
+        }  
+        if (drawingType === "parabolaGeneralMethod") {
+          return "Parabola General Method"
+        }
+        if (drawingType === "hyperbolaGeneralMethod") {
+          return "Hyperbola General Method"
+        }
+        if (drawingType === "solid") {
+          return "Solid"
+        }
+    
+        if (drawingType === "cycloid") {
+          return "Cycloid"
+        }
+        if (drawingType === "hypocycloid") {
+          return "Hypocycloid"
+        }
+        if (drawingType === "epicycloid") {
+          return "Epicycloid"
+        }
+        if (drawingType === "Involute") {
+          return "Involute"
+        }
+        if (drawingType === "scaleOfChords") {
+          return "Scale Of Chords"
+        }
+        if (drawingType === "angleInScaleOfChords") {
+          return "Angle In Scale Of Chords"
+        }
+        
+        return "";
+  }
+
   return (
     <main
       id="drawing-container"
@@ -539,11 +629,11 @@ export default function Canvas({ inputs, drawingType }) {
           {/* Drawing Type Section */}
           <section
             id="print-input-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto"
+            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto bg-gradient-to-r from-blue-50 to-blue-200 "
             style={{ height: "30%" }}
           >
-            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700">
-              Drawing Type: {drawingType}
+            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700 ">
+              Drawing Type: {getDisplayValueOfType(drawingType)}
             </div>
             <div className="w-full flex items-center justify-center">
               <table className="">
@@ -562,7 +652,7 @@ export default function Canvas({ inputs, drawingType }) {
           {/* Button Section */}
           <section
             id="button-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded p-4 w-full grid grid-cols-3 gap-4"
+            className="border-2 border-blue-300 bg-white shadow-lg rounded p-4 w-full grid grid-cols-3 gap-4 "
             style={{ height: "15%" }}
           >
             {/* Clear Button */}
@@ -644,7 +734,7 @@ export default function Canvas({ inputs, drawingType }) {
           {/* Steps Section */}
           <section
             id="print-steps-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded p-4 w-full overflow-auto whitespace-pre-wrap"
+            className="border-2 border-blue-300 bg-white shadow-lg rounded p-4 w-full overflow-auto whitespace-pre-wrap bg-gradient-to-r from-blue-50 to-blue-200 "
             style={{ height: "55%" }}
             ref={stepsContainerRef}
           >
@@ -659,7 +749,7 @@ export default function Canvas({ inputs, drawingType }) {
         <div className="col-span-8"> {/* Adjusted to col-span-8 */}
           <section
             id="canvas-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded flex items-center justify-center w-full h-136"
+            className="border-2 border-blue-300 bg-white shadow-lg rounded flex items-center justify-center w-full h-136 bg-yellow-100 "
           >
             <canvas ref={canvasRef} className="rounded-lg" />
           </section>
