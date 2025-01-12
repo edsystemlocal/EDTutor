@@ -717,7 +717,7 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
     ...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - 20} ,label, position )
+    ...calculateLabel({x: adjustedStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: adjustedStartPointUp.y} , label, position )
   );
   
   
