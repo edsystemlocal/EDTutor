@@ -313,6 +313,7 @@ export function calculateLabel(point, label, alignment) {
       labelY -= 10; // Adjust Y upwards
       break;
     case "down":
+      console.log("label is going down");
       labelY += 20; // Adjust Y downwards
       break;
     case "left":
@@ -717,7 +718,7 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
     ...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - 20} ,label, position )
+    ...calculateLabel({x: adjustedStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: adjustedStartPointUp.y} , label, position )
   );
   
   

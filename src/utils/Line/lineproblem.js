@@ -1,4 +1,4 @@
-import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDashLinePoints, calculateDistance, calculateHeight, calculateHypotenuse, calculateHypotenuseWithAngle, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawPerpendicularArrow, drawPointWithArrow, drawQuarterCircle, drawXYaxis, getCirclePoints } from "@/utils/functionHelper";
+import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDashLinePoints, calculateDistance, calculateHeight, calculateHypotenuse, calculateHypotenuseWithAngle, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawParallelArrow, drawPerpendicularArrow, drawPointWithArrow, drawQuarterCircle, drawXYaxis, getCirclePoints } from "@/utils/functionHelper";
 import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalVariable";
 import { anglepoint } from "../Scale/ScaleMethod";
 
@@ -291,21 +291,24 @@ export function getLineProblemPoints(payload) {
       let labelparallelLinePoints = "";
 
       if (drawingType === "parallelToVPAndInclinationToHP" || drawingType === "perpendicularToVP") {
+        sendToPoints.push(...drawParallelArrow(firstPointFrontVP, secondPointFrontVP, "down", (Math.abs(secondPointFrontVP.x - firstPointFrontVP.x))/zoom));
         parallelLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil,);
-        labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b'", "right");
+        labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
       } else if (drawingType === "parallelToHPAndInclinationToVP" || drawingType === "perpendicularToHP") {
+        sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
         parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);
         labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "right");
       } else if (drawingType === "parallelToBoth") {
+        sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
         parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);
         labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "right");
       }
 
 
-      sendToPoints = [
+      sendToPoints.push(
         ...parallelLinePoints,
         ...labelparallelLinePoints
-      ];
+      );
     }
 
 
@@ -328,6 +331,7 @@ export function getLineProblemPoints(payload) {
           verticalLinePoints = calculateLinePointsWithCircles(secondPointAboveHP, secondPointFrontVP, lightPencil);
           labelverticalLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
         } else if (drawingType === "parallelToBoth") {
+          sendToPoints.push(...drawParallelArrow(firstPointFrontVP, secondPointFrontVP, "down", (Math.abs(firstPointFrontVP.x - secondPointFrontVP.x))/zoom));
           console.log("parallelToBoth firstPointFrontVP: ", firstPointFrontVP);
           console.log("parallelToBoth secondPointFrontVP: ", secondPointFrontVP);
           //parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP);
@@ -336,10 +340,10 @@ export function getLineProblemPoints(payload) {
           labelverticalLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
         }
 
-        sendToPoints = [
+        sendToPoints.push(
           ...verticalLinePoints,
           ...labelverticalLinePoints
-        ];
+        );
       }
     }
     if (
@@ -352,7 +356,7 @@ export function getLineProblemPoints(payload) {
         let angleDraw;
         if (drawingType === "parallelToVPAndInclinationToHP") {
           calculatedAngle = calculateAngleInDegrees(firstPointAboveHP, secondPointAboveHP);
-          if(calculatedAngle>0){
+          if(Math.abs(calculatedAngle)>0){
             sendToPoints.push(...drawTheta(firstPointAboveHP, calculatedAngle, secondPointFrontVP));
           }
           inclinedLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);

@@ -9,6 +9,21 @@ import LineDetails from "../../content/line-details";
 export default function ScaleDashboard({ drawingType }) {
   // const [drawingType, setDrawingType] = useState("scale");
   const [isCanvas, setIsCanvas] = useState(false); // Default value
+  const [RF1, setRF1] = useState(1);
+  const [RF2, setRF2] = useState();
+  const [RealLength, setRealLength] = useState();
+  const [RealUnit, setRealUnit] = useState();
+  const [DrawingLength, setDrawingLength] = useState();
+  const [DrawingUnit, setDrawingUnit] = useState();
+
+  const inputStyle =
+  "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
+const selectInputStyle =
+  "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
+const labelStyle = "text-gray-700 font-bold px-8 ";
+const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+
+
 
   const [ScaleMaximumLength, setScaleMaximumLength] = useState(8); // Default value
   const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState("km"); // Default value
@@ -18,6 +33,12 @@ export default function ScaleDashboard({ drawingType }) {
   const [ScaleShowUnit2, setScaleShowUnit2] = useState("hm"); // Default value
 
   const inputs2 = {
+    RF1,
+    RF2,
+    RealLength,
+    RealUnit,
+    DrawingLength,
+    DrawingUnit,
     ScaleMaximumLength,
     ScaleMaximumLengthUnit,
     ScaleShowLength1,
@@ -26,7 +47,15 @@ export default function ScaleDashboard({ drawingType }) {
     ScaleShowUnit2,
   };
 
+  
+
   const inputs = {
+   "RF" :RF1,
+    ":":RF2,
+    "Actual Length":RealLength,
+    "Actual Length Unit":RealUnit,
+   "Drawing Length": DrawingLength,
+   "Drawing Length Unit" :DrawingUnit,
     "Maximum Length": ScaleMaximumLength,
     "Maximum Length Unit": ScaleMaximumLengthUnit,
     "Show Length1": ScaleShowLength1,
@@ -58,13 +87,9 @@ export default function ScaleDashboard({ drawingType }) {
       </div>
     );
   }
-  const inputStyle =
-  "w-16 p-2 m-1 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-
+  
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
 
       <main id="main-container" className="w-full p-1">
         <div className="grid grid-cols-12 gap-1">
@@ -77,9 +102,143 @@ export default function ScaleDashboard({ drawingType }) {
                 Drawing Type : {drawingType}
               </div>
 
-              <div className="w-full flex items-center justify-center pb-4">
+              <div className="w-full flex items-center justify-center pb-3">
                 <div >
                   <div className="flex justify-between">
+                  <label className="labelStyle">
+                      RF:{" "}
+                      <input
+                        type="number"
+                        value={RF1}
+                        onChange={(e) =>
+                          setRF1(Number(e.target.value))
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                        className={inputStyle}
+                      />
+                    </label>
+                    <label className="labelStyle">
+                      :{" "}
+                      <input
+                        type="number"
+                        value={RF2}
+                        onChange={(e) =>
+                          setRF2(Number(e.target.value))
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                        className={inputStyle}
+                      />
+                    </label>
+                    </div>
+                    <br />
+
+                    <div className="flex justify-between">
+                    <label className="flex justify-between">
+                      Drawing Length:{""}
+                      <input
+                        type="number"
+                        value={DrawingLength}
+                        onChange={(e) =>
+                          setDrawingLength(Number(e.target.value))
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                        className={inputStyle}
+                      />
+                    </label>
+                    <label className="flex justify-between">
+                     
+                      {/* <input
+                        type="string"
+                        value={ScaleMaximumLengthUnit}
+                        onChange={(e) =>
+                          setScaleMaximumLengthUnit(e.target.value)
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                         className={inputStyle}
+                      /> */}
+
+                      <select
+                        value={DrawingUnit}
+                        onChange={(e) => setDrawingUnit(e.target.value)}
+                        className={selectInputStyle}>
+                          <option value="select">unit</option>
+                       <option value="km">km</option>
+                        <option value="hm">hm</option>
+                        <option value="dm">dm</option>
+                        <option value="m">m</option>
+                        <option value="dcm">dcm</option>
+                        <option value="cm">cm</option>
+                        <option value="mm">mm</option>
+                        <option value="yard">yard</option>
+                        <option value="ft">ft</option>
+                        <option value="inch">inch</option>
+                        <option value="hh">hh</option>
+                        <option value="min">min</option>
+                        <option value="sec">sec</option>
+                      </select>
+
+
+                    </label>
+                  </div>
+
+                  <br />
+
+
+                  <div className="flex justify-between">
+                    <label className="flex justify-between">
+                      Actual Length:{""}
+                      <input
+                        type="number"
+                        value={RealLength}
+                        onChange={(e) =>
+                          setRealLength(Number(e.target.value))
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                        className={inputStyle}
+                      />
+                    </label>
+                    <label className="flex justify-between">
+                      Unit:{" "}
+                      {/* <input
+                        type="string"
+                        value={ScaleMaximumLengthUnit}
+                        onChange={(e) =>
+                          setScaleMaximumLengthUnit(e.target.value)
+                        }
+                        // className="w-14 p-1 m-1 border border-black"
+                         className={inputStyle}
+                      /> */}
+
+                      <select
+                        value={RealUnit}
+                        onChange={(e) => setRealUnit(e.target.value)}
+                        className={selectInputStyle}>
+                        <option value="km">km</option>
+                        <option value="hm">hm</option>
+                        <option value="dm">dm</option>
+                        <option value="m">m</option>
+                        <option value="dcm">dcm</option>
+                        <option value="cm">cm</option>
+                        <option value="mm">mm</option>
+                        <option value="yard">yard</option>
+                        <option value="ft">ft</option>
+                        <option value="inch">inch</option>
+                        <option value="hh">hh</option>
+                        <option value="min">min</option>
+                        <option value="sec">sec</option>
+                      </select>
+
+
+                    </label>
+                  </div>
+
+                  <br />
+
+                      
+                  
+
+
+                    <div className="flex justify-between">
                     <label className="flex justify-between">
                       Maximum Length:{" "}
                       <input
@@ -94,7 +253,7 @@ export default function ScaleDashboard({ drawingType }) {
                     </label>
                     <label className="flex justify-between">
                       Unit:{" "}
-                      <input
+                      {/* <input
                         type="string"
                         value={ScaleMaximumLengthUnit}
                         onChange={(e) =>
@@ -102,10 +261,31 @@ export default function ScaleDashboard({ drawingType }) {
                         }
                         // className="w-14 p-1 m-1 border border-black"
                          className={inputStyle}
-                      />
+                      /> */}
+
+                      <select
+                        value={ScaleMaximumLengthUnit}
+                        onChange={(e) => setScaleMaximumLengthUnit(e.target.value)}
+                        className={selectInputStyle}>
+                        <option value="km">km</option>
+                        <option value="hm">hm</option>
+                        <option value="dm">dm</option>
+                        <option value="m">m</option>
+                        <option value="dcm">dcm</option>
+                        <option value="cm">cm</option>
+                        <option value="mm">mm</option>
+                        <option value="yard">yard</option>
+                        <option value="ft">ft</option>
+                        <option value="inch">inch</option>
+                        <option value="hh">hh</option>
+                        <option value="min">min</option>
+                        <option value="sec">sec</option>
+                      </select>
+
+
                     </label>
                   </div>
-                  
+
                   <br />
                   <div className="flex justify-between">
                     <label className="flex justify-between">
@@ -123,13 +303,33 @@ export default function ScaleDashboard({ drawingType }) {
 
                     <label className="flex justify-between">
                       Unit:{" "}
-                      <input
+                      {/* <input
                         type="string"
                         value={ScaleShowUnit1}
                         onChange={(e) => setScaleShowUnit1(e.target.value)}
                         // className="w-14 p-1 m-1 border border-black"
                          className={inputStyle}
-                      />
+                      /> */}
+
+                      <select
+                        value={ScaleShowUnit1}
+                        onChange={(e) => setScaleShowUnit1(e.target.value)}
+                        className={selectInputStyle}>
+                       <option value="km">km</option>
+                        <option value="hm">hm</option>
+                        <option value="dm">dm</option>
+                        <option value="m">m</option>
+                        <option value="dcm">dcm</option>
+                        <option value="cm">cm</option>
+                        <option value="mm">mm</option>
+                        <option value="yard">yard</option>
+                        <option value="ft">ft</option>
+                        <option value="inch">inch</option>
+                        <option value="hh">hh</option>
+                        <option value="min">min</option>
+                        <option value="sec">sec</option>
+                      </select>
+
                     </label>
                   </div>
                   <br />
@@ -143,18 +343,39 @@ export default function ScaleDashboard({ drawingType }) {
                           setScaleShowLength2(Number(e.target.value))
                         }
                         // className="w-14 p-1 m-1 border border-black"
-                         className={inputStyle}
+                        className={inputStyle}
                       />
                     </label>
                     <label className="flex justify-between">
                       Unit:{" "}
-                      <input
+                      {/* <input
                         type="string"
                         value={ScaleShowUnit2}
                         onChange={(e) => setScaleShowUnit2(e.target.value)}
                         // className="w-14 p-1 m-1 border border-black"
                          className={inputStyle}
-                      />
+                      /> */}
+                      <select
+                        value={ScaleShowUnit2}
+                        onChange={(e) => setScaleShowUnit2(e.target.value)}
+                        className={selectInputStyle}>
+                        <option value="km">km</option>
+                        <option value="hm">hm</option>
+                        <option value="dm">dm</option>
+                        <option value="m">m</option>
+                        <option value="dcm">dcm</option>
+                        <option value="cm">cm</option>
+                        <option value="mm">mm</option>
+                        <option value="yard">yard</option>
+                        <option value="ft">ft</option>
+                        <option value="inch">inch</option>
+                        <option value="hh">hh</option>
+                        <option value="min">min</option>
+                        <option value="sec">sec</option>
+                      </select>
+
+
+
                     </label>
                   </div>
                   <br />

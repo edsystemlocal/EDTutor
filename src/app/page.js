@@ -35,6 +35,7 @@ import EpicycloidDashboard from "./components/Cycloidal-Dashboard/EpicycloidDash
 import ScaleOfChordsDashboard from "./components/Scale_Of_Chords/scaleOfChordsDashboard";
 import AngleInScaleOfChordsDashboard from "./components/Scale_Of_Chords/angleInScaleofChordsDashboard";
 import InvoluteDashboard from "./components/Involute-Dashboard/involuteDashboard";
+import DScaleDashboard from "./components/Scale-Dashboard/DScaleDashBoard";
 
 
 export default function Page() {
@@ -81,6 +82,7 @@ export default function Page() {
       )}
 
       {drawingType === "plainScale" && <ScaleDashboard drawingType={drawingType} />}
+      {drawingType === "diagonalScale" && <DScaleDashboard drawingType={drawingType} />}
       {/* {drawingType === "parallelToHP" && <LineDashboard drawingType={drawingType} />}
       {drawingType === "parallelToVP" && <LineDashboard drawingType={drawingType} />} */}
       {drawingType === "parallelToBoth" && <ParalleltobothDashboard drawingType={drawingType}  />}

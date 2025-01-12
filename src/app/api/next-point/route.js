@@ -29,10 +29,13 @@ export async function POST(request, response) {
     let pointsToSend = null;
     let step = null;
 
-    // Select points based on the drawing type
+    // Select points based on the drawing type    
     if (drawingType === "plainScale") {
       ({ points: pointsToSend, step } = PScale(payload));
     } 
+    if (drawingType === "diagonalScale") {
+      ({ points: pointsToSend, step } = PScale(payload));
+    }
     if (drawingType === "plane") {
       ({ points: pointsToSend, step } = Plane(payload));
     } 
