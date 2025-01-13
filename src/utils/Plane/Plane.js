@@ -1,7 +1,7 @@
 import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
-import { calculateAngle, defineSteps, calculateLinePointsWithCircles } from "@/utils/functionHelper";
+import { calculateAngle, defineSteps, calculateLinePointsWithCircles, calculateAngledLinePoints, calculateDistance, calculateAngleInDegrees } from "@/utils/functionHelper";
 import { FindAngle, ArcPoints, EndPoint, Linelength, Angle, label, anglepoint } from "@/utils/Scale/ScaleMethod";
-import { darkPencil, lightPencil, superDarkPencil } from "@/utils/globalVariable";
+import { darkPencil, lightPencil, rotating, superDarkPencil } from "@/utils/globalVariable";
 
 
 
@@ -200,6 +200,7 @@ export function Plane(payload) {
 
 
   if (counter === 4 || drawAll) {
+    
     const merger = calculateLinePointsWithCircles(fvEndPoint[1], EndPoint(fvEndPoint[1], 0, fvlength + 200), lightPencil);
     let angleLinePoints;
 
@@ -215,6 +216,7 @@ export function Plane(payload) {
   }
 
   if (counter === 5 || drawAll) {
+    
     // step-5 vertical line 
     let verticalLine = [], Y = MaxMinY(tvEndPoint, 2);
 
@@ -234,12 +236,69 @@ export function Plane(payload) {
       let j = i + 1;
       if (j > shape)
         j = 1;
-      tv2LinePoints.push(...calculateLinePointsWithCircles(tv2EndPoint[i], tv2EndPoint[(j)], darkPencil));
-      tv2LinePoints.push(...darkPencil);
+      console.log("old point: ", tv2EndPoint[i]);
+console.log("new point: ", {x: tv2EndPoint[i].x + 155, y: tv2EndPoint[i].y - 230});
+let distance = calculateDistance({x:0, y:0}, tv2EndPoint[i]);
+console.log("distance1 = ", distance);
+console.log("1", calculateAngledLinePoints({x: 0, y: 0}, 18.81407483429035, distance));
+console.log("2",calculateAngledLinePoints({x: 0, y: 0}, 3.81407483429035, distance));
+console.log("3",calculateAngledLinePoints({x: 0, y: 0}, 210, distance));
+console.log("4",calculateAngledLinePoints({x: 0, y: 0}, 300, distance));
+console.log("angleOriginal",calculateAngleInDegrees({x:0, y:0}, tv2EndPoint[i]));
+console.log("angleNew",calculateAngleInDegrees({x:0, y:0},{x: tv2EndPoint[i].x + 155, y: tv2EndPoint[i].y - 230}));
+
+      //original
+       tv2LinePoints.push(...calculateLinePointsWithCircles({x: tv2EndPoint[i].x, y: tv2EndPoint[i].y}, {x: tv2EndPoint[j].x, y: tv2EndPoint[j].y}, darkPencil));
+      //45degree
+      // tv2LinePoints.push(...calculateLinePointsWithCircles({x: tv2EndPoint[i].x + 180.33, y: tv2EndPoint[i].y - 365}, {x: tv2EndPoint[j].x + 180.33, y: tv2EndPoint[j].y - 365}, darkPencil));
+      //60 degree
+      // tv2LinePoints.push(...calculateLinePointsWithCircles({x: tv2EndPoint[i].x + 153.109, y: tv2EndPoint[i].y - 228.59}, {x: tv2EndPoint[j].x + 153.109, y: tv2EndPoint[j].y - 228.59}, darkPencil));
+      //60 degree away
+      // tv2LinePoints.push(...calculateLinePointsWithCircles({x: tv2EndPoint[i].x + 325, y: tv2EndPoint[i].y - 270}, {x: tv2EndPoint[j].x + 325, y: tv2EndPoint[j].y - 270}, darkPencil));
+      
+      // tv2LinePoints.push(...darkPencil);
+      tv2LinePoints.push(...LabelPrint(tv2EndPoint,A2));
      
-    }
-    tv2LinePoints.push(...LabelPrint(tv2EndPoint,A2));
-    sendToPoints.push(...verticalLine, ...lightPencil, ...horizontalLine, ...lightPencil, ...tv2LinePoints, ...darkPencil)
+    }  
+
+
+    
+    //sendToPoints.push(...verticalLine, ...lightPencil, ...horizontalLine, ...lightPencil, ...LabelPrint(tv2EndPoint,A2),...lightPencil,...rotating, ...rotating, ...lightPencil, ...tv2LinePoints, ...darkPencil)
+    sendToPoints.push(...verticalLine, ...lightPencil, ...horizontalLine, ...lightPencil, ...lightPencil, ...tv2LinePoints, ...darkPencil)
+    
+
+    // let previousPoint1 = tv2EndPoint[1];
+    // for (let i = 1; i <= shape; i++) {
+    //   let j = i + 1;
+    //   if (j > shape) j = 1;
+    //   console.log("j: ", tv2EndPoint[1], tv2EndPoint[j]);
+    //   let distance = calculateDistance(tv2EndPoint[1], tv2EndPoint[j]);
+    //   let angle = calculateAngleInDegrees(tv2EndPoint[1], tv2EndPoint[j]);
+    //   let nextPoint  = calculateAngledLinePoints(tv2EndPoint[1], -angle - 45, distance);
+    //   console.log("distance: ", distance, ", angle: ",  angle, ", nextPoint: ", nextPoint);
+    //   //sendToPoints.push(...calculateLinePointsWithCircles(previousPoint1, nextPoint));
+    //   //sendToPoints.push(...calculateLinePointsWithCircles({x:previousPoint1.x+200, y: previousPoint1.y}, {x:nextPoint.x+200, y: nextPoint.y}));
+    //   previousPoint1 = nextPoint;
+      
+    // }
+
+
+    // let anchorPoint = tv2EndPoint[1];
+    // let previousPoint2 = tv2EndPoint[1];
+    // for (let i = 1; i <= shape; i++) {
+    //   let j = i + 1;
+    //   if (j > shape) j = 1;
+    //   console.log("j: ", anchorPoint, tv2EndPoint[j]);
+    //   let distance = calculateDistance(anchorPoint, tv2EndPoint[j]);
+    //   let angle = calculateAngleInDegrees(anchorPoint, tv2EndPoint[j]);
+    //   let nextPoint  = calculateAngledLinePoints(anchorPoint, -angle - (90 - vpInclinde), distance);
+    //   console.log("distance: ", distance, ", angle: ",  angle, ", nextPoint: ", nextPoint);
+    //   //sendToPoints.push(...calculateLinePointsWithCircles(previousPoint1, nextPoint));
+    //   sendToPoints.push(...calculateLinePointsWithCircles({x:previousPoint2.x+200, y: previousPoint2.y}, {x:nextPoint.x+200, y: nextPoint.y}));
+    //   previousPoint2 = nextPoint;
+      
+    // }
+
     if (finalDrawing) {
       drawAll = true;
     }
@@ -248,45 +307,49 @@ export function Plane(payload) {
   // step-6 ,3rd digram
   let tv3EndPoint = [];
   let tv3LinePoints = [];
-  tv3EndPoint[1] = tv3StartPoint;
+  //tv3EndPoint[1] = tv3StartPoint;
+  tv3EndPoint = drawAngledShape(tv3StartPoint, vpInclinde, tv2EndPoint);
+  // let angle3,
+  //   tv3length = [],
+  //   inclinedAngle = 90 - vpInclinde,
+  //   newangle = vpInclinde
+  // for (let i = 1; i <= shape; i++) {
+  //   let j = i + 1;
+  //   if (j > shape) j = 1;
 
-  let angle3,
-    tv3length = [],
-    inclinedAngle = 90 - vpInclinde,
-    newangle = vpInclinde
-  for (let i = 1; i <= shape; i++) {
-    let j = i + 1;
-    if (j > shape) j = 1;
+  //   tv3length[i] = Linelength(tv2EndPoint[i], tv2EndPoint[j]);
+  //   tv3EndPoint[j] = EndPoint(tv3EndPoint[i], newangle, tv3length[i]);
 
-    tv3length[i] = Linelength(tv2EndPoint[i], tv2EndPoint[j]);
-    tv3EndPoint[j] = EndPoint(tv3EndPoint[i], newangle, tv3length[i]);
+  //   let y2 = 0;
+  //   if (j === shape) {
+  //     tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[1]);
+  //     angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[1], tv3length[j]);
+  //     y2 = tv2EndPoint[1].y;
 
-    let y2 = 0;
-    if (j === shape) {
-      tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[1]);
-      angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[1], tv3length[j]);
-      y2 = tv2EndPoint[1].y;
+  //   }
+  //   else {
+  //     tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[j + 1]);
+  //     angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[j + 1], tv3length[j]);
+  //     y2 = tv2EndPoint[j + 1].y;
 
-    }
-    else {
-      tv3length[j] = Linelength(tv2EndPoint[j], tv2EndPoint[j + 1]);
-      angle3 = anglepoint(tv2EndPoint[j], tv2EndPoint[j + 1], tv3length[j]);
-      y2 = tv2EndPoint[j + 1].y;
+  //   }
 
-    }
+  //   let y1 = tv2EndPoint[j].y;
+  //   newangle = y1 > y2 ? angle3 - inclinedAngle : 360 - angle3 - inclinedAngle;
+  //   // if (i > 1)
+  //   //   tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
+  //   // tv3LinePoints.push(...darkPencil);
+  //   // tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
+  // }
 
-    let y1 = tv2EndPoint[j].y;
-    newangle = y1 > y2 ? angle3 - inclinedAngle : 360 - angle3 - inclinedAngle;
-    // if (i > 1)
-    //   tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
-    // tv3LinePoints.push(...darkPencil);
-    // tv3LinePoints.push(...label(tv3EndPoint[i], A3[i - 1], "up"));
-  }
-
+  
   if (counter === 6 || drawAll) {
+
     console.log("Drawing six counter");
-    
+   
     let vpinclindelinepoints = CalculateVPInclinedLinePoints();
+
+    
     for (let i = 1; i <= shape; i++) {
       let j = i + 1;
       if (j > shape)
@@ -296,7 +359,7 @@ export function Plane(payload) {
       tv3LinePoints.push(...darkPencil);
 
      
-      console.log("angle3new" + angle3[j]);
+      //console.log("angle3new" + angle3[j]);
       //console.log(tv2EndPoint[i].y,"   ",tv2EndPoint[j].y);
     }
     tv3LinePoints.push(...LabelPrint(tv3EndPoint,A3));
@@ -387,6 +450,25 @@ export function drawshape1(tvEndPoint) {
   }
   tvLinePoints1.push(...LabelPrint(tvEndPoint,A1));
   return tvLinePoints1;
+}
+
+
+export function drawAngledShape(anchorPoint, angleOfInclination, shapeArray){
+    let angledObjectArray = [];
+    angledObjectArray[1] = {x:anchorPoint.x, y: anchorPoint.y};
+    for (let i = 1; i <= shape; i++) {
+      let j = i + 1;
+      if (j > shape) j = 1;
+      console.log("j: ", shapeArray[1], shapeArray[j]);
+      let distance = calculateDistance(shapeArray[1], shapeArray[j]);
+      let angle = calculateAngleInDegrees(shapeArray[1], shapeArray[j]);
+      let nextPoint  = calculateAngledLinePoints(anchorPoint, -angle - (90 - angleOfInclination), distance);
+      console.log("distance: ", distance, ", angle: ",  angle, ", nextPoint: ", nextPoint);
+      //sendToPoints.push(...calculateLinePointsWithCircles(previousPoint1, nextPoint));
+      angledObjectArray[i+1] = {x:nextPoint.x, y: nextPoint.y};
+      
+    }
+    return angledObjectArray;
 }
 
 export function Plane_Steps() {
@@ -520,6 +602,7 @@ export function LabelPrint(Points=[], box) {
     }
     if(match=="No")
     {
+      //{x: Points[i] +170, y: Points[i].y - 390}
       printLabel.push(...label(Points[i], box[i - 1], "right-up"));
 
     }
@@ -529,4 +612,3 @@ export function LabelPrint(Points=[], box) {
   return printLabel;
 
 }
- 
