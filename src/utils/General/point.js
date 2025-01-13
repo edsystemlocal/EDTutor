@@ -32,16 +32,16 @@ export function PointExercises(payload) {
   let pointStartPoint = { x: startPoint.x + 100, y: startPoint.y };
 
   let firstPointAboveHPPoint = pointStartPoint;
-  if (firstPointAboveHPPosition === "Above") {
+  if (firstPointAboveHPPosition === "Above" || firstPointAboveHPPosition === "above") {
     firstPointAboveHPPoint = { x: pointStartPoint.x, y: pointStartPoint.y - updatedFirstPointAboveHP };
-  } else if (firstPointAboveHPPosition === "Below") {
+  } else if (firstPointAboveHPPosition === "Below" || firstPointAboveHPPosition === "below") {
     firstPointAboveHPPoint = { x: pointStartPoint.x, y: pointStartPoint.y + updatedFirstPointAboveHP };
   }
 
   let firstPointFrontOfVPPoint = pointStartPoint;
-  if (firstPointFrontOfVPPosition === "Front") {
+  if (firstPointFrontOfVPPosition === "Front" || firstPointFrontOfVPPosition === "front") {
     firstPointFrontOfVPPoint = { x: pointStartPoint.x, y: pointStartPoint.y + updatedFirstPointFrontOfVP };
-  } else if (firstPointFrontOfVPPosition === "Behind") {
+  } else if (firstPointFrontOfVPPosition === "Behind" || firstPointFrontOfVPPosition === "behind") {
     firstPointFrontOfVPPoint = { x: pointStartPoint.x, y: pointStartPoint.y - updatedFirstPointFrontOfVP };
   }
 
