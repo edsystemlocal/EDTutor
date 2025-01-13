@@ -533,15 +533,14 @@ function itbPointInclinedToTV(firstPointFrontVP, pointInclinedToVP, pointParalle
 }
 
 function getPoint(pointXY, pointLength, position) {
-
   let firstPointAboveHPPoint = pointXY;
-  if (position === "above") {
+  if (position === "above" || position === "Above") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y - pointLength };
-  } else if (position === "below") {
+  } else if (position === "below" || position === "Below") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y + pointLength };
-  } else if (position === "front") {
+  } else if (position === "front" || position === "Front") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y + pointLength };
-  } else if (position === "behind") {
+  } else if (position === "behind" || position === "Behind") {
     firstPointAboveHPPoint = { x: pointXY.x, y: pointXY.y - pointLength };
   }
 
