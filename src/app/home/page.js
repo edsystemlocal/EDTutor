@@ -41,6 +41,7 @@ import InvoluteDashboard from "../components/Involute-Dashboard/involuteDashboar
 import ParalleltohpandinclinationtovpDashboard from "../components/Line-Dashboard/ParalleltohpandinclinationtovpDashboard";
 import ParalleltovpandinclinationtohpDashboard from "../components/Line-Dashboard/ParalleltovpandinclinationtohpDashboard";
 import MidpointDashboard from "../components/Line-Dashboard/MidpointDashboard";
+import CurveExercise from "../exercise_questions/CurveExercise";
 import DScaleDashboard from "../components/Scale-Dashboard/DScaleDashBoard";
 
 
@@ -89,7 +90,6 @@ export default function Home() {
 
       {drawingType === "plainScale" && <ScaleDashboard drawingType={drawingType} />}
       {drawingType === "diagonalScale" && <DScaleDashboard  drawingType={drawingType} />}
-
       {drawingType === "parallelToBoth" && <ParalleltobothDashboard drawingType={drawingType} />}
       {drawingType === "parallelToHPAndInclinationToVP" && <ParalleltohpandinclinationtovpDashboard drawingType={drawingType} />}
       {drawingType === "parallelToVPAndInclinationToHP" && <ParalleltovpandinclinationtohpDashboard drawingType={drawingType} />}
@@ -139,6 +139,7 @@ export default function Home() {
       {drawingType === "lineExercise" && <LineExercise />}
       {drawingType === "scaleExercise" && <ScaleExercise />}
       {drawingType === "planeExercise" && <PlaneExercise />}
+      {drawingType === "CurveExercise" && <CurveExercise />}
     </div>
   );
 }

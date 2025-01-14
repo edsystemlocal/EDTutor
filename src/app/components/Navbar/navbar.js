@@ -152,6 +152,7 @@ const menuItems = [
       { label: "Scales Exercise", path: "scaleExercise" },
       { label: "Plane Exercise", path: "planeExercise" },
       { label: "Solid Exercise", path: "solidExercise" },
+      { label: "Curve Exercise", path: "CurveExercise" },
 
 
     ],
@@ -193,7 +194,7 @@ export default function Navbar({ resetDrawing }) {
             >
               <div className="flex items-center space-x-2 ">
                 <button
-                  className="my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transform hover:scale-105 active:scale-95 hover:-translate-y-1 active:translate-y-1"
+                  className="my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md active:scale-95 active:translate-y-1 hover:shadow-lg hover:from-blue-600 hover:to-blue-800 transform hover:scale-105 hover:-translate-y-1 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400"
                   onClick={() => item.path && route(item.path, item.label)}
                 >
                   {item.label}

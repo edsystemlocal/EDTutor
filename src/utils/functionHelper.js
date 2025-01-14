@@ -137,29 +137,6 @@ export function calculateArcRadius(startPoint, endPoint) {
 }
 
 // Function to calculate arc points with automatic radius calculation
-// export function calculateArcPoints(startPoint1, endPoint1) {
-//   // Calculate the radius within the function
-//   const radius = calculateArcRadius(startPoint1, endPoint1);
-
-//   // Calculate the angle between start and end points
-//   const angle = calculateAngle(startPoint1, endPoint1);
-
-//   // Set the angle range to a fixed range around the calculated angle
-//   const startAngle = angle - 0.25;
-//   const endAngle = angle + 0.25;
-
-//   // Generate arc points within the specified angle range
-//   const arcPoints = [];
-//   for (let i = 0; i <= numPoints; i++) {
-//     const theta = startAngle + ((endAngle - startAngle) * i) / numPoints;
-//     const x = startPoint1.x + radius * Math.cos(theta);
-//     const y = startPoint1.y + radius * Math.sin(theta);
-//     arcPoints.push({ x, y });
-//   }
-
-//   return arcPoints;
-// }
-// Function to calculate arc points with automatic radius calculation
 export function calculateArcPoints(startPoint1, endPoint1, pencil=lightPencil) {
   // Calculate the radius within the function
   const radius = calculateArcRadius(startPoint1, endPoint1);
@@ -199,6 +176,7 @@ export function calculateArcPoints(startPoint1, endPoint1, pencil=lightPencil) {
     arcPoints.push(startPoint2);
     arcPoints.push(...pencil);    
   }
+  arcPoints.push(...getCirclePoints(endPoint1,1), ...darkPencil);
   return arcPoints;
 }
 // -------------------------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
@@ -6,10 +5,8 @@ import Navbar from "../Navbar/navbar";
 import ScaleDetails from "@/app/content/scale-details";
 import LineDetails from "../../content/line-details";
 
-export default function DScaleDashboard({drawingType}) {
-  // const [drawingType, setDrawingType] = useState("scale");
+export default function DScaleDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false); // Default value
-
   const [ScaleMaximumLength, setScaleMaximumLength] = useState(8); // Default value
   const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState("km"); // Default value
   const [ScaleShowLength1, setScaleShowLength1] = useState(6); // Default value
@@ -20,18 +17,6 @@ export default function DScaleDashboard({drawingType}) {
   const [ScaleShowUnit3, setScaleShowUnit3] = useState("hm"); // Default value
   const [ScaleRF, setScaleRF] = useState("5"); // Default value
 
-  const inputs2 = {
-    ScaleMaximumLength,
-    ScaleMaximumLengthUnit,
-    ScaleShowLength1,
-    ScaleShowUnit1,
-    ScaleShowLength2,
-    ScaleShowUnit2,
-    ScaleShowLength3,
-    ScaleShowUnit3,
-    ScaleRF
-  };
-
   const inputs = {
     "Maximum Length": ScaleMaximumLength,
     "Maximum Length Unit": ScaleMaximumLengthUnit,
@@ -41,168 +26,151 @@ export default function DScaleDashboard({drawingType}) {
     "Show Length2 Unit": ScaleShowUnit2,
     "Show Length3": ScaleShowLength3,
     "Show Length3 Unit": ScaleShowUnit3,
-    "Scale RF":ScaleRF,
-
+    "Scale RF": ScaleRF,
   };
 
-  
+  const inputStyle = "w-12 p-2 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold  bg-gradient-to-r from-green-100 to-blue-100";
+  const buttonStyle = "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+  const labelStyle = "px-5 font-bold";
 
- if (isCanvas) {
+  if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
-        {/* <Navbar /> */}
         <Canvas inputs={inputs} drawingType={drawingType} />
       </div>
     );
   }
+
   return (
-    <div className="flex flex-col w-full">
-    
-      <main id="main-container" className="w-full p-1">
-        <div className="grid grid-cols-12 gap-1">
-          <div className="col-span-3 h-136">
+    <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white">
+      <main id="main-container" className="w-full p-2">
+        <div className="grid grid-cols-12 gap-2">
+          <div className="col-span-4">
             <section
               id="input-container"
-              className="border-2 border-slate-300 rounded p-1 w-full h-full"
+              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
             >
-              <div className="border-2 border-slate-300 rounded p-4 mb-4 flex items-center justify-center font-bold ">
-              Drawing Type : {drawingType}
+              <div className="mb-6 text-center text-xl font-semibold text-blue-700">
+                Drawing Type: {drawingType}
               </div>
+
               <div className="w-full flex items-center justify-center pb-4">
                 <div>
-                <div className="flex justify-between">
-                <label>
-                    RF [1]:{" "}
-                    <input
-                      type="number"
-                      value={ScaleRF}
-                      onChange={(e) =>
-                        setScaleRF(Number(e.target.value))
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                  <br />
-                
-                <label>
-                    Maximum Length:{" "}
-                    <input
-                      type="number"
-                      value={ScaleMaximumLength}
-                      onChange={(e) =>
-                        setScaleMaximumLength(Number(e.target.value))
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                  <label>
-                    Unit:{" "}
-                    <input
-                      type="string"
-                      value={ScaleMaximumLengthUnit}
-                      onChange={(e) =>
-                        setScaleMaximumLengthUnit(e.target.value)
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                </div>
-                  <br />
-                  <div className="flex justify-between">
-                  <label>
-                    Show Length1:{" "}
-                    <input
-                      type="number"
-                      value={ScaleShowLength1}
-                      onChange={(e) =>
-                        setScaleShowLength1(Number(e.target.value))
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
+                  <table className="table-auto w-full text-left text-gray-700">
+                    <tbody>
+                      <tr>
+                        <td><label className={labelStyle}>RF [1]:</label></td>
+                        <td>
+                          <input
+                            type="number"
+                            value={ScaleRF}
+                            onChange={(e) => setScaleRF(Number(e.target.value))}
+                            className={inputStyle}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label className={labelStyle}>Maximum Length:</label></td>
+                        <td>
+                          <input
+                            type="number"
+                            value={ScaleMaximumLength}
+                            onChange={(e) => setScaleMaximumLength(Number(e.target.value))}
+                            className={inputStyle}
+                          />
+                        </td>
+                        <td><label className={labelStyle}>Unit:</label></td>
+                        <td>
+                          <input
+                            type="string"
+                            value={ScaleMaximumLengthUnit}
+                            onChange={(e) => setScaleMaximumLengthUnit(e.target.value)}
+                            className={inputStyle}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label className={labelStyle}>Show Length1:</label></td>
+                        <td>
+                          <input
+                            type="number"
+                            value={ScaleShowLength1}
+                            onChange={(e) => setScaleShowLength1(Number(e.target.value))}
+                            className={inputStyle}
+                          />
+                        </td>
+                        <td><label className={labelStyle}>Unit:</label></td>
+                        <td>
+                          <input
+                            type="string"
+                            value={ScaleShowUnit1}
+                            onChange={(e) => setScaleShowUnit1(e.target.value)}
+                            className={inputStyle}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label className={labelStyle}>Show Length2:</label></td>
+                        <td>
+                          <input
+                            type="number"
+                            value={ScaleShowLength2}
+                            onChange={(e) => setScaleShowLength2(Number(e.target.value))}
+                            className={inputStyle}
+                          />
+                        </td>
+                        <td><label className={labelStyle}>Unit:</label></td>
+                        <td>
+                          <input
+                            type="string"
+                            value={ScaleShowUnit2}
+                            onChange={(e) => setScaleShowUnit2(e.target.value)}
+                            className={inputStyle}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label className={labelStyle}>Show Length3:</label></td>
+                        <td>
+                          <input
+                            type="number"
+                            value={ScaleShowLength3}
+                            onChange={(e) => setScaleShowLength3(Number(e.target.value))}
+                            className={inputStyle}
+                          />
+                        </td>
+                        <td><label className={labelStyle}>Unit:</label></td>
+                        <td>
+                          <input
+                            type="string"
+                            value={ScaleShowUnit3}
+                            onChange={(e) => setScaleShowUnit3(e.target.value)}
+                            className={inputStyle}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                  <label>
-                    Unit:{" "}
-                    <input
-                      type="string"
-                      value={ScaleShowUnit1}
-                      onChange={(e) => setScaleShowUnit1(e.target.value)}
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                  </div>
-                  <br />
-                 <div className="flex justify-between">
-                 <label>
-                    Show Length2:{" "}
-                    <input
-                      type="number"
-                      value={ScaleShowLength2}
-                      onChange={(e) =>
-                        setScaleShowLength2(Number(e.target.value))
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                  <label>
-                    Unit:{" "}
-                    <input
-                      type="string"
-                      value={ScaleShowUnit2}
-                      onChange={(e) => setScaleShowUnit2(e.target.value)}
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-
-                  <label>
-                    Show Length3:{" "}
-                    <input
-                      type="number"
-                      value={ScaleShowLength3}
-                      onChange={(e) =>
-                        setScaleShowLength3(Number(e.target.value))
-                      }
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-                  <label>
-                    Unit:{" "}
-                    <input
-                      type="string"
-                      value={ScaleShowUnit3}
-                      onChange={(e) => setScaleShowUnit3(e.target.value)}
-                      className="w-14 p-1 m-1 border"
-                    />
-                  </label>
-
-                 </div>
-                  <br />
-                  <button
-                    onClick={() => setIsCanvas(true)}
-                    style={{
-                      padding: "5px 25px",
-                      backgroundColor: "orange",
-                      color: "#FFF",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      fontSize: "16px",
-                    }}
-                  >
-                    Submit
-                  </button>
+                  <div className="text-center mt-4">
+                <button
+                  onClick={() => setIsCanvas(true)}
+                  className={buttonStyle}
+                >
+                  Submit
+                </button>
+              </div>
                 </div>
               </div>
             </section>
           </div>
 
-          <div className="col-span-9">
+          <div className="col-span-8">
             <section
               id="scale-details-container"
-              className="border-2 border-slate-300 rounded flex items-center w-full h-136"
+              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
             >
               <ScaleDetails drawingType={drawingType} />
-
             </section>
           </div>
         </div>

@@ -33,6 +33,7 @@ export function generateFullCircle(center, radius) {
     return circlePoints;
 }
 
+
 export function ellipse_by_concentricCriclemethodSteps(values) {
     const { majorAxis, minorAxis } = values
 
@@ -44,24 +45,18 @@ export function ellipse_by_concentricCriclemethodSteps(values) {
             `Draw the minor axis line 'cd' with the given length ${minorAxis} mm and intersecting each other at O.`
         ),
         3: defineSteps(
-            " with center O and diameters AB and CD respectively, draw two circles. "
+            "Draw two concentric circles with centre O of diameters AB and CD."
         ),
         4: defineSteps(
             "Divide both circles into 12 equal parts. Label the intersection points on the outer circle as 1, 2, 3, ..., and on the inner circle as 1', 2', 3', ...."
         ),
         5: defineSteps(
-            "Draw horizontal lines passing through the intersection points of the inner circle."
+            "Draw vertical line through point 1' to meet the horizontal line drawn through point 1 at point P1. The point P1 represents a point on the ellipse.",
+            "Similarly, draw vertical lines from other points 2, 3,… , etc., to meet the corresponding horizontal lines drawn from points 2, 3, …, etc., at points P2, P3, … etc. The point P2, P3, …, etc., lie on the ellipse."
         ),
         6: defineSteps(
-            "Draw vertical lines passing through the intersection points of the outer circle, extending them to intersect the horizontal lines."
-        ),
-        7: defineSteps(
-            "Mark the intersection points of the vertical and horizontal lines as p1, p2, p3, ..., and so on."
-        ),
-        8: defineSteps(
-            "Join all the marked points (p1, p2, p3, ...) with a smooth curve. Connect the endpoints of the major and minor axes to complete the ellipse."
+            " Draw a smooth curve passing through all these points to get the required ellipse."
         )
-
     };
 }
 
@@ -76,8 +71,9 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
     let values = {
         majorAxis,
         minorAxis
-
     }
+    majorAxis = majorAxis * 3;
+    minorAxis = minorAxis * 3;
 
     // Calculate the endpoints of the major axis
     const ab_LineEndPoint = { x: startpoint.x + majorAxis, y: startpoint.y };

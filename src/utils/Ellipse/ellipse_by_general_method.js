@@ -32,39 +32,38 @@ export function ellipse_by_generalmethodSteps(values) {
         distanceofthefocusfromthedirectrix
     } = values
     return {
-        1: defineSteps("Draw the axis line ",
-            "lable the start point of axis line as 'c' "
+        1: defineSteps(
+            " Draw a vertical line 'ab' to represent directrix.",
         ),
         2: defineSteps(
-            "Draw the directrix 'ab' Perpendicular to axis line  "
+            "Draw the principal axis 'c' line perpendicular to 'ab'"
         ),
         3: defineSteps(
-             `Mark the focus f on axis line of given lenght ${distanceofthefocusfromthedirectrix} from c`, 
+            `Mark focus F on the axis 'c' line such that 'cf' = ${distanceofthefocusfromthedirectrix} mm`
         ),
         4: defineSteps(
-             "Divide Cf into 5 equal divisions (sum of numerator and denometer of the eccentricity.)(v) Mark the vertex V on the third division-point from C.  And eccentricity = vf/vc = 2/3 .",
-             "To construct the scale for the ratio 2/3 draw a line ve perpendicular to cd such that ve = vf.",  
+            "Divide 'cf' into five equal divisions. Mark the vertex 'V' on the third division point from c. Therefore, vf/vc = 2/3 and thereby the vertex V represents a locus point of the ellipse."
         ),
-      
+
         5: defineSteps(
-            "Join c with e. thus , in triangle cve , ve/vc =vf/vc = 2/3 ."
+            "Draw a vertical line 've' equal to 'vf'. Join 'c' to 'e' and produce it to some distance. Therefore, in the triangle 'cve',ve/vc =vf/vc = 2/3 ."
         ),
         6: defineSteps(
-            "Mark any point 1 on the axis and through it, draw a perpendicular meet CE-produced at 1 '. ",
+            "Mark any point 1 on the axis and through it, draw a perpendicular meet CE-produced at 1'. ",
         ),
         7: defineSteps("With centre F and radius equal to 1-1' , draw arcs to intersect the perpendicula through 1 at points P1 and P' 1.",
-            "Draw lower arcs"
+
         ),
-        8: defineSteps("connect the arc points for ellipse")
+        8: defineSteps("Join all the loci points of the ellipse and obtain the required ellipse.")
     };
 }
-
-export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_InclinedtoVP
+export function ellipse_by_generalmethodPoint(payload) { 
     const { counter , inputs, finalDrawing } = payload;
     const startpoint = { x: startPoint.x, y: startPoint.y };
 
     let distanceofthefocusfromthedirectrix = Number(inputs["Distance From focus To Directrix"]) || 0;
     let values ={ distanceofthefocusfromthedirectrix }
+    distanceofthefocusfromthedirectrix = distanceofthefocusfromthedirectrix;
     const LineLengthfor_v = 3 * distanceofthefocusfromthedirectrix / 5;
     const LineLengthfor_e = distanceofthefocusfromthedirectrix - LineLengthfor_v;
 
@@ -110,13 +109,13 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
     let drawAll = false;
     const sendToPoints = [];
     if (counter === 1 || drawAll) {
-        sendToPoints.push(...c_LinePoints, ...labeled_c_LinePoints, ...darkPencil,); 
+        sendToPoints.push(...ab_Line, ...labeledStartPoint, ...labeledEndPoint); 
         if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 2 || drawAll) {
-        sendToPoints.push(...ab_Line, ...labeledStartPoint, ...labeledEndPoint); 
+        sendToPoints.push(...c_LinePoints, ...labeled_c_LinePoints, ...darkPencil,); 
         if (finalDrawing) {
             drawAll = true;
         }
@@ -129,20 +128,20 @@ export function ellipse_by_generalmethodPoint(payload) { //ParalleltoHP_and_Incl
         }
     }
     if (counter === 4 || drawAll) {
-        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y -50 },{ x: startpoint.x + LineLengthfor_v, y: startpoint.y -50},"Above","cv = "+LineLengthfor_v));
-        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x-50, y: startPoint.y }, { x: startPoint.x-50, y: startPoint.y -LineLengthfor_e }, "right","ve = "+LineLengthfor_e));
-        sendToPoints.push( ...v_LinePoints, ...labeled_v_LinePoints,
-            ...e_LinePoints, ...labeled_e_LinePoints); 
-            if (finalDrawing) {
+        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y - 50 }, { x: startpoint.x + LineLengthfor_v, y: startpoint.y - 50 }, "Above", "cv = " + LineLengthfor_v));
+        sendToPoints.push(...labeled_v_LinePoints,
+        );
+        if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 5 || drawAll) {
-        sendToPoints.push(...diagonalLinePoints); 
+        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x - 50, y: startPoint.y }, { x: startPoint.x - 50, y: startPoint.y - LineLengthfor_e }, "right", "ve = " + LineLengthfor_e));
+        sendToPoints.push(...e_LinePoints, ...labeled_e_LinePoints, ...diagonalLinePoints,);
         if (finalDrawing) {
             drawAll = true;
         }
-    
+
     }
     if (counter === 6 || counter === 7 || drawAll) {
 

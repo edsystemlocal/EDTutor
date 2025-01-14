@@ -38,7 +38,7 @@ explain ,<br/>
 <br/>
         </div>
       )}
-      {drawingType === "Diagonalscale" && (
+      {drawingType === "diagonalScale" && (
         <div>
 <b>➽ Diagonalscale : </b>A diagonal scale is used when very minute distances such as 0.1 mm etc. are to be accurately measured or when measurements are required
 in three units; for example, dm, cm and mm, or yard, foot and inch. 

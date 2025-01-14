@@ -612,3 +612,4 @@ export function LabelPrint(Points=[], box) {
   return printLabel;
 
 }
+ 
