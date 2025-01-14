@@ -12,12 +12,19 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    ScaleMaximumLength:10,
-                    ScaleMaximumLengthUnit:"dcm",
-                    ScaleShowLength1:7,
-                    ScaleShowUnit1: "dcm",
-                    ScaleShowLength2: 6,
-                    ScaleShowUnit2: "cm",
+                    
+                    "RF" :1,
+                    ":":4,
+                    "Actual Length":0,
+                    "Actual Length Unit":"",
+                    "Drawing Length":0,
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":5,
+                    "Maximum Length Unit":"dcm",
+                    "Show Length1": 1,
+                    "Show Length1 Unit": "dcm",
+                    "Show Length2":1,
+                    "Show Length2 Unit":"cm",
                 },
             });
         }
@@ -26,26 +33,38 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    ScaleMaximumLength:1,
-                    ScaleMaximumLengthUnit:"m",
-                    ScaleShowLength1:0,
-                    ScaleShowUnit1: "m",
-                    ScaleShowLength2: 6,
-                    ScaleShowUnit2: "dcm",
+                    "RF" :0,
+                    ":":0,
+                    "Actual Length":1,
+                    "Actual Length Unit":"dm",
+                    "Drawing Length":1.5,
+                   "Drawing Length Unit" :"cm",
+                    "Maximum Length":10,
+                    "Maximum Length Unit":"dm",
+                    "Show Length1": 0,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":6,
+                    "Show Length2 Unit":"dm",
                 },
             });
         }
 
-        else if (question === "q3") {
+        else if (question === "q3s") {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    ScaleMaximumLength:8,
-                    ScaleMaximumLengthUnit:"m",
-                    ScaleShowLength1:0,
-                    ScaleShowUnit1: "m",
-                    ScaleShowLength2: 0,
-                    ScaleShowUnit2: "dcm",
+                    "RF" :1,
+                    ":":50,
+                    "Actual Length":0,
+                    "Actual Length Unit":"",
+                    "Drawing Length":0,
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":8,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 1,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":1,
+                    "Show Length2 Unit":"dcm",
                 },
             });
         }
@@ -54,12 +73,18 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    ScaleMaximumLength:5,
-                    ScaleMaximumLengthUnit:"ft",
-                    ScaleShowLength1:0,
-                    ScaleShowUnit1: "ft",
-                    ScaleShowLength2: 0,
-                    ScaleShowUnit2: "inch",
+                    "RF" :0,
+                    ":":0,
+                    "Actual Length":1,
+                    "Actual Length Unit":"ft",
+                    "Drawing Length":5/4,
+                   "Drawing Length Unit" :"inch",
+                    "Maximum Length":5,
+                    "Maximum Length Unit":"ft",
+                    "Show Length1": 1,
+                    "Show Length1 Unit": "ft",
+                    "Show Length2":1,
+                    "Show Length2 Unit":"inch",
                 },
             });
         }
@@ -68,12 +93,18 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    ScaleMaximumLength:6,
-                    ScaleMaximumLengthUnit:"ft",
-                    ScaleShowLength1:4,
-                    ScaleShowUnit1: "ft",
-                    ScaleShowLength2: 7,
-                    ScaleShowUnit2: "inch",
+                  "RF" :0,
+                    ":":0,
+                    "Actual Length":1,
+                    "Actual Length Unit":"ft",
+                    "Drawing Length":1,
+                   "Drawing Length Unit" :"inch",
+                    "Maximum Length":6,
+                    "Maximum Length Unit":"ft",
+                    "Show Length1": 4,
+                    "Show Length1 Unit": "ft",
+                    "Show Length2":7,
+                    "Show Length2 Unit":"inch",
                 },
             });
         }
@@ -100,8 +131,8 @@ const ScaleExercise = () => {
 
                     <div className="card">
                         <p className="card-text">
-                        1.Construct a scale of 1 :5 to show decimetres and centimetres and to read upto 
-                        1 metre. Show the length of 7.6 dm on it. 
+                        1.Construct a scale of 1 : 4 to show centimetres and long
+                        enough to measure upto 5 decimetres.
                         </p>
                         <button onClick={() => handleClick("q1")} className="button-blue">
                             Click Here
@@ -114,7 +145,7 @@ const ScaleExercise = () => {
                         of 0.6 metre.  
                         </p>
                         <button onClick={() => handleClick("q2")} className="button-blue">
-                            Click Here
+                            *Click Here
                         </button>
                     </div>
 
