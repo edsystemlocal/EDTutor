@@ -291,11 +291,19 @@ export function getLineProblemPoints(payload) {
       let labelparallelLinePoints = "";
 
       if (drawingType === "parallelToVPAndInclinationToHP" || drawingType === "perpendicularToVP") {
-        sendToPoints.push(...drawParallelArrow(firstPointFrontVP, secondPointFrontVP, "down", (Math.abs(secondPointFrontVP.x - firstPointFrontVP.x))/zoom));
+        if(drawingType === "parallelToVPAndInclinationToHP"){
+          sendToPoints.push(...drawParallelArrow(firstPointFrontVP, secondPointFrontVP, "down", (Math.abs(secondPointFrontVP.x - firstPointFrontVP.x))/zoom));
+        } else if(drawingType === "perpendicularToVP"){
+          sendToPoints.push(...lightPencil, ...drawPerpendicularArrow(firstPointFrontVP, secondPointFrontVP, "left", (Math.abs(secondPointFrontVP.y - firstPointFrontVP.y))/zoom));
+        }
         parallelLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil,);
         labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
       } else if (drawingType === "parallelToHPAndInclinationToVP" || drawingType === "perpendicularToHP") {
-        sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
+        if(drawingType === "parallelToHPAndInclinationToVP"){
+          sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
+        } else if(drawingType === "perpendicularToHP"){
+          sendToPoints.push(...lightPencil, ...drawPerpendicularArrow(firstPointAboveHP, secondPointAboveHP, "left", (Math.abs(firstPointAboveHP.y - secondPointAboveHP.y))/zoom));
+        }
         parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);
         labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "right");
       } else if (drawingType === "parallelToBoth") {
