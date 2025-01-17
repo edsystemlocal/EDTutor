@@ -2,6 +2,7 @@ import { fetchServerResponse } from "next/dist/client/components/router-reducer/
 import { calculateAngle, defineSteps, calculateLinePointsWithCircles } from "@/utils/functionHelper";
 import { FindAngle, ArcPoints, EndPoint, Linelength, Angle, label, anglepoint } from "@/utils/Scale/ScaleMethod";
 import { darkPencil, lightPencil, superDarkPencil } from "@/utils/globalVariable";
+import { drawAngledShape } from "../Plane/Plane";
 
 
 const startPoint = { x: 100, y: 300 };
@@ -16,39 +17,25 @@ let B2 = ["a''", "b''", "c''", "d''", "e''", "f''", "g''", "h''", "i''", "j''"]
 let A3 = ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "i2", "j2"]
 let B3 = ["a'''", "b'''", "c'''", "d'''", "e'''", "f'''", "g'''", "h'''", "i'''", "j'''"]
 
-//Global Variable
-let SolidBase;
-let SolidHight = 150;
-let BaseSide = 25;
-let sideCorner = "side";//position1
-let inParallel = "Parallel"//Position2
-let shapeAt = "HP";//position3
-let hpInclinde = 30;
-let vpInclinde = 60;
-
-let tvStartPoint;
-let fvStartPoint;
-let tv2StartPoint;
-let fv2StartPoint;
-let tv3StartPoint;
-let fv3StartPoint;
-
-let BaseEdge, angle, move, shape, hAway, vAway;
-
-export function Calculation() {
+export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, hpInclinde, vpInclinde) {
   //default value
-  BaseEdge = BaseSide * 2;
-  hAway = 100;
-  vAway = 100;
-  shape = TypeOfBase(SolidBase);
-  move = 360 / shape;
-  console.log("move21:", move);
-  angle = 90;
+  let BaseEdge = BaseSide * 2;
+  let hAway = 100;
+  let vAway = 100;
+  let shape = TypeOfBase(SolidBase);
+  let move = 360 / shape;
+  console.log("move:", move);
+  let angle = 90;
+  let tvStartPoint;
+  let fvStartPoint;
+  let tv2StartPoint;
+  let fv2StartPoint;
+  let tv3StartPoint;
+  let fv3StartPoint;
 
 
   if (sideCorner == "Corner")
     angle = 54;
-
 
   if (shapeAt == "VP") {
     if (inParallel === "in")
@@ -59,8 +46,8 @@ export function Calculation() {
     tvStartPoint = { x: 150, y: 300 - hAway };
     fvStartPoint = { x: 150, y: 300 + vAway };
 
-    tv2StartPoint = { x: 450, y: 300 - hAway };
-    fv2StartPoint = { x: 450, y: 300 + vAway }
+    tv2StartPoint = { x: 300, y: 300 - hAway };
+    fv2StartPoint = { x: 300, y: 300 + vAway }
 
     tv3StartPoint = { x: 550, y: 300 - hAway };
     fv3StartPoint = { x: 550, y: 300 + vAway };
@@ -72,12 +59,32 @@ export function Calculation() {
     tvStartPoint = { x: 150, y: 300 + vAway };
     fvStartPoint = { x: 150, y: 300 - hAway }
 
-    tv2StartPoint = { x: 450, y: 300 + vAway };
-    fv2StartPoint = { x: 450, y: 300 - hAway }
+    tv2StartPoint = { x: 300, y: 300 + vAway };
+    fv2StartPoint = { x: 300, y: 300 - hAway }
 
     tv3StartPoint = { x: 550, y: 300 + vAway };
     fv3StartPoint = { x: 550, y: 300 - hAway };
   }
+
+  let updatedInputs = {
+    tvStartPoint: tvStartPoint,
+    fvStartPoint: fvStartPoint,
+    tv2StartPoint: tv2StartPoint,
+    fv2StartPoint: fv2StartPoint,
+    tv3StartPoint: tv3StartPoint,
+    fv3StartPoint: fv3StartPoint,
+    hpInclinde: hpInclinde,
+    vpInclinde: vpInclinde,
+    BaseEdge: BaseEdge,
+    hAway: hAway,
+    vAway: vAway,
+    shape: shape,
+    move: move,
+    angle: angle
+  }
+
+  console.log("updatedInputs", updatedInputs);
+  return updatedInputs;
 
 }
 
@@ -90,10 +97,6 @@ export function Solid(payload) {
   console.log("solid is calling");
   let sendToPoints = [];
   const { counter, finalDrawing } = payload;
-  const steps = Plane_Steps(); // Generate steps dynamically
-  let step = steps[counter];
-
-
 
   const PlaneType = payload.inputs["Plane Type"];
   const PlaneSideLength = payload.inputs["Side Length"];
@@ -104,23 +107,35 @@ export function Solid(payload) {
 
   const PlaneHPAngle = payload.inputs["Incline With HP"];
   const PlaneVPAngle = payload.inputs["Inclined With VP"];
-
+  console.log("PlaneType", PlaneType);
   //assigmnet
-  SolidBase = PlaneType;
-  BaseSide = PlaneSideLength;
-  sideCorner = PlanePosition1;
-  inParallel = PlanePosition2;
-  shapeAt = PlanePosition3;
-  hpInclinde = PlaneHPAngle;
-  vpInclinde = PlaneVPAngle;
+  let SolidBase = PlaneType;
+  let BaseSide = PlaneSideLength;
+  let sideCorner = PlanePosition1;
+  let inParallel = PlanePosition2;
+  let shapeAt = PlanePosition3;
   console.log("corner", payload);
 
-  Calculation();
+  let {
+    tvStartPoint,
+    fvStartPoint,
+    tv2StartPoint,
+    fv2StartPoint,
+    tv3StartPoint,
+    fv3StartPoint,
+    hpInclinde,
+    vpInclinde,
+    BaseEdge,
+    hAway,
+    vAway,
+    shape,
+    move,
+    angle
+  } = Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, PlaneHPAngle, PlaneVPAngle);
+  let SolidHight = 150;
   let drawAll = false;
-  console.log("move211:", move);
-
-  console.log("startPoint:", startPoint);
-  console.log("endPoint:", endPoint);
+  //const steps = Plane_Steps(SolidBase, hpInclinde, vpInclinde); // Generate steps dynamically
+  // let step = steps[counter];
   //step-1 Draw Main Line
   if (counter === 1 || drawAll) {
     sendToPoints.push(...calculateLinePointsWithCircles(startPoint, endPoint), ...darkPencil)
@@ -130,109 +145,224 @@ export function Solid(payload) {
   }
 
   //step-2 Draw base
-  let tv1EndPoint = BaseEndPoint(tvStartPoint, angle, BaseEdge);
-  let Centroid = findCentroid(tv1EndPoint);
+  let tv1EndPoint = [];
+  let Centroid = { x: 0, y: 0 };
+  tv1EndPoint = BaseEndPoint(tvStartPoint, angle, BaseEdge, shape, move);
+  Centroid = findCentroid(tv1EndPoint, shape);
   if (counter === 2 || drawAll) {
 
-    sendToPoints.push(...drawshape(tv1EndPoint),
-      ...drawApex(tv1EndPoint, Centroid),
+    sendToPoints.push(...drawshape(tv1EndPoint, shape),
+      ...drawApex(tv1EndPoint, Centroid, shape),
       ...darkPencil);
     if (finalDrawing) {
       drawAll = true;
     }
   }
 
-  console.log("move212:", move);
+
   //step-3 draw line for FV and Draw FV
-  let fv1apexHightPoint = { x: Centroid.x, y: fvStartPoint.y - SolidHight };
-  console.log("fv1apexHightPoint", fv1apexHightPoint);
-  let fv1BaseEndPoint = [];
+  console.log("tv1EndPoint: ", tv1EndPoint);
+  let fv1HeightPointArray = [];
+  fv1HeightPointArray[1] = { x: Centroid.x, y: fvStartPoint.y - SolidHight };
+  let fv1BaseEndPointArray = [];
   for (let i = 1; i <= shape; i++) {
-    console.log("tv1EndPoint[i]:", tv1EndPoint[i]);
-    console.log("fvStartPoint:", fvStartPoint);
-    fv1BaseEndPoint[i] = { x: tv1EndPoint[i].x, y: fvStartPoint.y }
+    fv1BaseEndPointArray[i] = { x: tv1EndPoint[i].x, y: fvStartPoint.y }
   }
-  console.log("move214:", move);
+  console.log("fv1BaseEndPointArray: ", fv1BaseEndPointArray);
   let fv1apexBasePoint = { x: Centroid.x, y: fvStartPoint.y };
   if (counter === 3 || drawAll) {
     for (let i = 1; i <= shape; i++) {
-      sendToPoints.push(...calculateLinePointsWithCircles(tv1EndPoint[i], fv1BaseEndPoint[i], lightPencil));
+      sendToPoints.push(...calculateLinePointsWithCircles(tv1EndPoint[i], fv1BaseEndPointArray[i], lightPencil));
       sendToPoints.push(...lightPencil);
     }
 
 
-    sendToPoints.push(...calculateLinePointsWithCircles(Centroid, fv1apexBasePoint, lightPencil));
+    sendToPoints.push(...calculateLinePointsWithCircles(Centroid, fv1HeightPointArray[1], lightPencil));
 
     for (let i = 1; i < shape; i++) {
-      sendToPoints.push(...calculateLinePointsWithCircles(fv1BaseEndPoint[i], fv1BaseEndPoint[i + 1], darkPencil));
-      sendToPoints.push(...label(fv1BaseEndPoint[i], B1[i - 1], "up"));
+      sendToPoints.push(...calculateLinePointsWithCircles(fv1BaseEndPointArray[i], fv1BaseEndPointArray[i + 1], darkPencil));
+      sendToPoints.push(...label(fv1BaseEndPointArray[i], B1[i - 1], "down"));
     }
-    // let fv1apexHightPoint={x:Centroid.x,y:fvStartPoint.y-SolidHight};
+    sendToPoints.push(...label(fv1HeightPointArray[1], "O", "up"))
     for (let i = 1; i <= shape; i++) {
-      sendToPoints.push(...calculateLinePointsWithCircles(fv1BaseEndPoint[i], fv1apexHightPoint, darkPencil));
-
+      sendToPoints.push(...calculateLinePointsWithCircles(fv1BaseEndPointArray[i], fv1HeightPointArray[1], darkPencil));
     }
-    // sendToPoints.push(...calculateLinePointsWithCircles(fv1apexBasePoint,fv1apexHightPoint,lightPencil));
     if (finalDrawing) {
       drawAll = true;
     }
   }
 
-  console.log("move213:", move);
-  // sendToPoints.push(...label(fv2StartPoint,"d","up")); 
-  // 2nd digrame
-  let fv2Apexpoint = { x: fv2StartPoint.x + 150, y: fv2StartPoint.y };
+  let newTopPoint = [];
+  newTopPoint[1] = fv1BaseEndPointArray[1];
+  newTopPoint[2] = fv1HeightPointArray[1];
+  console.log(fv1apexBasePoint);
+  let inclinedShapes = drawAngledShape(fv2StartPoint, hpInclinde, fv1BaseEndPointArray, shape);
+  let inclinedShapesTop = drawAngledShape(fv2StartPoint, hpInclinde, newTopPoint, 2);
+
+  console.log("inclinedShapes: ", inclinedShapes);
+  console.log("fv2StartPoint: ", fv2StartPoint);
+  console.log("hpInclinde: ", hpInclinde);
+  console.log("fv1BaseEndPointArray: ", fv1BaseEndPointArray);
+  console.log("fv1apexBasePoint: ", fv1apexBasePoint);
+
   if (counter === 4 || drawAll) {
-    let slantLength = [], slantAngle = [], fv1PointsLength = [];
     for (let i = 1; i <= shape; i++) {
-      slantLength[i] = Linelength(fv1BaseEndPoint[i], fv1apexHightPoint);
-      slantAngle[i] = anglepoint(fv1apexHightPoint, fv1BaseEndPoint[i], slantLength[i]);
+      let j = i + 1;
+      if (j > shape)
+        j = 1;
 
-      fv1PointsLength[i] = Linelength(fv1BaseEndPoint[5], fv1BaseEndPoint[i]);
-      console.log("slant edge:", slantAngle[i]);
-      // sendToPoints.push(...shapeMove(fv2Apexpoint,slantAngle[i],slantLength[i]));
-    }
-    let fv1apexBasePointLength = Linelength(fv1BaseEndPoint[5], fv1apexBasePoint);
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes[i], inclinedShapes[j]));
+      sendToPoints.push(...darkPencil);
 
-    let fv2BaseEndPoint = [];
-
-    fv2BaseEndPoint[5] = { x: fv2StartPoint.x, y: fv2StartPoint.y };
-    let fvlength;
-    let max = startPoint.x, min = endPoint.x;
-    for (let i = 1; i <= shape; i++) {
-      if (max < fv1BaseEndPoint[i].x)
-        max = fv1BaseEndPoint[i].x;
-      if (min > fv1BaseEndPoint[i].x)
-        min = fv1BaseEndPoint[i].x;
 
     }
-    fvlength = max - min;
-    let fv2apexBasePoint = EndPoint(fv2BaseEndPoint[5], 180 - hpInclinde, fv1apexBasePointLength);
-    let fv2Apexpoint = EndPoint(fv2apexBasePoint, 90 - hpInclinde, SolidHight);
     for (let i = 1; i <= shape; i++) {
-      fv2BaseEndPoint[i] = EndPoint(fv2BaseEndPoint[5], 180 - hpInclinde, fv1PointsLength[i]);
-    }
-    for (let i = 1; i <= shape; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes[i], inclinedShapesTop[2], darkPencil));
 
-      sendToPoints.push(...calculateLinePointsWithCircles(fv2BaseEndPoint[5],
-        EndPoint(fv2BaseEndPoint[1], 180 - hpInclinde, fvlength), darkPencil));
-      //sendToPoints.push(...label(fv2BaseEndPoint[i],A2[i-1], "up"))
     }
-    for (let i = 1; i <= shape; i++) {
-
-      sendToPoints.push(...calculateLinePointsWithCircles(fv2Apexpoint, fv2BaseEndPoint[i]), darkPencil);
-      //sendToPoints.push(...label(fv2BaseEndPoint[i],A2[i-1], "up"))
-    }
-
     if (finalDrawing) {
       drawAll = true;
     }
   }
 
+
+
+
+  if (counter === 5 || drawAll) {
+    for (let i = 1; i <= shape; i++) {
+      let j = i + 1;
+      if (j > shape)
+        j = 1;
+
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes[i], {x: inclinedShapes[i].x, y: tvStartPoint.y + 100}, lightPencil));
+    }
+    for (let i = 2; i < inclinedShapesTop.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapesTop[i], {x: inclinedShapesTop[i].x, y: tvStartPoint.y + 100}, lightPencil));
+    }
+    for (let i = 1; i < tv1EndPoint.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(tv1EndPoint[i], {x: inclinedShapesTop[2].x + 50, y: tv1EndPoint[i].y}, lightPencil));
+    }
+    if (finalDrawing) {
+      drawAll = true;
+    }
+  }
+
+  let tV2ArrayBase = [];
+  let tV2ArrayTop = [];
+  for (let i = 1; i < tv1EndPoint.length; i++) {
+    tV2ArrayBase[i] = {x: inclinedShapes[i].x, y: tv1EndPoint[i].y};
+  }
+  for (let i = 1; i < tv1EndPoint.length; i++) {
+    tV2ArrayTop[i] = {x: inclinedShapesTop[2].x, y: Centroid.y};
+  }
+
+  if (counter === 6 || drawAll) {
+    for (let i = 1; i < tV2ArrayBase.length; i++) {
+      let j = i + 1;
+      if (j > shape)
+        j = 1;
+      console.log("tV2ArrayBase[i]:",tV2ArrayBase[i]);
+      console.log("tV2ArrayBase[j]:",tV2ArrayBase[j]);
+      sendToPoints.push(...calculateLinePointsWithCircles(tV2ArrayBase[i], tV2ArrayBase[j], darkPencil));
+    }
+
+    for (let i = 1; i < tV2ArrayBase.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(tV2ArrayBase[i], tV2ArrayTop[2], darkPencil));
+
+    }
+    if (finalDrawing) {
+      drawAll = true;
+    }
+    
+  }
+
+
+  let inclinedShapes2 = drawAngledShape(tv3StartPoint, vpInclinde, tV2ArrayBase, shape);
+  let newTopPoint2 = [];
+  newTopPoint2[1] = tV2ArrayBase[1];
+  newTopPoint2[2] = tV2ArrayTop[1];
+  console.log(fv1apexBasePoint);
+  let inclinedShapesTop2 = drawAngledShape(tv3StartPoint, hpInclinde, newTopPoint2, 2);
+
+  if (counter === 7 || drawAll) {
+    for (let i = 1; i < tV2ArrayBase.length; i++) {
+      let j = i + 1;
+      if (j > shape)
+        j = 1;
+      console.log("tV2ArrayBase[i]:",tV2ArrayBase[i]);
+      console.log("tV2ArrayBase[j]:",tV2ArrayBase[j]);
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes2[i], inclinedShapes2[j], darkPencil));
+    }
+
+    for (let i = 1; i < tV2ArrayBase.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes2[i], inclinedShapesTop2[2], darkPencil));
+
+    }
+    if (finalDrawing) {
+      drawAll = true;
+    }
+    
+  }
+
+
+
+  if (counter === 8 || drawAll) {
+    for (let i = 1; i < tV2ArrayBase.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes2[i], {x: inclinedShapes2[i].x, y: fv1HeightPointArray[1].y}, lightPencil));
+    }
+
+    for (let i = 1; i < 3; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapesTop2[i], {x: inclinedShapesTop2[i].x, y: fv1HeightPointArray[1].y}, lightPencil));
+
+    }
+
+    for (let i = 1; i < fv1BaseEndPointArray.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapes[i], {x: inclinedShapesTop2[2].x + 50, y: inclinedShapes[i].y}, lightPencil));
+    }
+
+    for (let i = 1; i < 3; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(inclinedShapesTop[i], {x: inclinedShapesTop2[2].x + 50, y: inclinedShapesTop[i].y}, lightPencil));
+
+    }
+    if (finalDrawing) {
+      drawAll = true;
+    }
+    
+  }
+
+  let thirdShapeBase = [];
+  for (let i = 1; i < inclinedShapes2.length; i++) {
+    thirdShapeBase[i] = {x: inclinedShapes2[i].x, y: inclinedShapes[i].y};   
+  }
+  let thirdShapeTop = [];
+  thirdShapeTop[1] = {x: inclinedShapesTop2[2].x, y: inclinedShapesTop[2].y};
+  if (counter === 9 || drawAll) {
+    for (let i = 1; i < thirdShapeBase.length; i++) {
+      let j = i + 1;
+      if (j > shape)
+        j = 1;
+      sendToPoints.push(...calculateLinePointsWithCircles(thirdShapeBase[i], thirdShapeBase[j], darkPencil));
+    }
+    for (let i = 1; i < thirdShapeBase.length; i++) {
+      sendToPoints.push(...calculateLinePointsWithCircles(thirdShapeBase[i], thirdShapeTop[1], darkPencil));
+
+    }
+    if (finalDrawing) {
+      drawAll = true;
+    }
+    
+  }
+
+
+  console.log("thirdShapeBase:",thirdShapeBase);
+
+ 
+ // console.log("sendToPoints:",sendToPoints);
+  let step = "";
   return { points: sendToPoints, step };
 }
 
-export function BaseEndPoint(shapeStartPoint, firstAngle, sideLength) {
+export function BaseEndPoint(shapeStartPoint, firstAngle, sideLength, shape, move) {
   let tvEndPoint = [];
   tvEndPoint[1] = shapeStartPoint;
 
@@ -246,7 +376,7 @@ export function BaseEndPoint(shapeStartPoint, firstAngle, sideLength) {
 }
 
 
-export function drawshape(tvEndPoint) {
+export function drawshape(tvEndPoint, shape) {
 
   let shapeLinePoints = [];
 
@@ -260,10 +390,10 @@ export function drawshape(tvEndPoint) {
 }
 
 
-export function drawApex(tvEndPoint, Centroid = { x: 0, y: 0 }) {
+export function drawApex(tvEndPoint, Centroid = { x: 0, y: 0 }, shape) {
   let apexLinePoints = [];
   for (let i = 1; i <= shape; i++) {
-    apexLinePoints.push(...calculateLinePointsWithCircles(tvEndPoint[i], Centroid, darkPencil))
+    apexLinePoints.push(...calculateLinePointsWithCircles(tvEndPoint[i], Centroid, lightPencil))
     apexLinePoints.push(...label(Centroid, "O", "up"));
 
   }
@@ -271,7 +401,7 @@ export function drawApex(tvEndPoint, Centroid = { x: 0, y: 0 }) {
 }
 
 
-export function findCentroid(tvEndPoint) {
+export function findCentroid(tvEndPoint, shape) {
   let Centroid = { x: 0, y: 0 };
   for (let i = 1; i <= shape; i++) {
     Centroid.x = Centroid.x + tvEndPoint[i].x;
@@ -293,7 +423,7 @@ export function shapeMove(pointStart, angle, length, moveAngle) {
 
 }
 
-export function Plane_Steps() {
+export function Plane_Steps(SolidBase, hpInclinde, vpInclinde) {
   return {
     1: defineSteps("Draw a XY Line"),
 
