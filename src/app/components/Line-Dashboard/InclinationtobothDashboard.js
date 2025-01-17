@@ -11,9 +11,9 @@ export default function InclinationtobothDashboard({ drawingType }) {
   const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
   const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState(15);
   const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
-  const [secondpointAboveHPLength, setSecondPointAboveHPLength] = useState(25);
+  const [secondpointAboveHPLength, setSecondPointAboveHPLength] = useState("");
   const [secondpointPositionHP, setsecondpointPositionHP] = useState("Above");
-  const [secondpointFrontOfVPLength, setSecondPointFrontOfVPLength] = useState(40);
+  const [secondpointFrontOfVPLength, setSecondPointFrontOfVPLength] = useState("");
   const [secondpointPositionVP, setSecondpointPositionVP] = useState("Front");
   const [InclinationToVP, setInclinationToVP] = useState("");
   const [InclinationToHP, setInclinationToHP] = useState("");
