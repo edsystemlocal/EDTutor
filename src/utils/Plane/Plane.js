@@ -48,14 +48,9 @@ export function Calculation() {
   console.log("move:", move);
   angle = 90;
 
-
-
-
   if (sideCorner == "Corner")
     angle = CornerAngle(PlaneName);
   //angle=move;
-
-
 
   if (shapeAt == "VP") {
     if (inParallel === "in")
@@ -88,17 +83,12 @@ export function Calculation() {
 
 }
 
-
-
-
 export function Plane(payload) {
 
   let sendToPoints = [];
   const { counter, finalDrawing } = payload;
   const steps = Plane_Steps(); // Generate steps dynamically
   let step = steps[counter];
-
-
 
   const PlaneType = payload.inputs["Plane Type"];
   const PlaneSideLength = payload.inputs["Side Length"];
@@ -308,7 +298,7 @@ console.log("angleNew",calculateAngleInDegrees({x:0, y:0},{x: tv2EndPoint[i].x +
   let tv3EndPoint = [];
   let tv3LinePoints = [];
   //tv3EndPoint[1] = tv3StartPoint;
-  tv3EndPoint = drawAngledShape(tv3StartPoint, vpInclinde, tv2EndPoint);
+  tv3EndPoint = drawAngledShape(tv3StartPoint, vpInclinde, tv2EndPoint, shape, tv2EndPoint[1]);
   // let angle3,
   //   tv3length = [],
   //   inclinedAngle = 90 - vpInclinde,
@@ -453,21 +443,24 @@ export function drawshape1(tvEndPoint) {
 }
 
 
-export function drawAngledShape(anchorPoint, angleOfInclination, shapeArray){
+export function drawAngledShape(anchorPoint, angleOfInclination, shapeArray, noOfSides, angleAnchorPoint){
     let angledObjectArray = [];
-    angledObjectArray[1] = {x:anchorPoint.x, y: anchorPoint.y};
-    for (let i = 1; i <= shape; i++) {
-      let j = i + 1;
-      if (j > shape) j = 1;
-      console.log("j: ", shapeArray[1], shapeArray[j]);
-      let distance = calculateDistance(shapeArray[1], shapeArray[j]);
-      let angle = calculateAngleInDegrees(shapeArray[1], shapeArray[j]);
+    //angledObjectArray[1] = {x:anchorPoint.x, y: anchorPoint.y};
+    for (let i = 1; i <= noOfSides; i++) {
+      //console.log("angledObjectArray: i=",i);
+      // let j = i + 1;
+      // if (j > shape1) {
+      //   j = 1;
+      // }
+      let distance = calculateDistance(angleAnchorPoint, shapeArray[i]);
+      let angle = calculateAngleInDegrees(angleAnchorPoint, shapeArray[i]);
       let nextPoint  = calculateAngledLinePoints(anchorPoint, -angle - (90 - angleOfInclination), distance);
-      console.log("distance: ", distance, ", angle: ",  angle, ", nextPoint: ", nextPoint);
+      //console.log("distance: ", distance, ", angle: ",  angle, ", nextPoint: ", nextPoint);
       //sendToPoints.push(...calculateLinePointsWithCircles(previousPoint1, nextPoint));
-      angledObjectArray[i+1] = {x:nextPoint.x, y: nextPoint.y};
+      angledObjectArray[i] = {x:nextPoint.x, y: nextPoint.y};
       
     }
+    console.log("angledObjectArray: ", angledObjectArray);
     return angledObjectArray;
 }
 
