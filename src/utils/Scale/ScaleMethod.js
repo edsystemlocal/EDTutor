@@ -63,6 +63,15 @@ export function unitRelation(s1, s2) {
   if (s1 === "km" && s2 === "dm") {
     n = 100; p = 3;
   }
+  if (s1 === "km" && s2 === "m") {
+    n = 1000; p = 4;
+  }
+  if (s1 === "km" && s2 === "dcm") {
+    n = 10000; p = 5;
+  }
+  if (s1 === "km" && s2 === "cm") {
+    n = 100000; p = 6;
+  }
   if (s1 === "hm" && s2 === "dm") {
     n = 10; p = 2;
   }
@@ -74,6 +83,11 @@ export function unitRelation(s1, s2) {
   }
   if (s1 === "dm" && s2 === "dcm") {
     n = 100; p = 3;
+    
+  }
+  if (s1 === "dm" && s2 === "cm") {
+    n = 1000; p = 4;
+    
   }
   if (s1 === "m" && s2 === "dcm") {
     n = 10; p = 2;
@@ -134,26 +148,55 @@ export function drawUnit(a) {
 }
 
 export function CalculateLOS(RF2,Maxlength,maxlengthUnit,otherUnit) {
-  let n=unitRelation(maxlengthUnit,otherUnit);
-  console.log("los calling");
+ let n;
+  if(maxlengthUnit==="km")
+     n=100000;
+  if(maxlengthUnit==="hm")
+    n=10000;
+  if(maxlengthUnit==="dm")
+    n=1000;
+  if(maxlengthUnit==="m")
+    n=100;
+  if(maxlengthUnit==="dcm")
+    n=10;
+  if(maxlengthUnit==="cm")
+    n=1;
+  if(maxlengthUnit==="mm")
+    n=0.1;
+  if(maxlengthUnit==="yard")
+    n=36;
+  if(maxlengthUnit==="ft")
+    n=12;
+  if(maxlengthUnit==="inch")
+    n=1;
+  if(maxlengthUnit==="hh")
+    n=10;
+  if(maxlengthUnit==="min")
+    n=10; 
+  if(maxlengthUnit==="sec")
+    n=1;  
   return n*Maxlength/RF2;
 }
 
 export function CalculateRF(drawingLength,drawingLengthUnit,actualLength,actualLengthUnit) {
-
-  let n=unitRelation(actualLengthUnit,drawingLengthUnit);
-  return n*actualLength/drawingLength;
+console.log("RF calculate")
+console.log(actualLengthUnit);
+let n=[];
+n.push(unitRelation(actualLengthUnit,drawingLengthUnit));
+console.log("n",n);
+  return n[0][0]*actualLength/drawingLength;
 }
+
 export function label(point, label, alignment) {
   let labelX = point.x;
   let labelY = point.y;
   // Adjust label position based on alignment
   switch (alignment) {
     case "up":
-      labelY -= 10; // Adjust Y upwards
+      labelY -= 13; // Adjust Y upwards
       break;
     case "down":
-      labelY += 20; // Adjust Y downwards
+      labelY += 17; // Adjust Y downwards
       break;
     case "left":
       labelX -= 12; // Adjust X to the left
@@ -185,7 +228,7 @@ export function label(point, label, alignment) {
     case "End-Start":
       labelX -= label.length * 9;
       console.log("label lenght" + label.length);
-      labelY += 20; // Adjus// Adjust Y downwards
+      labelY += 17; // Adjus// Adjust Y downwards
       break;
     default:
       break; // No adjustment if no alignment is specified

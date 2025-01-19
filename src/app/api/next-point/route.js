@@ -18,6 +18,7 @@ import { ParabolaByPARALLELOGRAMMethod, ParabolaByRectangularMethod, ParabolaByT
 import { scaleOfChords } from "@/utils/Scale/ScaleOfChords";
 import { AngleInscaleOfChords } from "@/utils/Scale/angleInScaleOfChords";
 import { involute_by_generalmethod } from "@/utils/Involute/involute";
+import { DScale } from "@/utils/Scale/DScale";
 
 export async function POST(request, response) {
   try {
@@ -34,7 +35,7 @@ export async function POST(request, response) {
       ({ points: pointsToSend, step } = PScale(payload));
     } 
     if (drawingType === "diagonalScale") {
-      ({ points: pointsToSend, step } = PScale(payload));
+      ({ points: pointsToSend, step } = DScale(payload));
     }
     if (drawingType === "plane") {
       ({ points: pointsToSend, step } = Plane(payload));

@@ -33,23 +33,23 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    "RF" :0,
-                    ":":0,
+                    "RF" :"",
+                    ":":"",
                     "Actual Length":1,
                     "Actual Length Unit":"dm",
                     "Drawing Length":1.5,
                    "Drawing Length Unit" :"cm",
-                    "Maximum Length":10,
-                    "Maximum Length Unit":"dm",
-                    "Show Length1": 0,
-                    "Show Length1 Unit": "m",
-                    "Show Length2":6,
-                    "Show Length2 Unit":"dm",
+                    "Maximum Length":1,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 6,
+                    "Show Length1 Unit": "dm",
+                    "Show Length2":0,
+                    "Show Length2 Unit":"",
                 },
             });
         }
 
-        else if (question === "q3s") {
+        else if (question === "q3") {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
@@ -73,8 +73,8 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                    "RF" :0,
-                    ":":0,
+                    "RF" :"",
+                    ":":"",
                     "Actual Length":1,
                     "Actual Length Unit":"ft",
                     "Drawing Length":5/4,
@@ -93,8 +93,8 @@ const ScaleExercise = () => {
             setCurrentDrawing({
                 drawingType: "plainScale",
                 inputs: {
-                  "RF" :0,
-                    ":":0,
+                  "RF" :"",
+                    ":":"",
                     "Actual Length":1,
                     "Actual Length Unit":"ft",
                     "Drawing Length":1,
@@ -105,6 +105,210 @@ const ScaleExercise = () => {
                     "Show Length1 Unit": "ft",
                     "Show Length2":7,
                     "Show Length2 Unit":"inch",
+                },
+            });
+        }
+
+        else if (question === "q6") {
+            setCurrentDrawing({
+                drawingType: "plainScale",
+                inputs: {
+                  "RF" :1,
+                    ":":40,
+                    "Actual Length":"",
+                    "Actual Length Unit":"",
+                    "Drawing Length":"",
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":6,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 4,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":7,
+                    "Show Length2 Unit":"dcm",
+                },
+            });
+        }
+
+        else if (question === "q7") {
+            setCurrentDrawing({
+                drawingType: "plainScale",
+                inputs: {
+                  "RF" :"",
+                    ":":"",
+                    "Actual Length":4,
+                    "Actual Length Unit":"m",
+                    "Drawing Length":1,
+                   "Drawing Length Unit" :"cm",
+                    "Maximum Length":50,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 44,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":"",
+                    "Show Length2 Unit":"",
+                },
+            });
+        }
+
+        else if (question === "q8") {
+            setCurrentDrawing({
+                drawingType: "plainScale",
+                inputs: {
+                  "RF" :"",
+                    ":":"",
+                    "Actual Length":10,
+                    "Actual Length Unit":"km",
+                    "Drawing Length":2,
+                   "Drawing Length Unit" :"cm",
+                    "Maximum Length":50,
+                    "Maximum Length Unit":"km",
+                    "Show Length1": 43,
+                    "Show Length1 Unit": "km",
+                    "Show Length2":"",
+                    "Show Length2 Unit":"",
+                },
+            });
+        }
+        else if (question === "q9") {
+            setCurrentDrawing({
+                drawingType: "plainScale",
+                inputs: {
+                  "RF" :"1",
+                    ":":"400000",
+                    "Actual Length":0,
+                    "Actual Length Unit":"",
+                    "Drawing Length":0,
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":60,
+                    "Maximum Length Unit":"km",
+                    "Show Length1": 26,
+                    "Show Length1 Unit": "km",
+                    "Show Length2":"",
+                    "Show Length2 Unit":"",
+                },
+            });
+        }
+        else if (question === "q10") {
+            setCurrentDrawing({
+                drawingType: "plainScale",
+                inputs: {
+                  "RF" :"1",
+                    ":":"250000",
+                    "Actual Length":"",
+                    "Actual Length Unit":"",
+                    "Drawing Length":"",
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":50,
+                    "Maximum Length Unit":"km",
+                    "Show Length1": 26,
+                    "Show Length1 Unit": "km",
+                    "Show Length2":"",
+                    "Show Length2 Unit":"",
+                },
+            });
+        }
+
+        else if (question === "q11") {
+            setCurrentDrawing({
+                drawingType: "diagonalScale",
+                inputs: {
+                  "RF" :1,
+                    ":":250,
+                    "Actual Length":"",
+                    "Actual Length Unit":"",
+                    "Drawing Length":"",
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":30,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 26,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":8,
+                    "Show Length2 Unit":"dcm",
+                    "Show Length3":"",
+                    "Show Length3 Unit":"",
+                },
+            });
+        }
+        else if (question === "q12") {
+            setCurrentDrawing({
+                drawingType: "diagonalScale",
+                inputs: {
+                  "RF" :"",
+                    ":":"",
+                    "Actual Length":5,
+                    "Actual Length Unit":"m",
+                    "Drawing Length":10,
+                   "Drawing Length Unit" :"cm",
+                    "Maximum Length":6,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 3,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":2,
+                    "Show Length2 Unit":"dcm",
+                    "Show Length3":4,
+                    "Show Length3 Unit":"cm",
+                },
+            });
+        }
+        else if (question === "q13") {
+            setCurrentDrawing({
+                drawingType: "diagonalScale",
+                inputs: {
+                  "RF" :1,
+                    ":":50000,
+                    "Actual Length":"",
+                    "Actual Length Unit":"",
+                    "Drawing Length":"",
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":6,
+                    "Maximum Length Unit":"km",
+                    "Show Length1": 5,
+                    "Show Length1 Unit": "km",
+                    "Show Length2":4,
+                    "Show Length2 Unit":"hm",
+                    "Show Length3":3,
+                    "Show Length3 Unit":"dm",
+                },
+            });
+        }
+        else if (question === "q14") {
+            setCurrentDrawing({
+                drawingType: "diagonalScale",
+                inputs: {
+                  "RF" :1,
+                    ":":32,
+                    "Actual Length":"",
+                    "Actual Length Unit":"",
+                    "Drawing Length":"",
+                   "Drawing Length Unit" :"",
+                    "Maximum Length":4,
+                    "Maximum Length Unit":"yard",
+                    "Show Length1": 1,
+                    "Show Length1 Unit": "yard",
+                    "Show Length2":1,
+                    "Show Length2 Unit":"ft",
+                    "Show Length3":1,
+                    "Show Length3 Unit":"inch",
+                },
+            });
+        }
+        else if (question === "q15") {
+            setCurrentDrawing({
+                drawingType: "diagonalScale",
+                inputs: {
+                  "RF" :1,
+                    ":":50000,
+                    "Actual Length":25,
+                    "Actual Length Unit":"m",
+                    "Drawing Length":1,
+                   "Drawing Length Unit" :"cm",
+                    "Maximum Length":300,
+                    "Maximum Length Unit":"m",
+                    "Show Length1": 235,
+                    "Show Length1 Unit": "m",
+                    "Show Length2":"",
+                    "Show Length2 Unit":"",
+                    "Show Length3":"",
+                    "Show Length3 Unit":"",
                 },
             });
         }
@@ -178,6 +382,116 @@ const ScaleExercise = () => {
                             Click Here
                         </button>
                     </div>
+                    
+                    <div className="card">
+                        <p className="card-text">
+                        6. Construct a scale of 1:40 to read metres and decimetres and long enough to measure
+                        up to 6 metres. Mark a distance of 4.7 m on it.
+                        </p>
+                        <button onClick={() => handleClick("q6")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <p className="card-text">
+                        7.If 1 centimetre long line on a map represents a real length of 4 metres. Calculate the
+                        R.F. and draw a plain scale long enough to measure up to 50 metres. Show a distance of 44 m on it.
+                        </p>
+                        <button onClick={() => handleClick("q7")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <p className="card-text">
+                        8.A rectangular plot of 100 square kilometres is represented on a certain map by a similar rectangular area of 4 square centimetres. 
+                        Draw a scale to read 50 kilometres and mark a distance of 43 kilometres on it.
+                        </p>
+                        <button onClick={() => handleClick("q8")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    
+                    <div className="card">
+                        <p className="card-text">
+                        9.The distance between Hyderabad and Mumbai is 1200 km. A altitude train covers this distance in 20 hours. 
+                        R.F. of the scale is 1/400,000. Draw a plain scale to measure time up to a single minute. 
+                        Show the distance covered by the train in 26 minuts.
+
+                        </p>
+                        <button onClick={() => handleClick("q9")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        10.The distance between Hyderabad and Mumbai is 1200 km. A altitude train covers this distance in 20 hours. 
+                        R.F. of the scale is 1/400,000. Draw a plain scale to measure time up to a single minute. 
+                        Show the distance covered by the train in 26 minuts.
+
+                        </p>
+                        <button onClick={() => handleClick("q10")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        11.Construct a scale of R.F. = 1 : 250 to show decimetre and enough to measure upto 30 m. 
+                        Mark a distance of 26.8 m on it.
+
+                        </p>
+                        <button onClick={() => handleClick("q11")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        12.On a building plan, a line 10 cm long represents a distance of 5 m.
+                         Construct a diagonal scale for the plan to read upto 6 m, showing metres, decimetres and centimetres.
+                          Indicate on your scale the length 3.24 m. 
+
+                        </p>
+                        <button onClick={() => handleClick("q12")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        13.Construct a diagonal scale to measure kilometres, hectometres ind decimetre to a scale of R.F. = 1/50,000
+                         and measure on it a length of 6 representintm, 4 hectometres and 3 decimetres.
+
+                        </p>
+                        <button onClick={() => handleClick("q13")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        14.Construct a diagonal scale of R.F.=1/32 showing yards,
+                         feet and inches and to measure upto 4 yards.
+
+                        </p>
+                        <button onClick={() => handleClick("q14")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+                    <div className="card">
+                        <p className="card-text">
+                        15.The area of a field is 50,000 sq m. The length and the  breadth of the field, 
+                           on the map is 10 cm and 8 cm respectively. Construct a diagonal scale which can
+                         read upto one metre. Mark the length of 235 metre on the scale. What is the R.F. of the scale?
+
+                        </p>
+                        <button onClick={() => handleClick("q15")} className="button-blue">
+                            Click Here
+                        </button>
+                    </div>
+
+
+
+
+
 
 
      </div>
