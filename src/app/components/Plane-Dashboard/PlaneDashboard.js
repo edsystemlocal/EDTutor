@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import PlaneDetails from "@/app/content/plane-details";
+import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, PlaneHPAngleInfo, PlanePositionInfo, PlaneSideLengthInfo, PlaneTypeInfo, PlaneVPAngleInfo, selectInputStyle } from "../informationIconHelper";
 
 export default function PlaneDashboard({ drawingType }) {
   let [setDrawingType] = useState("Plane");
@@ -17,19 +18,53 @@ export default function PlaneDashboard({ drawingType }) {
   const inputs = {
     "Plane Type": PlaneType,
     "Side Length": PlaneSideLength,
-    "Plane Position":PlanePosition1,
-    "Plane in/parallel Postion":PlanePosition2,
-    "Plane HP/VP Postion":PlanePosition3,
+    "Plane Position": PlanePosition1,
+    "Plane in/parallel Postion": PlanePosition2,
+    "Plane HP/VP Postion": PlanePosition3,
     "Incline With HP": PlaneHPAngle,
-    "Inclined With VP": PlaneVPAngle 
+    "Inclined With VP": PlaneVPAngle
   };
 
-  const inputStyle =
-  "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
-const selectInputStyle =
-  "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-const labelStyle = "text-gray-700 font-bold px-8 ";
-const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+  const [showInfo1, setShowInfo1] = useState(false);
+  const [showInfo2, setShowInfo2] = useState(false);
+  const [showInfo3, setShowInfo3] = useState(false);
+  const [showInfo4, setShowInfo4] = useState(false);
+  const [showInfo5, setShowInfo5] = useState(false);
+
+
+
+
+  const showInfoRef1 = useRef(null);
+  const showInfoRef2 = useRef(null);
+  const showInfoRef3 = useRef(null);
+  const showInfoRef4 = useRef(null);
+  const showInfoRef5 = useRef(null);
+
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showInfoRef1.current && !showInfoRef1.current.contains(event.target)) {
+        setShowInfo1(false);
+      }
+      if (showInfoRef2.current && !showInfoRef2.current.contains(event.target)) {
+        setShowInfo2(false);
+      }
+      if (showInfoRef3.current && !showInfoRef3.current.contains(event.target)) {
+        setShowInfo3(false);
+      }
+      if (showInfoRef4.current && !showInfoRef4.current.contains(event.target)) {
+        setShowInfo4(false);
+      }
+      if (showInfoRef5.current && !showInfoRef5.current.contains(event.target)) {
+        setShowInfo5(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (isCanvas) {
     return (
@@ -54,7 +89,23 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
               <table className="w-full border-collapse border-spacing-2">
                 <tbody>
                   <tr>
-                    <td  className={labelStyle}> Plane Type: </td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Plane Type:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo1(!showInfo1)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo1 && (
+                        <div ref={showInfoRef1} className={onClickStyle}>
+                          {PlaneTypeInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <select
                         value={PlaneType}
@@ -70,8 +121,29 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                     </td>
                   </tr>
                   <tr>
-                    <td  className={labelStyle}> Side Length: </td>
-                    <td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Side Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo2(!showInfo2)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo2 && (
+                        <div ref={showInfoRef2} className={onClickStyle}>
+                          {PlaneSideLengthInfo}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2">
                       <input
                         type="text"
                         value={PlaneSideLength}
@@ -81,7 +153,28 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                     </td>
                   </tr>
                   <tr>
-                  <td  className={labelStyle}> Plane Position: </td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Plane Position:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo3(!showInfo3)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo3 && (
+                        <div ref={showInfoRef3} className={onClickStyle}>
+                          {PlanePositionInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <div className="flex space-x-1">
                         <select
@@ -113,8 +206,29 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                     </td>
                   </tr>
                   <tr>
-                    <td  className={labelStyle}> Inclined With HP: </td>
-                    <td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Inclined With HP:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo4(!showInfo4)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo4 && (
+                        <div ref={showInfoRef4} className={onClickStyle}>
+                          {PlaneHPAngleInfo}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2">
                       <input
                         type="text"
                         value={PlaneHPAngle}
@@ -124,14 +238,41 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                     </td>
                   </tr>
                   <tr>
-                    <td  className={labelStyle}>  Inclined With VP: </td>
-                    <td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2 " >
+                      <span className={labelStyle}>
+                        Inclined With VP:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo5(!showInfo5)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      
+                      {showInfo5 && (
+                        <div ref={showInfoRef5} className={onClickStyle}>
+                          {PlaneVPAngleInfo}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2">
                       <input
                         type="text"
                         value={PlaneVPAngle}
                         onChange={(e) => setPlaneVPAngle(Number(e.target.value))}
                         className={inputStyle}
                       />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
                     </td>
                   </tr>
                 </tbody>

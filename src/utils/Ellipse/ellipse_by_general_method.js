@@ -63,9 +63,14 @@ export function ellipse_by_generalmethodPoint(payload) {
 
     let distanceofthefocusfromthedirectrix = Number(inputs["Distance From focus To Directrix"]) || 0;
     let values ={ distanceofthefocusfromthedirectrix }
-    distanceofthefocusfromthedirectrix = distanceofthefocusfromthedirectrix;
-    const LineLengthfor_v = 3 * distanceofthefocusfromthedirectrix / 5;
-    const LineLengthfor_e = distanceofthefocusfromthedirectrix - LineLengthfor_v;
+
+    let distanceofthefocusfromthedirectrix1 = distanceofthefocusfromthedirectrix*2;
+    
+
+    let LineLengthfor_v = 3 * distanceofthefocusfromthedirectrix / 5;
+    let LineLengthfor_e = distanceofthefocusfromthedirectrix- LineLengthfor_v;
+    let LineLengthfor_v1=LineLengthfor_v*2;
+    let  LineLengthfor_e1=LineLengthfor_e*2;
 
     console.log(LineLengthfor_v, "LineLengthfor_v")
     console.log(LineLengthfor_e, "LineLengthfor_e")
@@ -79,15 +84,15 @@ export function ellipse_by_generalmethodPoint(payload) {
     const labeledStartPoint = calculateLabel(ab_LinePoints[0], "a", "left");
     const labeledEndPoint = calculateLabel(ab_LinePoints[1], "b", "left");
 
-    const v_LineEndPoint = { x: startpoint.x + LineLengthfor_v, y: startpoint.y };
+    const v_LineEndPoint = { x: startpoint.x + LineLengthfor_v1, y: startpoint.y };
     const v_LinePoints = calculateLinePointsWithCircles(startpoint, v_LineEndPoint);
     const labeled_v_LinePoints = calculateLabel({ x: v_LineEndPoint.x, y: v_LineEndPoint.y +10 }, "v", "left-down");
 
-    const e_LineEndPoint = { x: v_LineEndPoint.x, y: v_LineEndPoint.y - LineLengthfor_e };
+    const e_LineEndPoint = { x: v_LineEndPoint.x, y: v_LineEndPoint.y - LineLengthfor_e1 };
     const e_LinePoints = calculateLinePointsWithCircles(v_LineEndPoint, e_LineEndPoint);
     const labeled_e_LinePoints = calculateLabel(e_LineEndPoint, "e", "left-up");
 
-    const f_LineEndPoint = { x: startpoint.x + distanceofthefocusfromthedirectrix, y: startpoint.y };
+    const f_LineEndPoint = { x: startpoint.x + distanceofthefocusfromthedirectrix1, y: startpoint.y };
     const f_LinePoints = calculateLinePointsWithCircles(startpoint, f_LineEndPoint);
     const labeled_f_LinePoints = calculateLabel(f_LineEndPoint, "f", "down");
 
@@ -121,22 +126,22 @@ export function ellipse_by_generalmethodPoint(payload) {
         }
     }
     if (counter === 3 || drawAll) {
-        sendToPoints.push(...drawParallelArrow(ab_LinePoints[0],{ x: startpoint.x + distanceofthefocusfromthedirectrix, y: startpoint.y - 100 },"Above","cf = "+distanceofthefocusfromthedirectrix));
+        sendToPoints.push(...drawParallelArrow(ab_LinePoints[0],{ x: startpoint.x + distanceofthefocusfromthedirectrix1, y: startpoint.y - 100 },"Above","cf = "+distanceofthefocusfromthedirectrix));
         sendToPoints.push(...f_LinePoints, ...labeled_f_LinePoints); 
             if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 4 || drawAll) {
-        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y - 50 }, { x: startpoint.x + LineLengthfor_v, y: startpoint.y - 50 }, "Above", "cv = " + LineLengthfor_v));
-        sendToPoints.push(...labeled_v_LinePoints,
+        sendToPoints.push(...drawParallelArrow({ x: startPoint.x, y: startPoint.y - 50 }, { x: startpoint.x + LineLengthfor_v1, y: startpoint.y - 50 }, "Above", "cv = " + LineLengthfor_v));
+        sendToPoints.push(...getCirclePoints(v_LineEndPoint),...labeled_v_LinePoints,
         );
         if (finalDrawing) {
             drawAll = true;
         }
     }
     if (counter === 5 || drawAll) {
-        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x - 50, y: startPoint.y }, { x: startPoint.x - 50, y: startPoint.y - LineLengthfor_e }, "right", "ve = " + LineLengthfor_e));
+        sendToPoints.push(...drawPerpendicularArrow({ x: startPoint.x - 50, y: startPoint.y }, { x: startPoint.x - 50, y: startPoint.y - LineLengthfor_e1 }, "right", "ve = " + LineLengthfor_e));
         sendToPoints.push(...e_LinePoints, ...labeled_e_LinePoints, ...diagonalLinePoints,);
         if (finalDrawing) {
             drawAll = true;

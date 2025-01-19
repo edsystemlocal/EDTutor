@@ -1,10 +1,11 @@
 
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import Navbar from "../Navbar/navbar";
 import ScaleDetails from "@/app/content/scale-details";
 import LineDetails from "../../content/line-details";
+import { ActualLengthInfo, buttonStyle, DrawingLengthInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, RFInfo, RFLenghtInfo, ScaleMaximumLengthInfo, ScaleShowLength1Info, ScaleShowLength2Info, selectInputStyle } from "../informationIconHelper";
 
 export default function ScaleDashboard({ drawingType }) {
   // const [drawingType, setDrawingType] = useState("scale");
@@ -16,23 +17,56 @@ export default function ScaleDashboard({ drawingType }) {
   const [DrawingLength, setDrawingLength] = useState();
   const [DrawingUnit, setDrawingUnit] = useState();
 
-
-const inputStyle =
-    "w-12 p-2 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold  bg-gradient-to-r from-green-100 to-blue-100";
-  const selectInputStyle =
-    "w-22 p-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-  const labelStyle = "px-5 font-bold ";
-
-
-
   const [ScaleMaximumLength, setScaleMaximumLength] = useState(8); // Default value
   const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState("km"); // Default value
   const [ScaleShowLength1, setScaleShowLength1] = useState(6); // Default value
   const [ScaleShowUnit1, setScaleShowUnit1] = useState("km"); // Default value
   const [ScaleShowLength2, setScaleShowLength2] = useState(7); // Default value
   const [ScaleShowUnit2, setScaleShowUnit2] = useState("hm"); // Default value
+
+  const [RFInfo, setRFInfo] = useState(false);
+  const [DrawingLength1, setDrawingLengthInfo] = useState(false);
+  const [ActualLength, setActualLength] = useState(false);
+  const [ScaleMaximumLength1, setScaleMaximumLength1] = useState(false);
+  const [ShowLength1, setShowLength1] = useState(false);
+  const [ShowLength2, setShowLength2] = useState(false);
+
+
+  const RFInfoRef = useRef(null);
+  const DrawingLengthInfoRef = useRef(null);
+  const ActualLengthInfoRef = useRef(null);
+  const ScaleMaximumLength1Ref = useRef(null);
+  const ShowLength1Ref = useRef(null);
+  const ShowLength2Ref = useRef(null);
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (RFInfoRef.current && !RFInfoRef.current.contains(event.target)) {
+        setRFInfo(false);
+      }
+      if (DrawingLengthInfoRef.current && !DrawingLengthInfoRef.current.contains(event.target)) {
+        setDrawingLengthInfo(false);
+      }
+      if (ActualLengthInfoRef.current && !ActualLengthInfoRef.current.contains(event.target)) {
+        setActualLength(false);
+      }
+      if (ScaleMaximumLength1Ref.current && !ScaleMaximumLength1Ref.current.contains(event.target)) {
+        setScaleMaximumLength1(false);
+      }
+      if (ShowLength1Ref.current && !ShowLength1Ref.current.contains(event.target)) {
+        setShowLength1(false);
+      }
+      if (ShowLength2Ref.current && !ShowLength2Ref.current.contains(event.target)) {
+        setShowLength2(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const inputs2 = {
     RF1,
@@ -49,15 +83,15 @@ const inputStyle =
     ScaleShowUnit2,
   };
 
-  
+
 
   const inputs = {
-   "RF" :RF1,
-    ":":RF2,
-    "Actual Length":RealLength,
-    "Actual Length Unit":RealUnit,
-   "Drawing Length": DrawingLength,
-   "Drawing Length Unit" :DrawingUnit,
+    "RF": RF1,
+    ":": RF2,
+    "Actual Length": RealLength,
+    "Actual Length Unit": RealUnit,
+    "Drawing Length": DrawingLength,
+    "Drawing Length Unit": DrawingUnit,
     "Maximum Length": ScaleMaximumLength,
     "Maximum Length Unit": ScaleMaximumLengthUnit,
     "Show Length1": ScaleShowLength1,
@@ -89,7 +123,7 @@ const inputStyle =
       </div>
     );
   }
-  
+
   return (
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-2">
@@ -105,10 +139,26 @@ const inputStyle =
               <table className="table-auto w-full text-left text-gray-700">
                 <tbody>
                   <tr>
-                    <td className={labelStyle}>RF:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>RF:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setRFInfo(!RFInfo)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {RFInfo && (
+                        <div ref={RFInfoRef} className={onClickStyle}>
+                          {RFLenghtInfo}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={RF1}
                         onChange={(e) => setRF1(Number(e.target.value))}
                         className={inputStyle}
@@ -117,7 +167,7 @@ const inputStyle =
                     <td className={labelStyle}>:</td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={RF2}
                         onChange={(e) => setRF2(Number(e.target.value))}
                         className={inputStyle}
@@ -125,7 +175,28 @@ const inputStyle =
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelStyle}>Drawing Length:</td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                  <td className="p-2">
+                      <span className={labelStyle}>Drawing Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setDrawingLengthInfo(!DrawingLength1)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {DrawingLength1 && (
+                        <div ref={DrawingLengthInfoRef} className={onClickStyle}>
+                          {DrawingLengthInfo}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
                         type="number"
@@ -159,10 +230,31 @@ const inputStyle =
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelStyle}>Actual Length:</td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>Actual Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setActualLength(!ActualLength)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {ActualLength && (
+                        <div ref={ActualLengthInfoRef} className={onClickStyle}>
+                          {ActualLengthInfo}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={RealLength}
                         onChange={(e) => setRealLength(Number(e.target.value))}
                         className={inputStyle}
@@ -192,10 +284,31 @@ const inputStyle =
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelStyle}>Maximum Length:</td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                  <td className="p-2">
+                      <span className={labelStyle}>Maximum Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setScaleMaximumLength1(!ScaleMaximumLength1)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {ScaleMaximumLength1 && (
+                        <div ref={ScaleMaximumLength1Ref} className={onClickStyle}>
+                          {ScaleMaximumLengthInfo}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={ScaleMaximumLength}
                         onChange={(e) =>
                           setScaleMaximumLength(Number(e.target.value))
@@ -227,10 +340,31 @@ const inputStyle =
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelStyle}>Show Length1:</td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>Show Length1:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowLength1(!ShowLength1)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {ShowLength1 && (
+                        <div ref={ShowLength1Ref} className={onClickStyle}>
+                          {ScaleShowLength1Info}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={ScaleShowLength1}
                         onChange={(e) =>
                           setScaleShowLength1(Number(e.target.value))
@@ -262,10 +396,31 @@ const inputStyle =
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelStyle}>Show Length2:</td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                  <td className="p-2">
+                      <span className={labelStyle}>Show Length2:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowLength2(!ShowLength2)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {ShowLength2 && (
+                        <div ref={ShowLength2Ref} className={onClickStyle}>
+                          {ScaleShowLength2Info}
+                        </div>
+                      )}
+
+                    </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={ScaleShowLength2}
                         onChange={(e) =>
                           setScaleShowLength2(Number(e.target.value))
@@ -296,6 +451,11 @@ const inputStyle =
                       </select>
                     </td>
                   </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <div className="text-center mt-4">
@@ -320,5 +480,5 @@ const inputStyle =
       </main>
     </div>
   );
-}  
+}
 

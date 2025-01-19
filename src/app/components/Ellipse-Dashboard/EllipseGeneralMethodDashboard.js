@@ -1,10 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ElipseDetails from "@/app/content/elipse-details";
+import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaDistanceInfo } from "../informationIconHelper";
 
 export default function EllipseGeneralMethodDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
+  const [showInfo, setShowInfo] = useState(false); // state for tooltip visibility
+  const InfoRef = useRef(null);
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (InfoRef.current && !InfoRef.current.contains(event.target)) {
+        setShowInfo(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Ellipse properties
   const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState(100);
@@ -12,14 +29,6 @@ export default function EllipseGeneralMethodDashboard({ drawingType }) {
   const inputs = {
     "Distance From focus To Directrix": distanceofthefocusfromthedirectrix,
   };
-
-
-  const inputStyle =
-  "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
-const selectInputStyle =
-  "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-const labelStyle = "text-gray-700 font-bold px-10 ";
-const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
 
   if (isCanvas) {
     return (
@@ -46,22 +55,32 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                   <tbody>
                     <tr>
                       <td className="p-2">
-                        <span className={labelStyle}> Distance from Focus to Directrix: </span>
+                        <span className={labelStyle}>Distance from Focus to Directrix:
+                          <span
+                            className={infoIconStyle}
+                            title={HoverMsg}
+                            onClick={() => setShowInfo(!showInfo)} // toggle tooltip on click
+                          >
+                            ⓘ
+                          </span>
+                        </span>
+                        {showInfo && (
+                          <div ref={InfoRef} className={onClickStyle}>
+                            {ParaDistanceInfo}
+                          </div>
+                        )}
                       </td>
-                      <td className="p-2">
+                      <td>
                         <input
                           type="text"
                           value={distanceofthefocusfromthedirectrix}
-                          onChange={(e) => setdistanceofthefocusfromthedirectrix(Number(e.target.value))}
+                          onChange={(e) =>
+                            setdistanceofthefocusfromthedirectrix(Number(e.target.value))
+                          }
                           className={inputStyle}
                         />
                       </td>
                     </tr>
-                    <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
                   </tbody>
                 </table>
                 <div className="text-center">

@@ -5,10 +5,10 @@ import { darkPencil,   startPoint,   superLightPencil } from "../globalVariable"
 import { calculateLabel } from "../functionHelper";
 
 export function generateBisectLineSteps(values) {
-  const {Lenght} = values;
+  const {Length} = values;
  
   return {
-    1: defineSteps(`Draw XY axis line of given lenght ${Lenght} mm`),
+    1: defineSteps(`Draw XY axis line of given Length ${Length} mm`),
     2: defineSteps(
       "Draw left upper arc",
       "Draw right upper arc",
@@ -28,16 +28,16 @@ export function getBisectLinePoints(payload) {
   
 
   // const startPoint = { x: 50, y: 400 };
-    const {Lenght} = inputs;
+    const {Length} = inputs;
     // const startpoint = { x: 50, y: 400 };
    
     let values ={
-      Lenght
+      Length
    }
 
    // Calculate XY axis line points
       const XYLineStartPoint = startPoint;
-      const XYLineEndPoint = { x: XYLineStartPoint.x + Lenght, y: startPoint.y };
+      const XYLineEndPoint = { x: XYLineStartPoint.x + Length, y: startPoint.y };
       const XYLinePoints = calculateLinePointsWithCircles(XYLineStartPoint, XYLineEndPoint);
 
   // Points calculations

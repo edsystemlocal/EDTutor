@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Canvas from "../Canvas/canvas";
 import ParabolaDetails from "@/app/content/parabola-details";
+import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaBaseInfo, ParaHeightInfo } from "../informationIconHelper";
 
 export default function TangentDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
@@ -9,18 +10,34 @@ export default function TangentDashboard({ drawingType }) {
   // Parabola properties
   const [Base, setBase] = useState(200);
   const [Height, setHeight] = useState(100);
+  const [showBaseInfo, setShowBaseInfo] = useState(false); // state for tooltip visibility
+  const [showHeightInfo, setShowHeightInfo] = useState(false); // state for tooltip visibility
+
+  // Refs for tooltips
+  const baseInfoRef = useRef(null);
+  const heightInfoRef = useRef(null);
 
   const inputs = {
     "Base": Base,
     "Height": Height,
   };
 
-  const inputStyle =
-  "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
-const selectInputStyle =
-  "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-const labelStyle = "text-gray-700 font-bold px-10 ";
-const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (baseInfoRef.current && !baseInfoRef.current.contains(event.target)) {
+        setShowBaseInfo(false);
+      }
+      if (heightInfoRef.current && !heightInfoRef.current.contains(event.target)) {
+        setShowHeightInfo(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (isCanvas) {
     return (
@@ -38,7 +55,7 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
           <div className="col-span-4 h-150">
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
+              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200 h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {drawingType}
@@ -48,7 +65,21 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                   <tbody>
                     <tr>
                       <td className="p-2">
-                        <span className={labelStyle}>Base:</span>
+                        <span className={labelStyle}>
+                          Base:
+                          <span
+                            className={infoIconStyle}
+                            title={HoverMsg}
+                            onClick={() => setShowBaseInfo(!showBaseInfo)} // toggle tooltip on click
+                          >
+                            ⓘ
+                          </span>
+                        </span>
+                        {showBaseInfo && (
+                          <div ref={baseInfoRef} className={onClickStyle}>
+                            {ParaBaseInfo}
+                          </div>
+                        )}
                       </td>
                       <td className="p-2">
                         <input
@@ -60,14 +91,29 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                       </td>
                     </tr>
                     <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
+                      <td colSpan="3">
+                        <hr />
+                      </td>
+                    </tr>
                     <tr>
                       <td className="p-2">
-                        <span className={labelStyle}>Height:</span>
+                        <span className={labelStyle}>
+                          Height:
+                          <span
+                            className={infoIconStyle}
+                            title={HoverMsg}
+                            onClick={() => setShowHeightInfo(!showHeightInfo)} // toggle tooltip on click
+                          >
+                            ⓘ
+                          </span>
+                        </span>
+                        {showHeightInfo && (
+                          <div ref={heightInfoRef} className={onClickStyle}>
+                            {ParaHeightInfo}
+                          </div>
+                        )}
                       </td>
+
                       <td className="p-2">
                         <input
                           type="text"
@@ -78,10 +124,10 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
                       </td>
                     </tr>
                     <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
+                      <td colSpan="3">
+                        <hr />
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <div className="text-center">
@@ -103,7 +149,7 @@ const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-
           <div className="col-span-8 h-150">
             <section
               id="parabola-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200  h-screen shadow-lg bg-white h-full overflow-scroll"
+              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200 h-screen shadow-lg bg-white h-full overflow-scroll"
             >
               <ParabolaDetails drawingType={drawingType} />
             </section>

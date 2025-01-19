@@ -3,6 +3,7 @@
 import { useState } from "react";
 import LineDashboard from "../components/Line-Dashboard/LineDashboard";
 import ScaleDashboard from "../components/Scale-Dashboard/ScaleDashBoard";
+import DScaleDashboard from "../components/Scale-Dashboard/DScaleDashBoard";
 import Navbar from "../components/Navbar/navbar";
 import HyperbolaDashboard from "../components/Hyperbola-Dashboard/HyperbolaDashboard";
 import PointDashboard from "../components/Point-Dashboard/PointDashboard";
@@ -42,7 +43,6 @@ import ParalleltohpandinclinationtovpDashboard from "../components/Line-Dashboar
 import ParalleltovpandinclinationtohpDashboard from "../components/Line-Dashboard/ParalleltovpandinclinationtohpDashboard";
 import MidpointDashboard from "../components/Line-Dashboard/MidpointDashboard";
 import CurveExercise from "../exercise_questions/CurveExercise";
-import DScaleDashboard from "../components/Scale-Dashboard/DScaleDashBoard";
 
 
 export default function Home() {

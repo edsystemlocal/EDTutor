@@ -32,8 +32,6 @@ export function generateFullCircle(center, radius) {
     
     return circlePoints;
 }
-
-
 export function ellipse_by_concentricCriclemethodSteps(values) {
     const { majorAxis, minorAxis } = values
 
@@ -71,10 +69,10 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
     let values = {
         majorAxis,
         minorAxis
-    }
-    majorAxis = majorAxis * 3;
-    minorAxis = minorAxis * 3;
 
+    }
+    majorAxis = majorAxis*3;
+    minorAxis = minorAxis*3;
     // Calculate the endpoints of the major axis
     const ab_LineEndPoint = { x: startpoint.x + majorAxis, y: startpoint.y };
     

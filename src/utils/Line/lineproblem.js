@@ -283,6 +283,11 @@ export function getLineProblemPoints(payload) {
 
     if (counter === 2) {
       sendToPoints.push(...getCounter2Points(xyAxisLineStartPoint, firstPointAboveHP, firstPointFrontVP, Number(inputs["First Point Above of HP"]),Number(inputs["First Point Front of VP"])));
+      if(drawingType === "perpendicularToVP"){
+        sendToPoints.push(...calculateLabel(firstPointAboveHP, "b'", "right-up"));
+      } else if(drawingType === "perpendicularToHP"){
+        sendToPoints.push(...calculateLabel(firstPointFrontVP, "b", "right-down"));
+      }
     }
 
 
@@ -293,19 +298,24 @@ export function getLineProblemPoints(payload) {
       if (drawingType === "parallelToVPAndInclinationToHP" || drawingType === "perpendicularToVP") {
         if(drawingType === "parallelToVPAndInclinationToHP"){
           sendToPoints.push(...drawParallelArrow(firstPointFrontVP, secondPointFrontVP, "down", (Math.abs(secondPointFrontVP.x - firstPointFrontVP.x))/zoom));
+          labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
         } else if(drawingType === "perpendicularToVP"){
           sendToPoints.push(...lightPencil, ...drawPerpendicularArrow(firstPointFrontVP, secondPointFrontVP, "left", (Math.abs(secondPointFrontVP.y - firstPointFrontVP.y))/zoom));
+          labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b", "left-down");
         }
         parallelLinePoints = calculateLinePointsWithCircles(firstPointFrontVP, secondPointFrontVP, darkPencil,);
-        labelparallelLinePoints = calculateLabel(secondPointFrontVP, "b", "right");
+       
       } else if (drawingType === "parallelToHPAndInclinationToVP" || drawingType === "perpendicularToHP") {
         if(drawingType === "parallelToHPAndInclinationToVP"){
           sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
+          labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "right");
         } else if(drawingType === "perpendicularToHP"){
           sendToPoints.push(...lightPencil, ...drawPerpendicularArrow(firstPointAboveHP, secondPointAboveHP, "left", (Math.abs(firstPointAboveHP.y - secondPointAboveHP.y))/zoom));
+          labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "left-up");
         }
+        
         parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);
-        labelparallelLinePoints = calculateLabel(secondPointAboveHP, "b'", "right");
+        
       } else if (drawingType === "parallelToBoth") {
         sendToPoints.push(...drawParallelArrow(firstPointAboveHP, secondPointAboveHP, "up", (Math.abs(firstPointAboveHP.x - secondPointAboveHP.x))/zoom));
         parallelLinePoints = calculateLinePointsWithCircles(firstPointAboveHP, secondPointAboveHP, darkPencil);

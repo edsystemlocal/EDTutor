@@ -1,11 +1,11 @@
 
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "../../page";
 import Paper_June_2018 from "../../exam_solutions/paper_June_2018";
-import { useRouter } from "next/router";
 import companyDetails from "../Company-Details/companyDetails";
+import { useRouter } from "next/navigation";
+
 
 const menuItems = [
 
@@ -159,21 +159,27 @@ const menuItems = [
   },
 ];
 
+
+
+
+
 export default function Navbar({ resetDrawing }) {
   const [hoveredParent, setHoveredParent] = useState(null);
   const [hoveredChild, setHoveredChild] = useState(null);
-  const [hoveredSubChild, setHoveredSubChild] = useState(null);
-  const [hoveredGrandChild, setHoveredGrandChild] = useState(null);
+  const [profileOpen, setProfileOpen] = useState(false); // State for profile dropdown
+  const [activeParent, setActiveParent] = useState(null);
+
+  // Fetch username from localStorage
 
   const route = (path, label) => {
     resetDrawing(path, label);
     console.log(label, "clicked");
     setHoveredParent(null);
     setHoveredChild(null);
-    setHoveredSubChild(null);
-    setHoveredGrandChild(null);
-
+    setProfileOpen(false);
   };
+
+
 
   return (
     <>
@@ -192,31 +198,20 @@ export default function Navbar({ resetDrawing }) {
               onMouseEnter={() => setHoveredParent(item.label)}
               onMouseLeave={() => setHoveredParent(null)}
             >
-              <div className="flex items-center space-x-2 ">
-                <button
-                  className="my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md active:scale-95 active:translate-y-1 hover:shadow-lg hover:from-blue-600 hover:to-blue-800 transform hover:scale-105 hover:-translate-y-1 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400"
-                  onClick={() => item.path && route(item.path, item.label)}
-                >
-                  {item.label}
-                </button>
-
-                {/* {item.children && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-4 w-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                )} */}
+              <div className="flex items-center space-x-2">
+              <button
+                className={`my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r ${
+                  activeParent === item.label || hoveredParent === item.label
+                    ? "from-blue-600 to-blue-800 text-white shadow-lg scale-105 ring-2 ring-offset-2 ring-blue-400"
+                    : "from-blue-500 to-blue-700 text-white shadow-md"
+                } hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transform hover:scale-105 hover:-translate-y-1`}
+                onClick={() => setActiveParent(activeParent === item.label ? null : item.label)}
+              >
+                {item.label}
+              </button>
               </div>
+
+
 
               {item.children && hoveredParent === item.label && (
                 <div className="absolute top-full left-0 bg-gray-100 py-1 shadow-xl">
@@ -228,12 +223,11 @@ export default function Navbar({ resetDrawing }) {
                       onMouseLeave={() => setHoveredChild(null)}
                     >
                       <button
-                        className="block  w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-red-400 hover:scale-105 hover:underline"
+                        className="block w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-red-400 hover:scale-105 hover:underline"
                         onClick={() => child.path && route(child.path, child.label)}
                       >
                         {child.label}
                       </button>
-
                       {child.children && hoveredChild === child.label && (
                         <div className="absolute left-full top-0 bg-gray-200 py-1 shadow-lg">
                           {child.children.map((subChild, subIdx) => (
@@ -248,11 +242,19 @@ export default function Navbar({ resetDrawing }) {
                         </div>
                       )}
                     </div>
+
+                    
                   ))}
                 </div>
               )}
             </div>
           ))}
+
+        
+
+          
+
+
         </div>
       </nav>
     </>

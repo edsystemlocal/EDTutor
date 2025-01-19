@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import PointDetails from "@/app/content/point-details";
+import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, PointFristInHPInfo, PointFristInVPInfo, selectInputStyle } from "../informationIconHelper";
 
 export default function PointDashboard({ drawingType }) {
   // State for variables
@@ -10,21 +11,44 @@ export default function PointDashboard({ drawingType }) {
   const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
   const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
   const [isCanvas, setIsCanvas] = useState(false);
+  const [firstPointFrontOfVPInfo, setfirstPointFrontOfVPInfo] = useState(false);
+  const [firstPointAboveHPInfo, setfirstPointAboveHPInfo] = useState(false);
 
- // Inputs for Canvas with labels
- const inputs = 
- {
-  // "First Point Above HP": `${firstPointAboveHP} ${firstpointPositionHP}`,
-  // "First Point Front of VP": `${firstPointFrontOfVP} ${firstpointPositionVP}`,
+  const firstPointFrontOfVPInfoRef = useRef(null);
+  const firstPointAboveHPInfoRef = useRef(null);
+
+  // Inputs for Canvas with labels
+  const inputs =
+  {
+    // "First Point Above HP": `${firstPointAboveHP} ${firstpointPositionHP}`,
+    // "First Point Front of VP": `${firstPointFrontOfVP} ${firstpointPositionVP}`,
 
 
-   "First Point Of HP": firstPointAboveHP,
-   "First Point Position HP": firstpointPositionHP,
-   "First Point Of VP": firstPointFrontOfVP,
-   "First Point Position VP": firstpointPositionVP,
+    "First Point Of HP": firstPointAboveHP,
+    "First Point Position HP": firstpointPositionHP,
+    "First Point Of VP": firstPointFrontOfVP,
+    "First Point Position VP": firstpointPositionVP,
 
- 
-}
+
+  }
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (firstPointAboveHPInfoRef.current && !firstPointAboveHPInfoRef.current.contains(event.target)) {
+        setfirstPointAboveHPInfo(false);
+      }
+      if (firstPointFrontOfVPInfoRef.current && !firstPointFrontOfVPInfoRef.current.contains(event.target)) {
+        setfirstPointFrontOfVPInfo(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full ">
@@ -32,13 +56,6 @@ export default function PointDashboard({ drawingType }) {
       </div>
     );
   }
-
-  const inputStyle =
-    "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
-  const selectInputStyle =
-    "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-  const labelStyle = "text-gray-700 font-bold px-10 ";
-  const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
 
   return (
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5 ">
@@ -58,7 +75,25 @@ export default function PointDashboard({ drawingType }) {
               <table className="w-full border-collapse border-spacing-2">
                 <tbody>
                   <tr>
-                    <td  className={labelStyle}>First Point Above HP:</td>
+                    <td className="p-2">
+
+                      <span className={labelStyle}>First Point Above HP:
+
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setfirstPointAboveHPInfo(!firstPointAboveHPInfo)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {firstPointAboveHPInfo && (
+                        <div ref={firstPointAboveHPInfoRef} className={onClickStyle}>
+                          {PointFristInHPInfo}
+                        </div>
+                      )}
+
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -84,7 +119,22 @@ export default function PointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td  className={labelStyle}>First Point Front of VP:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>First Point Front of VP:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setfirstPointFrontOfVPInfo(!firstPointFrontOfVPInfo)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {firstPointFrontOfVPInfo && (
+                        <div ref={firstPointFrontOfVPInfoRef} className={onClickStyle}>
+                          {PointFristInVPInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"

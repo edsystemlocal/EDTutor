@@ -1,23 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import BisectLineDetails from "@/app/content/bisectline-details";
+import { BisectLengthInfo, buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle} from "../informationIconHelper";
 
 export default function BisectLineDashboard({ drawingType }) {
-    const [Lenght, setLenght] = useState(100); // Renamed to `Lenght`
+    const [Length, setLength] = useState(100); // Renamed to `Length`
     const [isCanvas, setIsCanvas] = useState(false);
+    const [showInfo, setShowInfo] = useState(false); // state for tooltip visibility
+    const InfoRef = useRef(null);
+
+
 
     const inputs = {
-        Lenght
+        Length
     };
+    // Handle click outside the tooltip to close it
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (InfoRef.current && !InfoRef.current.contains(event.target)) {
+                setShowInfo(false);
+            }
+        };
 
-    const inputStyle =
-    "w-12 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold   bg-gradient-to-r from-green-100 to-blue-100";
-  const selectInputStyle =
-    "w-22 p-1 m-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-  const labelStyle = "text-gray-700 font-bold px-10 ";
-  const buttonStyle = "px-5 py-2 mt-10 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
 
     if (isCanvas) {
         return (
@@ -44,26 +56,40 @@ export default function BisectLineDashboard({ drawingType }) {
                             <table className="w-full border-collapse border-spacing-2">
                                 <tbody>
                                     <tr>
-                                        <td className={labelStyle}>Length:</td>
+                                        <td className="p-2">
+                                            <span className={labelStyle}>Length:
+                                                <span 
+                                                    className={infoIconStyle}
+                                                    title={HoverMsg }
+                                                    onClick={() => setShowInfo(!showInfo)} // toggle tooltip on click
+                                                >
+                                                    ⓘ
+                                                </span>
+                                            </span>
+                                            {showInfo && (
+                                                <div ref={InfoRef} className={onClickStyle}>
+                                                    {BisectLengthInfo}
+                                                </div>
+                                            )}
+                                        </td>
                                         <td>
                                             <input
                                                 type="text"
-                                                value={Lenght}
+                                                value={Length}
                                                 onChange={(e) =>
-                                                    setLenght(Number(e.target.value))
+                                                    setLength(Number(e.target.value))
                                                 }
                                                 className={inputStyle}
                                             />
                                         </td>
                                     </tr>
                                     <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
+                                        <td colSpan="3">
+                                            <hr />
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
-
                             <div className="text-center">
                                 <button
                                     onClick={() => setIsCanvas(true)}
@@ -74,7 +100,6 @@ export default function BisectLineDashboard({ drawingType }) {
                             </div>
                         </section>
                     </div>
-
                     <div className="col-span-8">
                         <section
                             id="bisect-line-details-container"

@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import Navbar from "../Navbar/navbar";
 import ScaleDetails from "@/app/content/scale-details";
 import LineDetails from "../../content/line-details";
+import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, RFLenghtInfo, ScaleMaximumLengthInfo, ScaleShowLength1Info, ScaleShowLength2Info, ScaleShowLength3Info } from "../informationIconHelper";
 
 export default function DScaleDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false); // Default value
@@ -29,9 +30,47 @@ export default function DScaleDashboard({ drawingType }) {
     "Scale RF": ScaleRF,
   };
 
-  const inputStyle = "w-12 p-2 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold  bg-gradient-to-r from-green-100 to-blue-100";
-  const buttonStyle = "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-  const labelStyle = "px-5 font-bold";
+
+  const [RFInfo, setRFInfo] = useState(false);
+  const [ScaleMaximumLength1, setScaleMaximumLength1] = useState(false);
+  const [ShowLength1, setShowLength1] = useState(false);
+  const [ShowLength2, setShowLength2] = useState(false);
+  const [ShowLength3, setShowLength3] = useState(false);
+
+
+
+  const RFInfoRef = useRef(null);
+  const ScaleMaximumLength1Ref = useRef(null);
+  const ShowLength1Ref = useRef(null);
+  const ShowLength2Ref = useRef(null);
+  const ShowLength3Ref = useRef(null);
+
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (RFInfoRef.current && !RFInfoRef.current.contains(event.target)) {
+        setRFInfo(false);
+      }
+      if (ScaleMaximumLength1Ref.current && !ScaleMaximumLength1Ref.current.contains(event.target)) {
+        setScaleMaximumLength1(false);
+      }
+      if (ShowLength1Ref.current && !ShowLength1Ref.current.contains(event.target)) {
+        setShowLength1(false);
+      }
+      if (ShowLength2Ref.current && !ShowLength2Ref.current.contains(event.target)) {
+        setShowLength2(false);
+      }
+      if (ShowLength3Ref.current && !ShowLength3Ref.current.contains(event.target)) {
+        setShowLength3(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (isCanvas) {
     return (
@@ -45,24 +84,39 @@ export default function DScaleDashboard({ drawingType }) {
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4">
+          <div className="col-span-4 h-full">
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
+              className="border-2 border-slate-300 rounded p-4 w-full h-full bg-gradient-to-r from-blue-50 to-blue-200"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {drawingType}
               </div>
 
-              <div className="w-full flex items-center justify-center pb-4">
-                <div>
-                  <table className="table-auto w-full text-left text-gray-700">
+              <div className="w-full flex items-center justify-center pb-4">               
+                  <table className="w-full border-collapse text-gray-700">
                     <tbody>
-                      <tr>
-                        <td><label className={labelStyle}>RF [1]:</label></td>
+                    <tr>
+                        <td className="p-2">
+                          <span className={labelStyle}>RF [1]:
+                            <span
+                              className={infoIconStyle}
+                              title={HoverMsg}
+                              onClick={() => setRFInfo(!RFInfo)} // toggle tooltip on click
+                            >
+                              ⓘ
+                            </span>
+                          </span>
+                          {RFInfo && (
+                            <div ref={RFInfoRef} className={onClickStyle}>
+                              {RFLenghtInfo}
+                            </div>
+                          )}
+
+                        </td>
                         <td>
                           <input
-                            type="number"
+                            type="text"
                             value={ScaleRF}
                             onChange={(e) => setScaleRF(Number(e.target.value))}
                             className={inputStyle}
@@ -70,10 +124,30 @@ export default function DScaleDashboard({ drawingType }) {
                         </td>
                       </tr>
                       <tr>
-                        <td><label className={labelStyle}>Maximum Length:</label></td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                      <tr>
+                        <td className="p-2">
+                          <span className={labelStyle}>Maximum Length:
+                            <span
+                              className={infoIconStyle}
+                              title={HoverMsg}
+                              onClick={() => setScaleMaximumLength1(!ScaleMaximumLength1)} // toggle tooltip on click
+                            >
+                              ⓘ
+                            </span>
+                          </span>
+                          {ScaleMaximumLength1 && (
+                            <div ref={ScaleMaximumLength1Ref} className={onClickStyle}>
+                              {ScaleMaximumLengthInfo}
+                            </div>
+                          )}
+                        </td>
                         <td>
                           <input
-                            type="number"
+                            type="text"
                             value={ScaleMaximumLength}
                             onChange={(e) => setScaleMaximumLength(Number(e.target.value))}
                             className={inputStyle}
@@ -90,10 +164,31 @@ export default function DScaleDashboard({ drawingType }) {
                         </td>
                       </tr>
                       <tr>
-                        <td><label className={labelStyle}>Show Length1:</label></td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                      <tr>
+                        <td className="p-2">
+                          <span className={labelStyle}>Show Length1:
+                            <span
+                              className={infoIconStyle}
+                              title={HoverMsg}
+                              onClick={() => setShowLength1(!ShowLength1)} // toggle tooltip on click
+                            >
+                              ⓘ
+                            </span>
+                          </span>
+                          {ShowLength1 && (
+                            <div ref={ShowLength1Ref} className={onClickStyle}>
+                              {ScaleShowLength1Info}
+                            </div>
+                          )}
+
+                        </td>
                         <td>
                           <input
-                            type="number"
+                            type="text"
                             value={ScaleShowLength1}
                             onChange={(e) => setScaleShowLength1(Number(e.target.value))}
                             className={inputStyle}
@@ -110,10 +205,31 @@ export default function DScaleDashboard({ drawingType }) {
                         </td>
                       </tr>
                       <tr>
-                        <td><label className={labelStyle}>Show Length2:</label></td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                      <tr>
+                        <td className="p-2">
+                          <span className={labelStyle}>Show Length2:
+                            <span
+                              className={infoIconStyle}
+                              title={HoverMsg}
+                              onClick={() => setShowLength2(!ShowLength2)} // toggle tooltip on click
+                            >
+                              ⓘ
+                            </span>
+                          </span>
+                          {ShowLength2 && (
+                            <div ref={ShowLength2Ref} className={onClickStyle}>
+                              {ScaleShowLength2Info}
+                            </div>
+                          )}
+
+                        </td>
                         <td>
                           <input
-                            type="number"
+                            type="text"
                             value={ScaleShowLength2}
                             onChange={(e) => setScaleShowLength2(Number(e.target.value))}
                             className={inputStyle}
@@ -130,10 +246,32 @@ export default function DScaleDashboard({ drawingType }) {
                         </td>
                       </tr>
                       <tr>
-                        <td><label className={labelStyle}>Show Length3:</label></td>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                      <tr>
+
+                        <td className="p-2">
+                          <span className={labelStyle}>Show Length3:
+                            <span
+                              className={infoIconStyle}
+                              title={HoverMsg}
+                              onClick={() => setShowLength3(!ShowLength3)} // toggle tooltip on click
+                            >
+                              ⓘ
+                            </span>
+                          </span>
+                          {ShowLength3 && (
+                            <div ref={ShowLength3Ref} className={onClickStyle}>
+                              {ScaleShowLength3Info}
+                            </div>
+                          )}
+
+                        </td>
                         <td>
                           <input
-                            type="number"
+                            type="text"
                             value={ScaleShowLength3}
                             onChange={(e) => setScaleShowLength3(Number(e.target.value))}
                             className={inputStyle}
@@ -149,18 +287,22 @@ export default function DScaleDashboard({ drawingType }) {
                           />
                         </td>
                       </tr>
+                      <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
                     </tbody>
                   </table>
-
+                  </div>
                   <div className="text-center mt-4">
                 <button
                   onClick={() => setIsCanvas(true)}
                   className={buttonStyle}
                 >
                   Submit
-                </button>
-              </div>
-                </div>
+                </button> 
+                
               </div>
             </section>
           </div>
@@ -168,7 +310,7 @@ export default function DScaleDashboard({ drawingType }) {
           <div className="col-span-8">
             <section
               id="scale-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
+              className="border-2 border-gray-300 rounded flex  w-full h-136 bg-gradient-to-r from-blue-50 to-blue-200"
             >
               <ScaleDetails drawingType={drawingType} />
             </section>
