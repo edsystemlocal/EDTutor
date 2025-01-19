@@ -3,13 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import PrintInput from "../Print-Input/print-input";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+
+
 // Function to resize the canvas to fullscreen
 export const resizeCanvas = (canvas) => {
   if (canvas) {
     // get the width and height of the parent element of the canvas
     // set the width and height of canvas same as the width and height of the parent element
-    canvas.width = canvas.parentElement?.clientWidth || 300;
-    canvas.height = canvas.parentElement?.clientHeight || 300;
+    canvas.width = 2000;
+    canvas.height = 1000;
   }
 };
 
@@ -338,6 +340,8 @@ export const updateStepText = (data, setStepText, newCounter) => {
   return null;
 };
 
+
+
 // Main content 
 export default function Canvas({ inputs, drawingType }) {
 
@@ -367,8 +371,8 @@ export default function Canvas({ inputs, drawingType }) {
 
     const resizeCanvas = (canvas) => {
       const { clientWidth, clientHeight } = canvas.parentElement;
-      canvas.width = clientWidth;
-      canvas.height = clientHeight;
+      canvas.width = 2000;
+      canvas.height = 1000;
     };
 
     const redrawCanvas = (ctx) => {
@@ -498,7 +502,7 @@ export default function Canvas({ inputs, drawingType }) {
     const newZoomLevel = zoomLevel * scaleFactor;
     setZoomLevel(newZoomLevel);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, 2000, 1000);
     // Apply scaling
     ctx.setTransform(newZoomLevel, 0, 0, newZoomLevel, 0, 0);
 
@@ -524,7 +528,7 @@ export default function Canvas({ inputs, drawingType }) {
     // Clear the canvas
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, 2000, 1000);
 
   };
 
@@ -746,10 +750,10 @@ export default function Canvas({ inputs, drawingType }) {
         </div>
 
         {/* Right Panel */}
-        <div className="col-span-8"> {/* Adjusted to col-span-8 */}
+        <div className={"scrollableDiv bg-yellow-100"}> {/* Adjusted to col-span-8 */}
           <section
             id="canvas-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded flex items-center justify-center w-full h-136 bg-yellow-100 "
+            className="bg-white shadow-lg rounded flex items-center  bg-yellow-100"
           >
             <canvas ref={canvasRef} className="rounded-lg" />
           </section>
