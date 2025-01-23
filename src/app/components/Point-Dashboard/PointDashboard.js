@@ -3,34 +3,30 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import PointDetails from "@/app/content/point-details";
 import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, PointFristInHPInfo, PointFristInVPInfo, selectInputStyle } from "../informationIconHelper";
+import PointValidation from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function PointDashboard({ drawingType }) {
   // State for variables
-  const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState(60);
-  const [firstPointAboveHP, setFirstPointAboveHP] = useState(40);
+  const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState("");
+  const [firstPointAboveHP, setFirstPointAboveHP] = useState("");
   const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
   const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
   const [isCanvas, setIsCanvas] = useState(false);
   const [firstPointFrontOfVPInfo, setfirstPointFrontOfVPInfo] = useState(false);
   const [firstPointAboveHPInfo, setfirstPointAboveHPInfo] = useState(false);
+  const [warningMessage, setWarningMessage] = useState([]);
 
   const firstPointFrontOfVPInfoRef = useRef(null);
   const firstPointAboveHPInfoRef = useRef(null);
 
   // Inputs for Canvas with labels
-  const inputs =
-  {
-    // "First Point Above HP": `${firstPointAboveHP} ${firstpointPositionHP}`,
-    // "First Point Front of VP": `${firstPointFrontOfVP} ${firstpointPositionVP}`,
-
-
+  const inputs = {
     "First Point Of HP": firstPointAboveHP,
     "First Point Position HP": firstpointPositionHP,
     "First Point Of VP": firstPointFrontOfVP,
     "First Point Position VP": firstpointPositionVP,
-
-
-  }
+  };
 
   // Handle click outside the tooltip to close it
   useEffect(() => {
@@ -48,6 +44,15 @@ export default function PointDashboard({ drawingType }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleSubmit = () => {
+    PointValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
+  
 
   if (isCanvas) {
     return (
@@ -68,7 +73,7 @@ export default function PointDashboard({ drawingType }) {
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
 
               {/* Table for Input Alignment */}
@@ -76,9 +81,8 @@ export default function PointDashboard({ drawingType }) {
                 <tbody>
                   <tr>
                     <td className="p-2">
-
-                      <span className={labelStyle}>First Point Above HP:
-
+                      <span className={labelStyle}>
+                        First Point Above HP:
                         <span
                           className={infoIconStyle}
                           title={HoverMsg}
@@ -92,7 +96,6 @@ export default function PointDashboard({ drawingType }) {
                           {PointFristInHPInfo}
                         </div>
                       )}
-
                     </td>
                     <td>
                       <input
@@ -120,7 +123,8 @@ export default function PointDashboard({ drawingType }) {
                   </tr>
                   <tr>
                     <td className="p-2">
-                      <span className={labelStyle}>First Point Front of VP:
+                      <span className={labelStyle}>
+                        First Point Front of VP:
                         <span
                           className={infoIconStyle}
                           title={HoverMsg}
@@ -161,15 +165,13 @@ export default function PointDashboard({ drawingType }) {
                   </tr>
                 </tbody>
               </table>
-
               <div className="text-center">
-                <button
-                  onClick={() => {
-                    console.log(inputs); // Log inputs for debugging
-                    setIsCanvas(true);
-                  }}
-                  className={buttonStyle}
-                >
+                <div className="text-red-500 text-center">
+                  {warningMessage.map((msg, index) => (
+                    <div key={index}>{msg}</div>
+                  ))}
+                </div>
+                <button onClick={handleSubmit} className={buttonStyle}>
                   Submit
                 </button>
               </div>

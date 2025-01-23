@@ -3,32 +3,46 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import HyperbolaDetails from "@/app/content/hyperbola-details";
 import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaDistanceInfo } from "../informationIconHelper";
+import { GeneralMethodValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function HyperbolaDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
   const [showInfo, setShowInfo] = useState(false); // state for tooltip visibility
-    const InfoRef = useRef(null);
-  
-    // Handle click outside the tooltip to close it
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (InfoRef.current && !InfoRef.current.contains(event.target)) {
-          setShowInfo(false);
-        }
-      };
-  
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
+  const [warningMessage, setWarningMessage] = useState([]);
+
+  const InfoRef = useRef(null);
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (InfoRef.current && !InfoRef.current.contains(event.target)) {
+        setShowInfo(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // Parabola properties
-  const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState(100);
+  const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState();
 
   const inputs = {
     "Distance From focus To Directrix": distanceofthefocusfromthedirectrix,
   };
+
+
+  const handleSubmit = () => {
+    GeneralMethodValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -47,7 +61,7 @@ export default function HyperbolaDashboard({ drawingType }) {
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                 Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -83,13 +97,12 @@ export default function HyperbolaDashboard({ drawingType }) {
                   </tbody>
                 </table>
                 <div className="text-center">
-                  <button
-                    onClick={() => {
-                      console.log(inputs); // Log inputs for debugging
-                      setIsCanvas(true);
-                    }}
-                    className={buttonStyle}
-                  >
+                  <div className="text-red-500 text-center">
+                    {warningMessage.map((msg, index) => (
+                      <div key={index}>{msg}</div>
+                    ))}
+                  </div>
+                  <button onClick={handleSubmit} className={buttonStyle}>
                     Submit
                   </button>
                 </div>

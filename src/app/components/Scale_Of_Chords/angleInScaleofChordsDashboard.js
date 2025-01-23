@@ -4,10 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ScaleOfChordsDetails from "@/app/content/scaleOfChords-details";
 import { buttonStyle, ChordsAngleInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle } from "../informationIconHelper";
+import { angleInScaleOfChordsValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function AngleInScaleOfChordsDashboard({ drawingType }) {
-  const [Angle, setAngle] = useState(50);
+  const [Angle, setAngle] = useState();
   const [isCanvas, setIsCanvas] = useState(false);
+  const [warningMessage, setWarningMessage] = useState([]);
+
 
   const [showInfo, setShowInfo] = useState(false); // state for tooltip visibility
   const InfoRef = useRef(null);
@@ -27,6 +31,15 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
   }, []);
 
   const inputs = { Angle };
+
+  const handleSubmit = () => {
+    angleInScaleOfChordsValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -43,7 +56,7 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
           <div className="col-span-4 h-150">
             <section className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200">
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <table className="w-full border-collapse text-gray-700">
                 <tbody>
@@ -73,10 +86,20 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
                       />
                     </td>
                   </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-              <div className="text-center mt-4">
-                <button onClick={() => setIsCanvas(true)} className={buttonStyle}>
+              <div className="text-center">
+                <div className="text-red-500 text-center">
+                  {warningMessage.map((msg, index) => (
+                    <div key={index}>{msg}</div>
+                  ))}
+                </div>
+                <button onClick={handleSubmit} className={buttonStyle}>
                   Submit
                 </button>
               </div>

@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import PlaneDetails from "@/app/content/plane-details";
 import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, PlaneHPAngleInfo, PlanePositionInfo, PlaneSideLengthInfo, PlaneTypeInfo, PlaneVPAngleInfo, selectInputStyle } from "../informationIconHelper";
+import { PlaneValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function PlaneDashboard({ drawingType }) {
   let [setDrawingType] = useState("Plane");
@@ -14,6 +16,8 @@ export default function PlaneDashboard({ drawingType }) {
   const [PlanePosition1, setPlanePosition1] = useState("side"); // Default value
   const [PlanePosition2, setPlanePosition2] = useState("Parallel"); // Default value
   const [PlanePosition3, setPlanePosition3] = useState("HP");
+  const [warningMessage, setWarningMessage] = useState([]);
+
 
   const inputs = {
     "Plane Type": PlaneType,
@@ -66,6 +70,15 @@ export default function PlaneDashboard({ drawingType }) {
     };
   }, []);
 
+
+  const handleSubmit = () => {
+    PlaneValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -84,7 +97,7 @@ export default function PlaneDashboard({ drawingType }) {
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white  bg-gradient-to-r from-blue-50 to-blue-200 h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                 Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <table className="w-full border-collapse border-spacing-2">
                 <tbody>
@@ -254,7 +267,7 @@ export default function PlaneDashboard({ drawingType }) {
                           ⓘ
                         </span>
                       </span>
-                      
+
                       {showInfo5 && (
                         <div ref={showInfoRef5} className={onClickStyle}>
                           {PlaneVPAngleInfo}
@@ -278,13 +291,12 @@ export default function PlaneDashboard({ drawingType }) {
                 </tbody>
               </table>
               <div className="text-center">
-                <button
-                  onClick={() => {
-                    console.log(inputs); // Log inputs for debugging
-                    setIsCanvas(true);
-                  }}
-                  className={buttonStyle}
-                >
+                <div className="text-red-500 text-center">
+                  {warningMessage.map((msg, index) => (
+                    <div key={index}>{msg}</div>
+                  ))}
+                </div>
+                <button onClick={handleSubmit} className={buttonStyle}>
                   Submit
                 </button>
               </div>

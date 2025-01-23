@@ -523,6 +523,14 @@ export function calculateLinePointsWithCircles(startPoint, endPoint,pencil=darkP
   const xStep = deltaX / (numPoints - 1);
   const yStep = deltaY / (numPoints - 1);
   let startPoint1 = startPoint;
+  let speed = 1;
+  if(pencil == lightPencil){
+    speed = 8;
+  }
+  if(pencil == darkPencil){
+    speed = 4;
+  }
+  let speedChecker = 0;
   // Generate points along the line
   for (let i = 0; i < numPoints; i++) {
     points.push({
@@ -534,9 +542,13 @@ export function calculateLinePointsWithCircles(startPoint, endPoint,pencil=darkP
       y: startPoint.y + i * yStep,
     }
     points.push(startPoint1);
-    points.push(...pencil);
-    
+    if(speedChecker>=speed){
+      points.push(...pencil);
+      speedChecker = 0;
+    }
+    speedChecker ++;    
   }
+  points.push(...pencil);
   // Add circles at the start and end points
   const startCirclePoints = getCirclePoints(startPoint); // Circle with radius 1 at startPoint
   const endCirclePoints = getCirclePoints(endPoint); // Circle with radius 1 at endPoint
@@ -695,7 +707,7 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
     ...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: adjustedStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: adjustedStartPointUp.y} , label, position )
+    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - 20} ,label, position )
   );
   
   

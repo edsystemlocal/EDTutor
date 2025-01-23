@@ -3,9 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ElipseDetails from "@/app/content/elipse-details";
 import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, majorAxisInfo, minorAxisInfo, onClickStyle } from "../informationIconHelper";
+import { EllipseConcentricCircleMethodValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function EllipseConcentricCircleMethodDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
+  const [warningMessage, setWarningMessage] = useState([]);
+
 
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
@@ -31,13 +35,24 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
 
 
   // Ellipse properties
-  const [majorAxis, setmajorAxis] = useState(500);
-  const [minorAxis, setminorAxis] = useState(300);
+  const [majorAxis, setmajorAxis] = useState();
+  const [minorAxis, setminorAxis] = useState();
 
   const inputs = {
     "Major Axis": majorAxis,
     "Minor Axis": minorAxis,
   };
+
+
+    const handleSubmit = () => {
+      EllipseConcentricCircleMethodValidation(
+        inputs, // Pass the inputs object directly
+        setWarningMessage,
+        setIsCanvas
+      );
+    };
+
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full">
@@ -56,7 +71,7 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
               className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white  bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                 Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -117,14 +132,13 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                     </tr>
                   </tbody>
                 </table>
-                <div className="text-center">
-                  <button
-                    onClick={() => {
-                      console.log(inputs); // Log inputs for debugging
-                      setIsCanvas(true);
-                    }}
-                    className={buttonStyle}
-                  >
+                 <div className="text-center">
+                  <div className="text-red-500 text-center">
+                    {warningMessage.map((msg, index) => (
+                      <div key={index}>{msg}</div>
+                    ))}
+                  </div>
+                  <button onClick={handleSubmit} className={buttonStyle}>
                     Submit
                   </button>
                 </div>

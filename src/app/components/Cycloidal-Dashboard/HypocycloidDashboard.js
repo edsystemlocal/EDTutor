@@ -4,10 +4,14 @@ import Canvas from "../Canvas/canvas";
 
 import CycloidDetails from "@/app/content/cycloidal-details";
 import { buttonStyle, DiameterInfo, DirectingCircleInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle } from "../informationIconHelper";
+import { EpicycloidValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 
 export default function HypocycloidDashboard({ drawingType }) {
  const [isCanvas, setIsCanvas] = useState(false);
+ const [warningMessage, setWarningMessage] = useState([]);
+
  
    const [showInfo1, setShowInfo1] = useState(false);
    const [showInfo2, setShowInfo2] = useState(false);
@@ -31,14 +35,24 @@ export default function HypocycloidDashboard({ drawingType }) {
      };
    }, []);
  
-   const [Diameter, setDiameter] = useState(100);
-   const [DirectingCircle, setDirectingCircle] = useState(150);
+   const [Diameter, setDiameter] = useState();
+   const [DirectingCircle, setDirectingCircle] = useState();
  
  
    const inputs = {
      "Diameter": Diameter,
      "Directing Circle": DirectingCircle
    };
+
+
+   
+       const handleSubmit = () => {
+         EpicycloidValidation(
+           inputs, // Pass the inputs object directly
+           setWarningMessage,
+           setIsCanvas
+         );
+       }; 
 
    if (isCanvas) {
      return (
@@ -58,7 +72,7 @@ export default function HypocycloidDashboard({ drawingType }) {
                className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen  bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
              >
                <div className="mb-6 text-center text-xl font-semibold text-blue-700 ">
-                 Drawing Type: {drawingType}
+                 Drawing Type: {getDisplayValueOfType(drawingType)}
                </div>
                <div>
                  <table className="table-auto w-full">
@@ -121,16 +135,15 @@ export default function HypocycloidDashboard({ drawingType }) {
                    </tbody>
                  </table>
                  <div className="text-center">
-                   <button
-                     onClick={() => {
-                       console.log(inputs); // Log inputs for debugging
-                       setIsCanvas(true);
-                     }}
-                     className={buttonStyle}
-                   >
-                     Submit
-                   </button>
-                 </div>
+                  <div className="text-red-500 text-center">
+                    {warningMessage.map((msg, index) => (
+                      <div key={index}>{msg}</div>
+                    ))}
+                  </div>
+                  <button onClick={handleSubmit} className={buttonStyle}>
+                    Submit
+                  </button>
+                </div>
                </div>
              </section>
            </div>

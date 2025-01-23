@@ -53,10 +53,11 @@ export function hyperbola_by_generalmethodSteps(values) {
 
 export function hyperbola_by_generalmethod(payload) { //ParalleltoHP_and_InclinedtoVP
     const { counter , inputs , finalDrawing} = payload;
-    const startpoint = { x: 100, y: 400 };
+    // const startpoint = { x: 100, y: 400 };
 
     let distanceofthefocusfromthedirectrix = Number(inputs["Distance From focus To Directrix"]) || 0;
-
+    const startpoint = { x: 100,
+        y:300+distanceofthefocusfromthedirectrix };
     let values ={
         distanceofthefocusfromthedirectrix,
    }

@@ -3,39 +3,41 @@ import { calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints,
 import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalVariable";
 import { roundUpToTwoDecimalPlaces } from "../Line/lineproblem";
 export function involute_by_generalmethodSteps(values) {
-    const { Diameter } = values;
+    const { Diameter , string} = values;
     return {
-        1: defineSteps("Draw the  directrix 'ab'and the axis 'cd' ",
+        1: defineSteps(
+            `Draw a circle of Diameter ${Diameter} mm with centre O.`
         ),
         2: defineSteps(
-            `Mark focus f on 'cd' ${Diameter} mm from c`,
+            "Divide circle into 12 equal parts.And label the line."
         ),
         3: defineSteps(
-            "Divide cf into 5 equal divisions and mark v the vertex ",
-            "on the second division from c. ",
-            "thus , eccentricity = vf/vc = 3/2 .",
-
+            `Draw the directing line PA = πD = ${string} mm long and divide it into 12 equal parts. Mark its divisions as 1', 2' 3', etc. `
         ),
         4: defineSteps(
-            "Draw a digonal line from the Point c and Passes through point e ",
+            "  Draw tangents to the circle at points 1, 2, 3, 4, etc., such that they represent the thread position during unwound."
         ),
         5: defineSteps(
-            "Mark points 1,2,3 ..etc on the axis and through it ",
-            "Draw  multiple  perpendiculars lines to meet 'ce' produced at 1' 2' 3' ...etc ",
+            " The length of thread when unwound for 1/12th revolution is equal to P1¢. Therefore, draw an arc with centre 1 and radius P1¢ to intersect the tangent line through point 1 at point PØ50."
         ),
-        6: defineSteps("With the center 'f' and redius equal to (1-1' , 2-2' , 3-3' ... etc)",
-            "draw upper and lower arcs intersecting the perpendicular through 1 2 3 ... etc",
+        6: defineSteps(
+            "Erect vertical lines from points 1, 2, 3, etc., to meet the centre line C at C1, C2, C3, etc."
         ),
-        7: defineSteps("connect the arc points for hyperbola")
-    };
+        7: defineSteps(
+            " Draw an arc with centre C1 and radius = Daimeter/2 to intersect the horizontal line through point 1 at point P1.",
+             "Similarly, draw arcs with centres C2, C3, C4, etc., and radius = Daimeter/2, to intersect the horizontallocus lines through points 2, 3, 4, etc., at points P2, P3, P4, etc.,",
+              "respectively.Draw a smooth curve passing through P1, P2, P3, P4, etc., to get the required cycloid."
+        ),
+    }
 }
 
 export function involute_by_generalmethod(payload) { //ParalleltoHP_and_InclinedtoVP
     const { counter, inputs, finalDrawing } = payload;
-    const startPoint = { x: 300, y: 400 };
+    // const startPoint = { x: 300, y: 400 };
 
     let Diameter = Number(inputs["Diameter"]) || 0;
     const string = 22 / 7 * Diameter;
+    const startPoint = { x: 200+Diameter, y: 500+ Diameter};
     console.log("string = ", string)
 
 
@@ -73,7 +75,7 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
 
     const circleCenters = [];
     const inclinedCircles = [];
-    const labels = [];
+    // const labels = [];
 
     for (let i = 0; i < numberOfCircles; i++) {
         // Calculate the center of the current circle
@@ -85,10 +87,10 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
         const circlePoints = getCirclePoints(center, circleRadius);
         inclinedCircles.push(...circlePoints);
 
-        // Generate a label for the circle
-        const label = `${i + 1}'`;
-        const labelPoints = calculateLabel(center, label, "down");
-        labels.push(...labelPoints);
+        // // Generate a label for the circle
+        // const label = `${i + 1}'`;
+        // const labelPoints = calculateLabel(center, label, "down");
+        // labels.push(...labelPoints);
     }
 
     let drawAll = false;
@@ -96,6 +98,11 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
     if (counter === 1 || drawAll) {
         sendToPoints.push(
 
+            ...DiameterLinePoints,
+            ...darkPencil,
+            ...getCirclePoints(midpoint),
+            ...darkPencil,
+            ...calculateLabel(midpoint, "O","up"),
             ...majorCirclePoints,
             ...lightPencil,
         );
@@ -120,75 +127,76 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
                 const verticalLine = calculateLinePointsWithCircles(circleDivisions12[i], circleDivisions12[i + 6], lightPencil);
                 verticalLines.push(...verticalLine, ...lightPencil);
             }
+            sendToPoints.push(
+                ...verticalLines,
+                ...lightPencil,
+                ...calculateLabel(cd_LineEndPoint, "P", "down")
+            );
             for (let i = 0; i < 12; i++) {
                 const labelPointsCircle = calculateLabel(circleDivisions12[i], i + 1, "up"); // Position label above the point
                 sendToPoints.push(...labelPointsCircle);
             }
-            sendToPoints.push(
-                ...DiameterLinePoints,
-                ...darkPencil,
-                ...verticalLines,
-                ...lightPencil,
-            );
 
             if (finalDrawing) {
                 drawAll = true;
             }
         }
+
         if (counter === 3 || drawAll) {
             const numCircles = 13; // Total number of circles
             const circleSpacing = string / 12; // Distance between circles
-            console.log("circleSpacing  = ", circleSpacing);
             const circleRadius = 1; // Adjust radius as needed
             const circlePointsArray = [];
             const labels2 = [];
             const connectingLines = []; // Store lines connecting 1' to 1, 2' to 2, etc.
-
-            // Generate circles along the base line
-            for (let i = 1; i < numCircles; i++) {
+            const connectingLineLabels = []; // Array to store labels for connecting line endpoints
+        
+            // Generate circles along the base line in reverse order
+            for (let i = numCircles - 1; i > 0; i--) {
                 // Calculate the center of the current circle
                 const circleCenter = {
                     x: BaseLineStartPoint.x + i * circleSpacing,
                     y: BaseLineStartPoint.y,
                 };
-
+        
                 // Generate the circle points
                 const circlePoints = getCirclePoints(circleCenter, circleRadius);
-
+        
                 // Add the circle points to the array
                 circlePointsArray.push(...circlePoints);
                 const label2 = `${i + 1}`;
-
-
+        
                 // Connect corresponding points
                 const inclinedPoint = circleCenters[i - 1]; // Corresponding 1', 2', ..., 12'
                 if (inclinedPoint) {
                     const linePoints = calculateLinePointsWithCircles(inclinedPoint, circleCenter, lightPencil);
                     connectingLines.push(...linePoints, ...lightPencil);
-                    arcRadiusPoints.push(circleCenter);
-
-                    console.log("inclinedPoint=", circleCenter);
+        
+                    // Add labels to the endpoint of the connecting line
+                    const lineEndPointLabel = calculateLabel(circleCenter, `${i}'`, "left-down"); // Label for the circle
+                    // const lineStartPointLabel = calculateLabel(inclinedPoint, `${i}'`, "up"); // Label for inclined point
+                    connectingLineLabels.push(...lineEndPointLabel);
                 }
-                const label2Points = calculateLabel(inclinedPoint, label2, "up");
-                labels2.push(...label2Points);
-
             }
-
+        
             sendToPoints.push(
                 ...BaseLinePoints,
                 ...darkPencil,
+                ...calculateLabel(BaseLineEndPoint, "Q", "down"),
                 ...InclinedLinePoints,
                 ...darkPencil,
                 ...inclinedCircles,
                 ...darkPencil,
-                ...labels,
-                ...connectingLines // Add connecting lines
+                // ...labels,
+                ...connectingLines, // Add connecting lines
+                ...connectingLineLabels // Add labels for connecting line endpoints
             );
-
+        
             if (finalDrawing) {
                 drawAll = true;
             }
         }
+        
 
         if (counter === 4 || drawAll) {
             for (let i = 0; i < 12; i++) {
@@ -225,6 +233,8 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
 
                 sendToPoints.push(
                     ...calculateArcPoints(circleDivisions12[i], arcPoint, lightPencil),
+                    ...calculateLabel(arcPoint, `p${i+1}`, "up"),
+
                 );
             }          
 

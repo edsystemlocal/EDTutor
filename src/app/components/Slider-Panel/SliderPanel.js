@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 const SliderPanel = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(""); // State for dropdown value
-    const [slideSpeed, setSlideSpeed] = useState(10); // State for slide animation speed
+    const [slideSpeed, setSlideSpeed] = useState(60); // State for slide animation speed
     const panelRef = useRef(null);
 
     const toggleSlider = () => {
@@ -87,20 +87,20 @@ const SliderPanel = () => {
 
                     <div className="mt-6">
                         <label htmlFor="speed" className="block text-sm font-medium text-gray-700">
-                            Slide Speed (ms):
+                            Drawing Speed:
                         </label>
                         <input
                             id="speed"
                             type="range"
-                            min="5"
+                            min="0"
                             max="100"
-                            step="5"
+                            step="1"
                             value={slideSpeed}
                             onChange={handleSpeedChange} 
                             className="w-full mt-1"
                         />
                         <p className="text-sm text-gray-600 mt-2">
-                            Current Speed: <strong>{slideSpeed}ms</strong>
+                            Current Speed: <strong>{slideSpeed}</strong>
                         </p>
                     </div>
                 </div>

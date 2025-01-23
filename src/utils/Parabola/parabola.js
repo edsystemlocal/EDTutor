@@ -52,7 +52,7 @@ export function ParabolaByTangentMethod(payload) {
         Base,
         Height ,
    }
-    const startPoint = { x: 50, y: 400 };
+    const startPoint = { x: 50, y: 100+ Height*2};
 
     const BaseLineStartPoint = { x: 150, y: startPoint.y };
     const BaseLineEndPoint = { x: BaseLineStartPoint.x + Base, y: startPoint.y };
@@ -324,13 +324,16 @@ export function ParabolaByRectangularMethod(payload) {
     const { counter, inputs , finalDrawing} = payload;
 
 
-    const startPoint = { x: 50, y: 400 };
+    // const startPoint = { x: 50, y: 300 };
     let Base = Number(inputs["Base"]) || 0;
     let Height = Number(inputs["Height"]) || 0;
     let values ={
         Base,
         Height ,
    }
+//    let startPoint = { x: 50,
+//     y:Height>= 300?600:300 };
+    const startPoint = { x: 50, y: 100+ Height*2};
 
     // Calculate XY axis line points
     const BaseLineStartPoint = { x: 150, y: startPoint.y };
@@ -761,11 +764,11 @@ export function ParabolaByPARALLELOGRAMMethodSteps(values) {
 
 export function ParabolaByPARALLELOGRAMMethod(payload) {
     const { counter , inputs , finalDrawing} = payload;
-    const startPoint = { x: 50, y: 400 };
+    // const startPoint = { x: 50, y: 400 };
     let Base = Number(inputs["Base"]) || 0;
     let Height = Number(inputs["Height"]) || 0;
     let angleInDegrees = Number(inputs["Angle (Degrees)"]) || 0;
-    
+const startPoint = { x: 50, y: 150+ Height*2};
     let values ={
         Base,
         Height ,
@@ -1155,10 +1158,11 @@ export function ParabolaBysecoundMethodSteps(values) {
 
 export function ParabolaBySecoundMethod(payload) {
     const { counter } = payload;
-    const startPoint = { x: 50, y: 400 };
+    // const startPoint = { x: 50, y: 400 };
     const Base = 200;
     const Height = 150;
     const angleInDegrees = 30;
+    const startPoint = { x: 50, y: 100+ Height*2};
     let values ={
         Base,
         Height ,

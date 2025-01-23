@@ -1,7 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import LineDetails from "@/app/content/line-details";
+import { buttonStyle, FirstPointofHPLengthInfo, FirstPointofVPLengthInfo, FrontViewAngleInfo, FrontViewLengthInfo, HoverMsg, InclinationtoHPInfo, InclinationtoVPInfo, infoIconStyle, inputStyle, labelStyle, LineLengthInfo, MidPointofHPLengthInfo, MidPointofVPLengthInfo, onClickStyle, SecondPoitofHPLengthInfo, SecondPontofVPLengthInfo, selectInputStyle, TopViewAngleInfo, TopViewLengthInfo } from "../informationIconHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
+import { MidpointValidation } from "../Helper/validationHelper";
 
 export default function MidpointDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
@@ -15,7 +18,7 @@ export default function MidpointDashboard({ drawingType }) {
   const [secondpointPositionHP, setsecondpointPositionHP] = useState("Above");
   const [secondpointFrontOfVPLength, setSecondPointFrontOfVPLength] = useState(40);
   const [secondpointPositionVP, setSecondpointPositionVP] = useState("Front");
-  
+
   const [InclinationToVP, setInclinationToVP] = useState("");
   const [InclinationToHP, setInclinationToHP] = useState("");
   const [topViewLength, settopViewLength] = useState("50");
@@ -26,6 +29,8 @@ export default function MidpointDashboard({ drawingType }) {
   const [midpointPositionHP, setmidpointPositionHP] = useState("");
   const [MidpointVPLength, setMidpointVPLength] = useState("");
   const [midpointPositionVP, setmidpointPositionVP] = useState("");
+  const [warningMessage, setWarningMessage] = useState([]);
+
 
 
   const inputs = {
@@ -49,40 +54,101 @@ export default function MidpointDashboard({ drawingType }) {
     MidpointVPLength,
     midpointPositionVP,
 
-    // "Line Length": LineLength,
-    // "First Point Above of HP": firstPointAboveHPLength,
-    // "First Point Front of VP": firstpointfrontOfVPLength,
-    // "Second Point Above of HP": secondpointAboveHPLength,
-    // "Second Point Front of VP": secondpointFrontOfVPLength,
-    // "Inclination To VP": InclinationToVP,
-    // "Inclination To HP": InclinationToHP,
-    // "Top View Length ": topViewLength,
-    // "Front View Length ": frontViewLength,
-
-    // "First Point Position HP": firstpointPositionHP,
-    // "First point Position VP": firstpointPositionVP,
-    // "Second point Position HP": secondpointPositionHP,
-    // "Second point Position VP": secondpointPositionVP,
-
-    // "Top view Angle": TopviewAngle,
-    // "Front view Angle": FrontviewAngle,
-    // "Mid Point HP Length": MidpointHPLength,
-    // "Mid Point Position HP": midpointPositionHP,
-    // "Mid Point VP Length": MidpointVPLength,
-    // "Mid Point Position VP": midpointPositionVP,
-
   };
 
-  const inputStyle =
-    "w-12 p-2 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold  bg-gradient-to-r from-green-100 to-blue-100";
-  const selectStyle =
-    "w-22 p-1 text-gray-700 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-bold text-sm  bg-gradient-to-r from-green-100 to-blue-100";
-  const buttonStyle =
-    "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-  const labelstyle = "px-5 font-bold ";
 
- 
-  
+  const [showInfo1, setShowInfo1] = useState(false);
+  const [showInfo2, setShowInfo2] = useState(false);
+  const [showInfo3, setShowInfo3] = useState(false);
+  const [showInfo4, setShowInfo4] = useState(false);
+  const [showInfo5, setShowInfo5] = useState(false);
+  const [showInfo6, setShowInfo6] = useState(false);
+  const [showInfo7, setShowInfo7] = useState(false);
+  const [showInfo8, setShowInfo8] = useState(false);
+  const [showInfo9, setShowInfo9] = useState(false);
+  const [showInfo10, setShowInfo10] = useState(false);
+  const [showInfo11, setShowInfo11] = useState(false);
+  const [showInfo12, setShowInfo12] = useState(false);
+  const [showInfo13, setShowInfo13] = useState(false);
+
+
+
+
+  const showInfoRef1 = useRef(null);
+  const showInfoRef2 = useRef(null);
+  const showInfoRef3 = useRef(null);
+  const showInfoRef4 = useRef(null);
+  const showInfoRef5 = useRef(null);
+  const showInfoRef6 = useRef(null);
+  const showInfoRef7 = useRef(null);
+  const showInfoRef8 = useRef(null);
+  const showInfoRef9 = useRef(null);
+  const showInfoRef10 = useRef(null);
+  const showInfoRef11 = useRef(null);
+  const showInfoRef12 = useRef(null);
+  const showInfoRef13 = useRef(null);
+
+
+  // Handle click outside the tooltip to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showInfoRef1.current && !showInfoRef1.current.contains(event.target)) {
+        setShowInfo1(false);
+      }
+      if (showInfoRef2.current && !showInfoRef2.current.contains(event.target)) {
+        setShowInfo2(false);
+      }
+      if (showInfoRef3.current && !showInfoRef3.current.contains(event.target)) {
+        setShowInfo3(false);
+      }
+      if (showInfoRef4.current && !showInfoRef4.current.contains(event.target)) {
+        setShowInfo4(false);
+      }
+      if (showInfoRef5.current && !showInfoRef5.current.contains(event.target)) {
+        setShowInfo5(false);
+      }
+      if (showInfoRef6.current && !showInfoRef6.current.contains(event.target)) {
+        setShowInfo1(false);
+      }
+      if (showInfoRef7.current && !showInfoRef7.current.contains(event.target)) {
+        setShowInfo7(false);
+      }
+      if (showInfoRef8.current && !showInfoRef8.current.contains(event.target)) {
+        setShowInfo8(false);
+      }
+      if (showInfoRef9.current && !showInfoRef9.current.contains(event.target)) {
+        setShowInfo9(false);
+      }
+      if (showInfoRef10.current && !showInfoRef10.current.contains(event.target)) {
+        setShowInfo10(false);
+      }
+      if (showInfoRef11.current && !showInfoRef11.current.contains(event.target)) {
+        setShowInfo11(false);
+      }
+      if (showInfoRef12.current && !showInfoRef12.current.contains(event.target)) {
+        setShowInfo12(false);
+      }
+      if (showInfoRef13.current && !showInfoRef13.current.contains(event.target)) {
+        setShowInfo13(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+  const handleSubmit = () => {
+    MidpointValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
+
+
+
   if (isCanvas) {
     return (
       <div className="flex flex-col w-full ">
@@ -97,18 +163,33 @@ export default function MidpointDashboard({ drawingType }) {
           <div className="col-span-4 ">
             <section className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200">
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
-              <table className="table-auto w-full text-left text-gray-700">
+              <table className="w-full text-left text-gray-700">
                 <tbody>
                   <tr>
-                    <td className={labelstyle}>Line Length:</td>
-                    {/* <td style={{ paddingLeft: "50px"}} className={labelstyle}>Line Length:</td> */}
-                    <td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Line Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo1(!showInfo1)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo1 && (
+                        <div ref={showInfoRef1} className={onClickStyle}>
+                          {LineLengthInfo}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2">
                       <input
                         type="text"
                         value={LineLength}
-                        onChange={(e) => setLineLength(e.target.value)}
+                        onChange={(e) => setLineLength(Number(e.target.value))}
                         className={inputStyle}
                       />
                     </td>
@@ -119,7 +200,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>First Point of HP Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        First Point of HP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo2(!showInfo2)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo2 && (
+                        <div ref={showInfoRef2} className={onClickStyle}>
+                          {FirstPointofHPLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -132,9 +229,9 @@ export default function MidpointDashboard({ drawingType }) {
                       <select
                         value={firstpointPositionHP}
                         onChange={(e) => setfirstpointPositionHP(e.target.value)}
-                        className={selectStyle}
+                        className={selectInputStyle}
                       >
-                        <option  value="above">Above</option>
+                        <option value="above">Above</option>
                         <option value="below">Below</option>
 
                       </select>
@@ -146,7 +243,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>First Point of VP Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        First Point of VP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo3(!showInfo3)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo3 && (
+                        <div ref={showInfoRef3} className={onClickStyle}>
+                          {FirstPointofVPLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -154,13 +267,12 @@ export default function MidpointDashboard({ drawingType }) {
                         onChange={(e) => setFirstPointFrontOfVPLength(e.target.value)}
                         className={inputStyle}
                       />
-
                     </td>
                     <td>
                       <select
                         value={firstpointPositionVP}
                         onChange={(e) => setfirstpointPositionVP(e.target.value)}
-                        className={selectStyle}
+                        className={selectInputStyle}
                       >
                         <option value="front">Front</option>
                         <option value="behind">Behind</option>
@@ -174,7 +286,23 @@ export default function MidpointDashboard({ drawingType }) {
                   </tr>
                   {/* Add other rows similarly */}
                   <tr>
-                    <td className={labelstyle}>Second Point of HP Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Second Point of HP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo4(!showInfo4)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo4 && (
+                        <div ref={showInfoRef4} className={onClickStyle}>
+                          {SecondPoitofHPLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -186,34 +314,8 @@ export default function MidpointDashboard({ drawingType }) {
                     <td>
                       <select
                         value={secondpointPositionHP}
-                        onChange={(e) => setsecondpointPositionHP(e.target.value)}
-                        className={selectStyle}
-                      >
-                        <option value="above">Above</option>
-                        <option value="below">Below</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={labelstyle}>Second Point of VP Length:</td>
-                    <td>
-                      <input
-                        type="text"
-                        value={secondpointFrontOfVPLength}
-                        onChange={(e) => setSecondPointFrontOfVPLength(e.target.value)}
-                        className={inputStyle}
-                      />
-                    </td>
-                    <td>
-                      <select
-                        value={secondpointPositionVP}
                         onChange={(e) => setSecondpointPositionVP(e.target.value)}
-                        className={selectStyle}
+                        className={selectInputStyle}
                       >
                         <option value="front">Front</option>
                         <option value="behind">Behind</option>
@@ -226,7 +328,65 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Inclination to VP:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Second Point of VP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo5(!showInfo5)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo5 && (
+                        <div ref={showInfoRef5} className={onClickStyle}>
+                          {SecondPontofVPLengthInfo}
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={secondpointFrontOfVPLength}
+                        onChange={(e) => setSecondPointFrontOfVPLength(e.target.value)}
+                        className={inputStyle}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={secondpointPositionVP}
+                        onChange={(e) => setSecondpointPositionVP(e.target.value)}
+                        className={selectInputStyle}
+                      >
+                        <option value="front">Front</option>
+                        <option value="behind">Behind</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Inclination to VP:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo6(!showInfo6)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo6 && (
+                        <div ref={showInfoRef6} className={onClickStyle}>
+                          {InclinationtoVPInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -242,7 +402,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Inclination to HP:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Inclination to HP:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo7(!showInfo7)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo7 && (
+                        <div ref={showInfoRef7} className={onClickStyle}>
+                          {InclinationtoHPInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -258,7 +434,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Top View Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Top View Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo8(!showInfo8)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo8 && (
+                        <div ref={showInfoRef8} className={onClickStyle}>
+                          {TopViewLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -274,7 +466,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Front View Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Front View Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo9(!showInfo9)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo9 && (
+                        <div ref={showInfoRef9} className={onClickStyle}>
+                          {FrontViewLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -290,7 +498,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Top View Angle:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Top View Angle:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo10(!showInfo10)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo10 && (
+                        <div ref={showInfoRef10} className={onClickStyle}>
+                          {TopViewAngleInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -306,7 +530,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Front View Angle:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Front View Angle:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo11(!showInfo11)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo11 && (
+                        <div ref={showInfoRef11} className={onClickStyle}>
+                          {FrontViewAngleInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -322,7 +562,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Mid Point of HP Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Mid Point of HP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo12(!showInfo12)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo12 && (
+                        <div ref={showInfoRef12} className={onClickStyle}>
+                          {MidPointofHPLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -335,7 +591,7 @@ export default function MidpointDashboard({ drawingType }) {
                       <select
                         value={midpointPositionHP}
                         onChange={(e) => setmidpointPositionHP(e.target.value)}
-                        className={selectStyle}
+                        className={selectInputStyle}
                       >
                         <option value="above">Above</option>
                         <option value="below">Below</option>
@@ -348,7 +604,23 @@ export default function MidpointDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className={labelstyle}>Mid Point of VP Length:</td>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Mid Point of VP Length:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo13(!showInfo13)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo13 && (
+                        <div ref={showInfoRef13} className={onClickStyle}>
+                          {MidPointofVPLengthInfo}
+                        </div>
+                      )}
+                    </td>
                     <td>
                       <input
                         type="text"
@@ -361,7 +633,7 @@ export default function MidpointDashboard({ drawingType }) {
                       <select
                         value={midpointPositionVP}
                         onChange={(e) => setmidpointPositionVP(e.target.value)}
-                        className={selectStyle}
+                        className={selectInputStyle}
                       >
                         <option value="front">Front</option>
                         <option value="behind">Behind</option>
@@ -370,7 +642,7 @@ export default function MidpointDashboard({ drawingType }) {
                   </tr>
                   <tr>
                     <td colSpan="3 ">
-                      <hr/>
+                      <hr />
                     </td>
                   </tr>
                 </tbody>
@@ -378,10 +650,12 @@ export default function MidpointDashboard({ drawingType }) {
               <br />
 
               <div className="text-center">
-                <button
-                  onClick={() => setIsCanvas(true)}
-                  className={buttonStyle}
-                >
+                <div className="text-red-500 text-center">
+                  {warningMessage.map((msg, index) => (
+                    <div key={index}>{msg}</div>
+                  ))}
+                </div>
+                <button onClick={handleSubmit} className={buttonStyle}>
                   Submit
                 </button>
               </div>
@@ -393,32 +667,7 @@ export default function MidpointDashboard({ drawingType }) {
             </section>
           </div>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

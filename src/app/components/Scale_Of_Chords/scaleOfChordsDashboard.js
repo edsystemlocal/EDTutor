@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ScaleOfChordsDetails from "@/app/content/scaleOfChords-details";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function ScaleOfChordsDashboard({ drawingType }) {
     const [isCanvas, setIsCanvas] = useState(false);
@@ -34,7 +35,7 @@ export default function ScaleOfChordsDashboard({ drawingType }) {
                             className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
                         >
                             <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                                Drawing Type: {drawingType}
+                                Drawing Type: {getDisplayValueOfType(drawingType)}
                             </div>
                             <div className="text-center mt-4">
                           Draw "scale of chords" please click the sumbit button

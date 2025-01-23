@@ -102,8 +102,8 @@ export function PScale(payload) {
   let angle1 = 330, angle2 = 300; 
   let sendToPoints = [];
   const { counter, finalDrawing } = payload;
-  const steps = scale_Steps(); // Generate steps dynamically
-  let step = steps[counter];
+  // const steps = scale_Steps(SRF2,LOS ,plainScaleUnit, Maxlength,maxlengthUnit,division1,division2,division1Count,division2Count) // Generate steps dynamically
+  // let step = steps[counter];
 
   const RF1 = payload.inputs["RF"]
   const RF2 = payload.inputs[":"]
@@ -313,34 +313,35 @@ export function PScale(payload) {
 
 
 
-
+  const steps = scale_Steps(SRF2,LOS ,plainScaleUnit, Maxlength,maxlengthUnit,division1,division2,division1Count,division2Count) // Generate steps dynamically
+  let step = steps[counter];
 
   return { points: sendToPoints, step };
 
 }
 
-export function scale_Steps(Maxlength) {
-  // return {
-  //   1: defineSteps("RF of given Problem is :- 1:" + SRF2,
-  //     "Length of Scale is :-" + LOS + " " + plainScaleUnit,
-  //     "Draw a main line  " + Maxlength + "" + plainScaleUnit + "long and divide it into " + division1 + " equal parts. for this:-"),
-  //   2: defineSteps("Draw a line from start point of main line with 30 degree angle "),
-  //   3: defineSteps("Cut arcs of any length " + division1 + " times",),
-  //   4: defineSteps("Draw a line between last arc point and end point of line ", "Draw Parallel line from each arc point. "),
-  //   5: defineSteps("Draw Perpendicular line from both end",),
-  //   6: defineSteps("Make Division each representing :" + division1Count + " " + maxlengthUnit),
+export function scale_Steps(SRF2,LOS ,plainScaleUnit, Maxlength,maxlengthUnit,division1,division2,division1Count,division2Count) {
+  return {
+    1: defineSteps("RF of given Problem is :- 1:" + SRF2,
+      "Length of Scale is :-" + LOS + " " + plainScaleUnit,
+      "Draw a main line  " + Maxlength + " " + plainScaleUnit + " long and divide it into " + division1 + " equal parts. for this:-"),
+    2: defineSteps("Draw a line from start point of main line with 30 degree angle "),
+    3: defineSteps("Cut arcs of any length " + division1 + " times",),
+    4: defineSteps("Draw a line between last arc point and end point of line ", "Draw Parallel line from each arc point. "),
+    5: defineSteps("Draw Perpendicular line from both end",),
+    6: defineSteps("Make Division each representing :" + division1Count + " " + maxlengthUnit),
 
-  //   7: defineSteps("Draw a line from start point of main line with 60 degree agle "),
-  //   8: defineSteps("Cut arcs of any length " + division2 + " times",),
-  //   9: defineSteps("Draw a line between last arc point and end point of fist division ", "Draw Parallel line from each arc point. ",),
+    7: defineSteps("Draw a line from start point of main line with 60 degree agle "),
+    8: defineSteps("Cut arcs of any length " + division2 + " times",),
+    9: defineSteps("Draw a line between last arc point and end point of fist division ", "Draw Parallel line from each arc point. ",),
 
-  //   9: defineSteps("Divide the first part into " + division2 + "equal divisions. ",
-  //     " Each division will show one " + plainScaleUnit),
-  //   10: defineSteps("Draw Perpendicular line from both end",
-  //     "Make Division each representing :" + division2Count + " " + plainScaleUnit),
+    9: defineSteps("Divide the first part into " + division2 + "equal divisions. ",
+      " Each division will show one " + plainScaleUnit),
+    10: defineSteps("Draw Perpendicular line from both end",
+      "Make Division each representing :" + division2Count + " " + plainScaleUnit),
 
 
-  // };
+  };
   return "";
 }
 

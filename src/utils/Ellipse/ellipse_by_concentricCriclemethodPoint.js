@@ -61,18 +61,21 @@ export function ellipse_by_concentricCriclemethodSteps(values) {
 
 export function ellipse_by_concentricCriclemethodPoint(payload) {
     const { counter, inputs, finalDrawing } = payload;
-
-    const startpoint = { x: 100, y: 400 };
-
     let majorAxis = Number(inputs["Major Axis"]) || 0;
     let minorAxis = Number(inputs["Minor Axis"]) || 0;
+
+    // const startpoint = { x: 100, y: 400 };
+    // const startpoint = { x: 100,
+    //      y:majorAxis>= 400?600:300 };
+    const startpoint = { x: 100, y: 100+ majorAxis};
+ 
     let values = {
         majorAxis,
         minorAxis
 
     }
-    majorAxis = majorAxis*3;
-    minorAxis = minorAxis*3;
+    majorAxis = majorAxis*2;
+    minorAxis = minorAxis*2;
     // Calculate the endpoints of the major axis
     const ab_LineEndPoint = { x: startpoint.x + majorAxis, y: startpoint.y };
     
@@ -124,8 +127,8 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
         }
     }
     if (counter === 3 || drawAll) {
-        const majorCirclePoints = generateFullCircle(midpoint, major_half);
-        const minorCirclePoints = generateFullCircle(midpoint, minor_half);
+        const majorCirclePoints = generateFullCircle(midpoint, -major_half);
+        const minorCirclePoints = generateFullCircle(midpoint, -minor_half);
         sendToPoints.push(
             ...minorCirclePoints,
             ...darkPencil,
@@ -138,10 +141,8 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
     }
     if (counter === 4 || drawAll) {
         let verticalLines = [];
-        let labeledVerticalPoints = [];
-        // console.log("majorCircleDivisions:",majorCircleDivisions);
         for(let i=0;i<=5;i++){
-            const verticalLine = calculateLinePointsWithCircles(majorCircleDivisions[i], majorCircleDivisions[i+6], lightPencil);
+            const verticalLine = calculateLinePointsWithCircles(majorCircleDivisions[i+6], majorCircleDivisions[i], lightPencil);
             const majorCircle_labelstartpoint = calculateLabel(majorCircleDivisions[i], `${i + 1}`, "up");
             const majorCircle_labelendpoint=calculateLabel(majorCircleDivisions[i+6], `${i + 7}`, "up");
             const minorCircle_labelstartpoint = calculateLabel(minorCircleDivisions[i], `${i + 1}'`, "up");
@@ -163,7 +164,6 @@ export function ellipse_by_concentricCriclemethodPoint(payload) {
     if (counter === 5 || drawAll) {
 
         let allIntersectionPoints = [];
-        let labeledVerticalPoints = [];
         console.log("majorCircleDivisions:",majorCircleDivisions);
         for(let i=0;i<12;i++){
             const verticalIntersectionPoints = calculateLinePointsWithCircles(majorCircleDivisions[i], {x:majorCircleDivisions[i].x, y: minorCircleDivisions[i].y}, lightPencil);

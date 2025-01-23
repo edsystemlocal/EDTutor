@@ -3,12 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import BisectLineDetails from "@/app/content/bisectline-details";
-import { BisectLengthInfo, buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle} from "../informationIconHelper";
+import { BisectLengthInfo, buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle } from "../informationIconHelper";
+import { bisectValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function BisectLineDashboard({ drawingType }) {
-    const [Length, setLength] = useState(100); // Renamed to `Length`
+    const [Length, setLength] = useState(); // Renamed to `Length`
     const [isCanvas, setIsCanvas] = useState(false);
     const [showInfo, setShowInfo] = useState(false); // state for tooltip visibility
+    const [warningMessage, setWarningMessage] = useState([]);
+
     const InfoRef = useRef(null);
 
 
@@ -30,6 +34,15 @@ export default function BisectLineDashboard({ drawingType }) {
         };
     }, []);
 
+    const handleSubmit = () => {
+        bisectValidation(
+            inputs, // Pass the inputs object directly
+            setWarningMessage,
+            setIsCanvas
+        );
+    };
+
+
 
     if (isCanvas) {
         return (
@@ -49,7 +62,7 @@ export default function BisectLineDashboard({ drawingType }) {
                             className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
                         >
                             <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                                Drawing Type: {drawingType}
+                                Drawing Type: {getDisplayValueOfType(drawingType)}
                             </div>
 
                             {/* Table for Input Alignment */}
@@ -58,9 +71,9 @@ export default function BisectLineDashboard({ drawingType }) {
                                     <tr>
                                         <td className="p-2">
                                             <span className={labelStyle}>Length:
-                                                <span 
+                                                <span
                                                     className={infoIconStyle}
-                                                    title={HoverMsg }
+                                                    title={HoverMsg}
                                                     onClick={() => setShowInfo(!showInfo)} // toggle tooltip on click
                                                 >
                                                     ⓘ
@@ -91,10 +104,12 @@ export default function BisectLineDashboard({ drawingType }) {
                                 </tbody>
                             </table>
                             <div className="text-center">
-                                <button
-                                    onClick={() => setIsCanvas(true)}
-                                    className={buttonStyle}
-                                >
+                                <div className="text-red-500 text-center">
+                                    {warningMessage.map((msg, index) => (
+                                        <div key={index}>{msg}</div>
+                                    ))}
+                                </div>
+                                <button onClick={handleSubmit} className={buttonStyle}>
                                     Submit
                                 </button>
                             </div>

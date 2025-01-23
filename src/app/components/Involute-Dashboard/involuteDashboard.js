@@ -3,10 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import InvoluteDetails from "@/app/content/involute-details";
 import { buttonStyle, DiameterInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle } from "../informationIconHelper";
+import { InvoluteValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 
 export default function InvoluteDashboard({ drawingType }) {
  const [isCanvas, setIsCanvas] = useState(false);
+ const [warningMessage, setWarningMessage] = useState([]);
+
  
    const [showInfo1, setShowInfo1] = useState(false);
  
@@ -27,12 +31,21 @@ export default function InvoluteDashboard({ drawingType }) {
    }, []);
  
  
-   const [Diameter, setDiameter] = useState(200);
+   const [Diameter, setDiameter] = useState();
  
    const inputs = {
      "Diameter": Diameter
    };
+
+   const handleSubmit = () => {
+    InvoluteValidation(
+       inputs, // Pass the inputs object directly
+       setWarningMessage,
+       setIsCanvas
+     );
+   };
  
+
    if (isCanvas) {
      return (
        <div className="flex flex-col w-full">
@@ -51,7 +64,7 @@ export default function InvoluteDashboard({ drawingType }) {
                className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen  bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
              >
                <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                 Drawing Type: {drawingType}
+                  Drawing Type: {getDisplayValueOfType(drawingType)}
                </div>
                <div>
                  <table className="table-auto w-full">
@@ -87,16 +100,15 @@ export default function InvoluteDashboard({ drawingType }) {
                    </tbody>
                  </table>
                  <div className="text-center">
-                   <button
-                     onClick={() => {
-                       console.log(inputs); // Log inputs for debugging
-                       setIsCanvas(true);
-                     }}
-                     className={buttonStyle}
-                   >
-                     Submit
-                   </button>
-                 </div>
+                  <div className="text-red-500 text-center">
+                    {warningMessage.map((msg, index) => (
+                      <div key={index}>{msg}</div>
+                    ))}
+                  </div>
+                  <button onClick={handleSubmit} className={buttonStyle}>
+                    Submit
+                  </button>
+                </div>
                </div>
              </section>
            </div>
