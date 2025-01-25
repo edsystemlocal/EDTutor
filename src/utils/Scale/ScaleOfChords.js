@@ -100,19 +100,7 @@ export function scaleOfChords(payload, aaa) { //ParalleltoHP_and_InclinedtoVP
     const dist9 = calculateDistance(pointStartPoint, Angledline9);
 
 
-    const cutarc1 = calculateArcPoints(perpendicularLineEndpoint, Angledline4, darkPencil)
-
-
-    const cutarc2 = calculateArcPoints(perpendicularLineEndpoint, Angledline7, darkPencil)
-   
-    const cutarc3 = calculateArcPoints(perpendicularLineEndpoint, Angledline1, lightPencil)
-    const cutarc4 = calculateArcPoints(perpendicularLineEndpoint, Angledline2, lightPencil)
-    const cutarc5 = calculateArcPoints(perpendicularLineEndpoint, Angledline3, lightPencil)
-    const cutarc6 = calculateArcPoints(perpendicularLineEndpoint, Angledline5, lightPencil)
-    const cutarc7 = calculateArcPoints(perpendicularLineEndpoint, Angledline6, lightPencil)
-    const cutarc8 = calculateArcPoints(perpendicularLineEndpoint, Angledline8, lightPencil)
-    const cutarc9 = calculateArcPoints(perpendicularLineEndpoint, Angledline9, lightPencil)
-
+    
 
 
 
@@ -123,7 +111,16 @@ export function scaleOfChords(payload, aaa) { //ParalleltoHP_and_InclinedtoVP
     
 
     if (counter === 1 || drawAll) {
-
+        const cutarc1 = calculateArcPoints(pointStartPoint, Angledline4, darkPencil)
+        const cutarc2 = calculateArcPoints(perpendicularLineEndpoint, Angledline7, darkPencil)       
+        const cutarc3 = calculateArcPoints(perpendicularLineEndpoint, Angledline1, lightPencil)
+        const cutarc4 = calculateArcPoints(perpendicularLineEndpoint, Angledline2, lightPencil)
+        const cutarc5 = calculateArcPoints(perpendicularLineEndpoint, Angledline3, lightPencil)
+        const cutarc6 = calculateArcPoints(perpendicularLineEndpoint, Angledline5, lightPencil)
+        const cutarc7 = calculateArcPoints(perpendicularLineEndpoint, Angledline6, lightPencil)
+        const cutarc8 = calculateArcPoints(perpendicularLineEndpoint, Angledline8, lightPencil)
+        const cutarc9 = calculateArcPoints(perpendicularLineEndpoint, Angledline9, lightPencil)
+    
 
         sendToPoints.push(
                       ...calculateLabel(pointStartPoint, "A", "left-up"),

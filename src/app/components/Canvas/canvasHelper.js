@@ -392,28 +392,57 @@ export const updateStepText = (data, setStepText, newCounter) => {
     let formattedSteps = "";
 
     if (typeof data.steps === "string") {
+      console.log("Single Single: " + data.steps);
       // Format the steps so that each part after a comma goes to the next line
-      formattedSteps = data.steps
-        .split(",") // Split the string by commas
-        .map((step) => step.trim()) // Trim each step to remove extra spaces
-        .join("\n• "); // Join them with a newline and bullet point
+      // formattedSteps = data.steps
+      //   .split(",") // Split the string by commas
+      //   .map((step) => step.trim()) // Trim each step to remove extra spaces
+      //   .join("\n• "); // Join them with a newline and bullet point
 
+        let steps1 = data.steps.split("Step");
+        
+        for(let i=0;i<steps1.length;i++){
+          
+          let steps2 = steps1[i].split(",");
+          for(let j=0;j<steps2.length;j++){
+          if(steps2[j].slice(0,4).includes(":")){
+            let steps3 = steps2[j].split(":");
+            //console.log("array Single: " + steps1);
+            for(let k=0;k<steps3.length;k++){
+              if(k==0){
+                formattedSteps += "\n➽ Step " + steps3[k];
+              } else if(k==1){
+                formattedSteps += "\n•" + steps3[k];
+              } else {
+                formattedSteps += ":"+steps3[k];
+              }
+            }
+          } else {
+            if(steps2[j].trim() != ""){
+              formattedSteps += "\n•" + steps2[j];
+            }
+          }
+        }
+        }
       // Update the step text
-      setStepText((prevText) => `${prevText}\n➽ Step ${newCounter}:\n• ${formattedSteps}`);
+      //setStepText((prevText) => `${prevText}\n➽ Step ${newCounter}:\n• ${formattedSteps}`);
+      setStepText(formattedSteps);
     } else if (Array.isArray(data.steps)) {
-      // If steps are an array, format them appropriately
-      formattedSteps = data.steps
-        .map((step) => `• ${step.trim()}`) // Add bullet point and trim each step
-        .join("\n"); // Join all steps with a newline
-
-      // Update the step text
-      setStepText((prevText) => `${prevText}\n➽ Step ${newCounter}:\n${formattedSteps}\n`);
-    } else {
+        // If steps are an array, format them appropriately
+        formattedSteps = data.steps
+          .map((step) => `• ${step.trim()}`) // Add bullet point and trim each step
+          .join("\n"); // Join all steps with a newline
+  
+        // Update the step text
+        setStepText((prevText) => `${prevText}\n➽ Step ${newCounter}:\n${formattedSteps}\n`);
+      
+    }
+    else {
       console.error("Unexpected data type for steps:", typeof data.steps);
     }
 
     // Return the formatted steps
-    return `➽ Step ${newCounter}:\n${formattedSteps}`;
+    return formattedSteps;
   }
 
   // Return null if data.steps is not available

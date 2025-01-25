@@ -1,4 +1,4 @@
-import { calculateAngle, calculateAngledLinePoints, calculateArcPoints, calculateDistance, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawParallelArrow, drawPerpendicularArrow, drawQuarterCircle, } from "../functionHelper";
+import { calculateAngle, calculateAngledLinePoints, calculateAngleInDegrees, calculateArcPoints, calculateDistance, calculateLabel, calculateLinePointsWithCircles, defineSteps, drawParallelArrow, drawPerpendicularArrow, drawQuarterCircle, } from "../functionHelper";
 import { darkPencil, lightPencil, startPoint, } from "../globalVariable";
 export function AngleIn_scaleOfChords_Steps(values) {
     const { Angle } = values;
@@ -106,21 +106,7 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
 
     const dist8 = calculateDistance(pointStartPoint, Angledline8);
 
-    const dist9 = calculateDistance(pointStartPoint, Angledline9);
-
-
-    const cutarc1 = calculateArcPoints(perpendicularLineEndpoint, Angledline4, darkPencil)
-
-
-    const cutarc2 = calculateArcPoints(perpendicularLineEndpoint, Angledline7, darkPencil)
-
-    const cutarc3 = calculateArcPoints(perpendicularLineEndpoint, Angledline1, lightPencil)
-    const cutarc4 = calculateArcPoints(perpendicularLineEndpoint, Angledline2, lightPencil)
-    const cutarc5 = calculateArcPoints(perpendicularLineEndpoint, Angledline3, lightPencil)
-    const cutarc6 = calculateArcPoints(perpendicularLineEndpoint, Angledline5, lightPencil)
-    const cutarc7 = calculateArcPoints(perpendicularLineEndpoint, Angledline6, lightPencil)
-    const cutarc8 = calculateArcPoints(perpendicularLineEndpoint, Angledline8, lightPencil)
-    const cutarc9 = calculateArcPoints(perpendicularLineEndpoint, Angledline9, lightPencil)
+    const dist9 = calculateDistance(pointStartPoint, Angledline9);    
 
 
     let AngledLineEndPoint = calculateAngledLinePoints (secondDiameterLineEndPoint , AngleInDegree , Diameter)
@@ -133,7 +119,18 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
     
 
     if (counter === 1 || drawAll) {
+        const cutarc1 = calculateArcPoints(pointStartPoint, Angledline4, darkPencil)
 
+
+        const cutarc2 = calculateArcPoints(perpendicularLineEndpoint, Angledline7, darkPencil)
+    
+        const cutarc3 = calculateArcPoints(perpendicularLineEndpoint, Angledline1, lightPencil)
+        const cutarc4 = calculateArcPoints(perpendicularLineEndpoint, Angledline2, lightPencil)
+        const cutarc5 = calculateArcPoints(perpendicularLineEndpoint, Angledline3, lightPencil)
+        const cutarc6 = calculateArcPoints(perpendicularLineEndpoint, Angledline5, lightPencil)
+        const cutarc7 = calculateArcPoints(perpendicularLineEndpoint, Angledline6, lightPencil)
+        const cutarc8 = calculateArcPoints(perpendicularLineEndpoint, Angledline8, lightPencil)
+        const cutarc9 = calculateArcPoints(perpendicularLineEndpoint, Angledline9, lightPencil)
 
         sendToPoints.push(
             ...calculateLinePointsWithCircles(pointStartPoint, pointEndPoint, darkPencil),
@@ -308,7 +305,7 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
             ...cutarc,
             ...darkPencil,
             ...calculateLabel(AngledLineEndPoint, "T", "up"),
-
+            
           
           
             );
@@ -321,7 +318,7 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
         sendToPoints.push(
             ...calculateLinePointsWithCircles(secondDiameterLineEndPoint,AngledLineEndPoint ,darkPencil),
             ...darkPencil,
-
+            ...drawBeta(secondDiameterLineEndPoint, calculateAngleInDegrees(secondDiameterLineEndPoint,AngledLineEndPoint))
           
           
             );
@@ -336,6 +333,36 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
             ? Object.values(steps).map((s, index) => `Step ${index + 1}: ${s}`).join("\n")
             : steps[counter];
         return { points: sendToPoints, step }; // Return empty points and message for invalid counter
+    }
+
+    function drawBeta(center, endAngle) {
+      return [
+        ...drawAngle(center, 40, (180+endAngle), "up", ""+(180+endAngle)),
+      ]
+    }
+    
+    function drawAngle(center, radius, endAngle, arcPosition, label) {
+      let sendToPoints = [];
+      console.log("drawAngle, radius: ", radius);
+    
+     
+        let labelPoint = calculateAngledLinePoints(center, 180-endAngle / 2, radius);
+        let drawLowerCircle;
+        let calculateLabel1;
+        if (arcPosition == "up") {
+          drawLowerCircle = drawQuarterCircle(center, 180, 180-endAngle, radius);
+          calculateLabel1 = calculateLabel({ x: labelPoint.x - 10, y: labelPoint.y + 5 }, label, "left");
+        } else if (arcPosition == "down") {
+          drawLowerCircle = drawQuarterCircle(center, 180, 180 - endAngle, radius);
+          calculateLabel1 = calculateLabel({ x: labelPoint.x - 10, y: labelPoint.y + 5 }, label, "left");
+        }
+        sendToPoints.push(
+          ...drawLowerCircle,
+          ...calculateLabel1,
+          ...lightPencil,
+        )
+      
+      return sendToPoints;
     }
 
    

@@ -32,6 +32,8 @@ export async function POST(request) {
   const validUsers = [
     { username: "admin", password: "password123" },
     { username: "abhi", password: "pass" },
+    { username: "narendra", password: "edtutor@123" },
+    { username: "sumit", password: "edtutor@123" },
   ];
 
   const user = validUsers.find(

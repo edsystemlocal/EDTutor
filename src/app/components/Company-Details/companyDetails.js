@@ -1,9 +1,9 @@
 const companyDetails = {
-    name: "ASTRETECH SOLUTIONS AND TECHNOLOGY",
-    contactNumber: "+1-234-567-890",
-    email: "support@astretech.com",
-    tagline: "Learn and draw different types of geometric figures effortlessly!",
-    updates: "Stay tuned for more updates!",
+    name: "ENGINIA LEARNING TECHNOLOGY PVT LTD",
+    contactNumber: "9850632599",
+    email: "gpatidar8899@gmail.com",
+    tagline: "These drawings need to be verified with Teacher before considering them correct",
+    updates: "",
   };
   
   export default companyDetails;

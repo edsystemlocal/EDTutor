@@ -314,7 +314,9 @@ export function PScale(payload) {
 
 
   const steps = scale_Steps(SRF2,LOS ,plainScaleUnit, Maxlength,maxlengthUnit,division1,division2,division1Count,division2Count) // Generate steps dynamically
-  let step = steps[counter];
+  const step = drawAll
+    ? Object.values(steps).map((s, index) => `Step ${index + 1}: ${s}`).join("\n")
+    : steps[counter];
 
   return { points: sendToPoints, step };
 
@@ -324,7 +326,7 @@ export function scale_Steps(SRF2,LOS ,plainScaleUnit, Maxlength,maxlengthUnit,di
   return {
     1: defineSteps("RF of given Problem is :- 1:" + SRF2,
       "Length of Scale is :-" + LOS + " " + plainScaleUnit,
-      "Draw a main line  " + Maxlength + " " + plainScaleUnit + " long and divide it into " + division1 + " equal parts. for this:-"),
+      "Draw a main line  " + Maxlength + " " + plainScaleUnit + " long and divide it into " + division1 + " equal parts. for this-"),
     2: defineSteps("Draw a line from start point of main line with 30 degree angle "),
     3: defineSteps("Cut arcs of any length " + division1 + " times",),
     4: defineSteps("Draw a line between last arc point and end point of line ", "Draw Parallel line from each arc point. "),
