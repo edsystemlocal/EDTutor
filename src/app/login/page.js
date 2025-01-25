@@ -839,7 +839,7 @@ export default function LoginWithCourses() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
+                className="w-full pl-10 pr-4 py-2 border text-blue-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
                 placeholder="Username"
                 required
               />
@@ -858,7 +858,7 @@ export default function LoginWithCourses() {
                   type="text"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
+                  className="w-full pl-10 pr-4 py-2 text-blue-800 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
                   placeholder="OTP"
                   required
                 />
@@ -875,7 +875,7 @@ export default function LoginWithCourses() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
+                  className="w-full pl-10 pr-10 py-2 text-blue-800 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition duration-200"
                   placeholder="Password"
                   required
                 />
