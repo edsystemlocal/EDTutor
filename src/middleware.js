@@ -4,7 +4,7 @@ export function middleware(req) {
   const token = req.cookies.get("authToken") || req.headers.get("authorization");
 
   // Protected route paths
-  const protectedPaths = ["/dashboard"];
+  const protectedPaths = ["/home", "/dashboard"];
 
   const isProtected = protectedPaths.some((path) =>
     req.nextUrl.pathname.startsWith(path)

@@ -31,7 +31,8 @@ export async function POST(request) {
 
   const validUsers = [
     { username: "admin", password: "password123" },
-    { username: "abhi", password: "pass" },
+    { username: "abhishek", password: "edtutor@123" },
+    { username: "neelesh", password: "edtutor@123" },
     { username: "narendra", password: "edtutor@123" },
     { username: "sumit", password: "edtutor@123" },
   ];

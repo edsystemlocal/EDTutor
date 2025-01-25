@@ -61,21 +61,24 @@ const plans = [
   {
     tier: "College",
     price: "₹400/subscription",
-    features: ["Access to basic courses", "Standard support"],
-    bg: "#C0C0C0",
+	price1: "(₹2000/subscription)",
+    features: ["Premium courses", "Priority support", "Exclusive content"],
+    bg: "#704CE4",
   },
   {
     tier: "Student",
-    price: "₹500/subscription",
-    features: ["All College features", "Premium courses", "Priority support"],
+    price: "₹600/subscription",
+	price1: "(₹2000/subscription)",
+    features: ["Premium courses", "Standard support"],
     bg: "#FFD700",
   },
   {
     tier: "Offer",
-    price: "₹400/subscription if 5 students enroll together",
-    features: ["All Student features", "Exclusive content", "Dedicated support"],
+    price: "₹500/subscription if 5 students enroll together",
+	price1: "(₹2000/subscription)",
+    features: ["Premium courses", "Standard support"],
     bg: "#E5E4E2",
-    isOffer: true, // Mark as an offer for unique styling
+    //isOffer: true, // Mark as an offer for unique styling
   },
 ];
 
@@ -114,7 +117,10 @@ export default function CourseDetails() {
           >
             {course.price}
           </p>
-          <ul className="text-gray-500 mt-4 space-y-2">
+		  <p className={`text-xl mt-2 ${
+              course.isOffer ? "text-red-500" : "text-gray-800"
+            }`}><s>{course.price1}</s></p>
+          <ul className=" text-gray-800 mt-4 space-y-2">
             {course.features.map((feature, idx) => (
               <li key={idx} className="flex items-center">
                 <span className="text-green-500 mr-2">✔</span>
