@@ -186,6 +186,20 @@ export default function Canvas({ inputs, drawingType }) {
       );
     });
   };
+
+  const handleReset = () => {
+    // Reset all states
+    setPointsArray([]);
+    setCounter(0);
+    setStepText("");
+    setFinalDrawing(false);
+    drawingState.current = [];
+    // Clear the canvas
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvasWidth1, canvasHeight1);
+  };
+  
   const handleSave = async () => {
     const fileName = window.prompt("Please enter a file name:");
     
