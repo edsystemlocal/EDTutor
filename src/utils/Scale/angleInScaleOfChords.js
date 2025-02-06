@@ -2,23 +2,31 @@ import { calculateAngle, calculateAngledLinePoints, calculateAngleInDegrees, cal
 import { darkPencil, lightPencil, startPoint, } from "../globalVariable";
 export function AngleIn_scaleOfChords_Steps(values) {
     const { Angle } = values;
-    return {
-        1: defineSteps(" Draw Scale Of Chords ",
-        ),
-        2: defineSteps(
-            `Draw any line PQ. `,
-        ),
-        3: defineSteps(
-            "With any point S on it as centre and radius equal to 0-60 (from the scale of chords), draw an arc cutting PS at a point R. ",
-
-        ),
-        4: defineSteps(
-            `With R as centre and radius equal to 0-${Angle} (chord of ${Angle}°) cut the arc at a point T. .`,
-        ),
-        5: defineSteps(
-            `Draw a line joining S with T. Then  RST = ${Angle}°.`,
-        ),
+    const steps = {
+        1: [`Draw Scale Of Chords `],
+        
+        2: 
+            Angle>90
+            ?[
+                `Draw a line RS And ST (RS = ST = AB) `,
+                `With point S on it as centre and radius equal to 0 to 60 (from the scale of chords), draw a Semi circle at a point R`
+            ]
+            :[
+                `Draw a line RS (RS = AB) `,
+                `With point S on it as centre and radius equal to 0 to 60 (from the scale of chords), draw a Quarter circle at a point R`
+            ],
+        
+        3: 
+            Angle>90
+            ?[
+                `With T as centre and radius equal to 0 to ${180-Angle} (chord of ${180-Angle}°) cut the arc at a point Q`,
+             ]
+            :[
+                `With R as centre and radius equal to 0 to ${Angle} (chord of ${Angle}°) cut the arc at a point Q`,
+            ],
+        4: [ `Draw a line joining S with T. Then  RSQ = ${Angle}°.`,]
     };
+    return steps;
 }
 
 
@@ -49,7 +57,9 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
 
     let secondDiameterLineStartPoint = {x: startPoint.x+350, y: startPoint.y};
     let secondDiameterLineEndPoint = { x: secondDiameterLineStartPoint.x +Diameter, y: secondDiameterLineStartPoint.y };
-
+    
+    let secondDiameterLineStartPoint2 = secondDiameterLineEndPoint;
+    let secondDiameterLineEndPoint2 = { x: secondDiameterLineStartPoint2.x +Diameter, y: secondDiameterLineStartPoint2.y };
 
     let perpendicularLineEndpoint = { x: DiameterLineEndPoint.x, y: DiameterLineEndPoint.y - Diameter };
 
@@ -259,62 +269,69 @@ export function AngleInscaleOfChords(payload) { //ParalleltoHP_and_InclinedtoVP
         
 
     }
-    if (counter === 2|| drawAll) {
+	
+	 if (counter === 2 || drawAll) {
 
-        sendToPoints.push(
-            ...calculateLinePointsWithCircles(SecondtStartPoint,secondEndPoint,lightPencil),
-            ...lightPencil,
-            ...calculateLabel(SecondtStartPoint, "P", "down"),
-            ...calculateLabel(secondEndPoint, "Q", "down"),
- 
-          
+        if (Angle > 90) {
+
+
+            sendToPoints.push(
+
+                ...calculateLinePointsWithCircles(secondDiameterLineStartPoint, secondDiameterLineEndPoint, darkPencil),
+                ...darkPencil,
+                ...calculateLabel(secondDiameterLineStartPoint, "R", "down"),
+                ...calculateLabel(secondDiameterLineEndPoint, "S", "down"),
+                ...calculateLinePointsWithCircles(secondDiameterLineStartPoint2, secondDiameterLineEndPoint2, darkPencil),
+                ...calculateLabel(secondDiameterLineEndPoint2, "T", "down"),
+                ...drawQuarterCircle(secondDiameterLineEndPoint, 180, 0, Diameter),
+                ...lightPencil,
+
             );
+        } else {
+            sendToPoints.push(
+
+                ...calculateLinePointsWithCircles(secondDiameterLineStartPoint, secondDiameterLineEndPoint, darkPencil),
+                ...darkPencil,
+                ...calculateLabel(secondDiameterLineStartPoint, "R", "down"),
+                ...calculateLabel(secondDiameterLineEndPoint, "S", "down"),
+                ...drawQuarterCircle(secondDiameterLineEndPoint, 180, 90, Diameter),
+                ...lightPencil,
+
+            );
+        }
 
         if (finalDrawing) {
             drawAll = true;
         }
-    
+
     }
 
+    if (counter === 3 || drawAll) {
 
-
-    
-    if (counter === 3|| drawAll) {
-        sendToPoints.push(
-           
-            ...calculateLinePointsWithCircles(secondDiameterLineStartPoint,secondDiameterLineEndPoint,darkPencil),
-            ...darkPencil,
-            ...calculateLabel(secondDiameterLineStartPoint, "R", "down"),
-            ...calculateLabel(secondDiameterLineEndPoint, "S", "down"),
-            ...drawQuarterCircle(secondDiameterLineEndPoint,180,90,Diameter),
-            ...lightPencil,
-          
+        if (Angle > 90) {
+            const cutarc = calculateArcPoints(secondDiameterLineEndPoint2, AngledLineEndPoint, darkPencil)
+            sendToPoints.push(
+                ...cutarc,
+                ...darkPencil,
+                ...calculateLabel(AngledLineEndPoint, "Q", "up"),
             );
-        
 
-                if (finalDrawing) {
-                    drawAll = true;
-                }
-               
+        } else {
+            const cutarc = calculateArcPoints(secondDiameterLineStartPoint, AngledLineEndPoint, darkPencil)
+            sendToPoints.push(
+                ...cutarc,
+                ...darkPencil,
+                ...calculateLabel(AngledLineEndPoint, "Q", "up"),
+            );
+        }
+
+
+        if (finalDrawing) {
+            drawAll = true;
+        }
     }
-    
+	
     if (counter === 4|| drawAll) {
-        const cutarc = calculateArcPoints(secondDiameterLineStartPoint, AngledLineEndPoint, darkPencil)
-
-        sendToPoints.push(
-            ...cutarc,
-            ...darkPencil,
-            ...calculateLabel(AngledLineEndPoint, "T", "up"),
-            
-          
-          
-            );
-
-                if (finalDrawing) {
-                    drawAll = true;
-                }
-    }  
-    if (counter === 5|| drawAll) {
         sendToPoints.push(
             ...calculateLinePointsWithCircles(secondDiameterLineEndPoint,AngledLineEndPoint ,darkPencil),
             ...darkPencil,
