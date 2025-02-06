@@ -13,79 +13,54 @@ export function getLineProblemSteps(values) {
   firstPointAboveHPLength = firstPointAboveHPLength / 2;
   firstpointfrontOfVPLength = firstpointfrontOfVPLength / 2;
   const steps = {
-    1: [`Draw the XY axis with a total line length of ${LineLength} mm`],
+    1: defineSteps(`Draw the XY axis with a total line length of ${LineLength} mm`),
     2: isAboveHPPositive && isFrontVPPositive
-      ? [
+      ? defineSteps(
         `Draw a ${firstPointAboveHPLength} mm vertical line from the XY axis to the first point above HP and label it as a and a'`,
-        `Draw a ${firstpointfrontOfVPLength} mm vertical line from the XY axis to the first point in front of VP and label it as b`,
-      ]
+        `Draw a ${firstpointfrontOfVPLength} mm vertical line from the XY axis to the first point in front of VP and label it as a`,
+      )
       : isAboveHPPositive
-        ? [`Draw a ${firstPointAboveHPLength} mm vertical line from the XY axis to the first point above HP and label it as a and a'`]
+        ? defineSteps(`Draw a ${firstPointAboveHPLength} mm vertical line from the XY axis to the first point above HP and label it as a and a'`)
         : isFrontVPPositive
-          ? [`Draw a ${firstpointfrontOfVPLength} mm vertical line from the XY axis to the first point in front of VP and label it as b`]
-          : ["No valid points to calculate and draw"],
+          ? defineSteps(`Draw a ${firstpointfrontOfVPLength} mm vertical line from the XY axis to the first point in front of VP and label it as a`)
+          : defineSteps(""),
     3:
       drawingType === "parallelToVPAndInclinationToHP" || drawingType === "parallelToVP"
-        ? [
-          `Draw a ${LineLength} mm horizontal line parallel to VP and label the second point as b'.`,
-        ]
+        ? defineSteps(`Draw an inclined line from the first point above HP with an angle of ${InclinationToHP}° and line length ${LineLength} mm. Mark it as b'.`)
         : drawingType === "parallelToHPAndInclinationToVP" || drawingType === "parallelToHP"
-          ? [
-            `Draw a ${LineLength} mm horizontal line parallel to HP and label the second point as b'.`,
-          ]
+          ? defineSteps(`Draw an inclined line from the first point front VP with an angle of ${360 - InclinationToVP}° with line length ${LineLength} mm. Mark it as b.`)
           : drawingType === "perpendicularToVP"
-            ? [
-              `Draw a ${LineLength} mm vertical line perpendicular to VP and label the second point as b'.`,
-            ]
+            ? defineSteps(`Draw a ${LineLength} mm vertical line perpendicular to VP and label the second point as b.`)
             : drawingType === "perpendicularToHP"
-              ? [
-                `Draw a ${LineLength} mm vertical line perpendicular to HP and label the second point as b'.`,
-              ]
+              ? defineSteps(`Draw a ${LineLength} mm vertical line perpendicular to HP and label the second point as b'.`)
               : drawingType === "parallelToBoth"
-                ? [
-                  `Draw a ${LineLength} mm horizontal line parallel to HP and label the second point as a1'.`,
-                  `Draw a ${LineLength} mm horizontal line parallel to VP and label the second point as b'.`,
-                ]
-
-                : ["No valid drawingTypes to draw parallel, inclined, or perpendicular lines"],
+                ? defineSteps(`Draw a ${LineLength} mm horizontal line parallel to HP and label the second point as b'.`)
+                : defineSteps(""),
 
 
     4:
       drawingType === "parallelToVPAndInclinationToHP"
-        ? [
-          `Draw a vertical line from the second point front of VP (${LineLength} mm) to the second point above HP and label the point as c`,
-        ]
+        ? defineSteps(`Draw a vertical line from the b' till parallel to first point of VP and label the point as b`)
         : drawingType === "parallelToHPAndInclinationToVP"
-          ? [
-            `Draw a vertical line from the second point above HP (${LineLength} mm) to the second point front of VP and label the point as c`,
-          ]
-          : ["No valid drawingTypes to draw the vertical line and label it"],
+          ? defineSteps(`Draw a vertical line from the b till parallel to first point of HP and label the point as b'`,)
+          : drawingType === "parallelToBoth"
+          ? defineSteps(`Draw a ${LineLength} mm horizontal line parallel to VP and label the second point as b.`)
+          : defineSteps(""),
     5:
       drawingType === "parallelToVPAndInclinationToHP"
-        ? [
-          `Draw an inclined line from the first point above HP to the second point above HP with an angle of ${InclinationToHP}°`,
-        ]
+        ? defineSteps(
+          `Draw parallel line from a to b. This represents top view of line.`
+        )
         : drawingType === "parallelToHPAndInclinationToVP"
-          ? [
-            `Draw an inclined line from the first point front of VP to the second point front of VP with an angle of ${360 - InclinationToVP}°`,
-          ]
-          : ["No valid drawingTypes to draw the inclined line"],
+          ? defineSteps(`Draw parallel line from the a' to b'. This represents front view of line.`)
+          : defineSteps(""),
     6:
       drawingType === "parallelToVPAndInclinationToHP"
-        ? [
-          `Calculate θ and write value at right corner`,
-        ]
+        ? defineSteps(`Calculate θ and write value at right corner`)
         : drawingType === "parallelToHPAndInclinationToVP"
-          ? [
-            `Calculate Φ and write value at right below`,
-          ]
-          : ["No valid drawingTypes to draw the inclined line"],
+          ? defineSteps(`Calculate Φ and write value at right below`)
+          : defineSteps(""),
   };
-
-  // Return step based on counter
-  if (counter) {
-    return steps[counter] || "Invalid step";
-  }
 
   return steps;
 }
@@ -287,7 +262,7 @@ export function getLineProblemPoints(payload) {
   // } = updatedInputs;
 
   let sendToPoints = [];
-
+  let drawAll = false;
   // Proceed only if primary drawingTypes are met
   if (
     drawingType === "parallelToHPAndInclinationToVP" ||
@@ -324,7 +299,7 @@ export function getLineProblemPoints(payload) {
     console.log("firstPointAboveHP: ", firstPointAboveHP);
     console.log("firstPointFrontVP: ", firstPointFrontVP);
     console.log("secondPointFrontVP: ", secondPointFrontVP);
-    let drawAll = false;
+
     if (counter === 1 || drawAll) {
       sendToPoints.push(...drawXYaxis());
       if (finalDrawing) {
@@ -474,7 +449,14 @@ export function getLineProblemPoints(payload) {
     drawingType,
   };
 
-  const step = getLineProblemSteps(values);
+  const steps = getLineProblemSteps(values);
+  const step = drawAll
+    ? Object.values(steps).map((s, index) => `Step ${index + 1}: ${s}`).join("\n")
+    : steps[counter];
+
+    console.log("step: ", step);
+    console.log("drawAll: ", drawAll);
+    console.log("steps: ", steps);
 
   return { points: sendToPoints, step };
 }
