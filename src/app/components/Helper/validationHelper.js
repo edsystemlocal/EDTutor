@@ -423,7 +423,7 @@ export const PlaneValidation = (inputs, setWarningMessage, setIsCanvas) => {
   } = inputs;
   const warnings = [];
 
-  validateField(PlaneType,"Plane Type",500, warnings);
+  //validateField(PlaneType,"Plane Type",500, warnings);
   validateField(PlaneSideLength,"Side Length",500, warnings);
   validateField(PlaneHPAngle,"Incline With HP",360, warnings);
   validateField(PlaneVPAngle,"Inclined With VP",360, warnings);
