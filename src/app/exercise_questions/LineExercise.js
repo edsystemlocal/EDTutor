@@ -76,8 +76,8 @@ const LineExercise = () => {
                     "Line Length": 75,
                     "First Point Front of VP": 25,
                     "First Point Above of HP": 25,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -90,8 +90,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 0,
                     "First Point Above of HP": 30,
                     "Inclination To VP": 0,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -104,8 +104,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 40,
                     "First Point Above of HP": 0,
                     "Inclination To HP": 0,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -117,8 +117,8 @@ const LineExercise = () => {
                     "Line Length": 75,
                     "First Point Front of VP": 20,
                     "First Point Above of HP": 15,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -130,8 +130,8 @@ const LineExercise = () => {
                     "Line Length": 75,
                     "First Point Front of VP": 0,
                     "First Point Above of HP": 25,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
 
                 },
 
@@ -145,8 +145,8 @@ const LineExercise = () => {
                     "Line Length": 75,
                     "First Point Front of VP": 0,
                     "First Point Above of HP": 0,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -159,8 +159,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 0,
                     "First Point Above of HP": 0,
                     "Inclination To VP": 45,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
 
             });
@@ -174,8 +174,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 30,
                     "First Point Above of HP": 20,
                     "Inclination To HP": 30,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -187,8 +187,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 15,
                     "First Point Above of HP": 25,
                     "Inclination To VP": 60,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -201,8 +201,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 25,
                     "First Point Above of HP": 40,
                     "Second Point Front of VP": 50,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -215,8 +215,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 25,
                     "First Point Above of HP": 0,
                     "Second Point Above of HP": 50,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
             });
         }
@@ -229,8 +229,8 @@ const LineExercise = () => {
                     "First Point Front of VP": 30,
                     "First Point Above of HP": 40,
                     "Inclination To VP": 30,
-                    "First Point HP Position": "above",
-                    "First Point VP Position": "front"
+                    "First Point Position HP ": "above",
+                    "First point Position VP": "front"
                 },
 
             });

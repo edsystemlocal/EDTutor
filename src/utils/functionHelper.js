@@ -678,7 +678,7 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
   let labelSide = 15;
   if(position == "down"){
     distance = -15;
-    labelSide = -5;
+    labelSide = -10;
   }  
   let adjustedStartPointUp = {x: verticalStartPointUp.x, y: verticalStartPointUp.y - distance};
   let adjustedEndPointUp = {x: verticalEndPointUp.x, y: verticalEndPointUp.y - distance};
@@ -707,7 +707,50 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
     ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     ...arrowHeadEndPoint, ...lightPencil,    
     ...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - 20} ,label, position )
+    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y - labelSide} ,label, position )
+  );
+  
+  
+  return sendToPoints;
+}
+
+export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, position , label) {
+  let sendToPoints = [];
+  let distance = 15;
+  let arrowHeadSize = 5;
+  let labelSide = 15;
+  if(position == "down"){
+    distance = -15;
+    labelSide = -20;
+  }  
+  let adjustedStartPointUp = {x: verticalStartPointUp.x, y: verticalStartPointUp.y - distance};
+  let adjustedEndPointUp = {x: verticalEndPointUp.x, y: verticalEndPointUp.y - distance};
+  let arrowHeadEndPoint = [];
+  if(verticalStartPointUp.x > verticalEndPointUp.x){
+    arrowHeadEndPoint.push({x: adjustedEndPointUp.x + arrowHeadSize, y: adjustedEndPointUp.y - arrowHeadSize});
+    arrowHeadEndPoint.push(adjustedEndPointUp);
+    arrowHeadEndPoint.push({x: adjustedEndPointUp.x + arrowHeadSize, y: adjustedEndPointUp.y + arrowHeadSize});
+  } else {
+    arrowHeadEndPoint.push({x: adjustedEndPointUp.x - arrowHeadSize, y: adjustedEndPointUp.y - arrowHeadSize});
+    arrowHeadEndPoint.push(adjustedEndPointUp);
+    arrowHeadEndPoint.push({x: adjustedEndPointUp.x - arrowHeadSize, y: adjustedEndPointUp.y + arrowHeadSize});
+  }
+  let arrowHeadStartPoint = [];
+  if(verticalStartPointUp.y > verticalEndPointUp.y){
+    arrowHeadStartPoint.push({x: adjustedStartPointUp.x - arrowHeadSize, y: adjustedStartPointUp.y - arrowHeadSize});
+    arrowHeadStartPoint.push(adjustedStartPointUp);
+    arrowHeadStartPoint.push({x: adjustedStartPointUp.x - arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
+  } else {
+    arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y - arrowHeadSize});
+    arrowHeadStartPoint.push(adjustedStartPointUp);
+    arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
+  }
+  sendToPoints.push(
+    ...lightPencil,
+    //...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
+    //...arrowHeadEndPoint, ...lightPencil,    
+    //...arrowHeadStartPoint, ...lightPencil,
+    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
   );
   
   
