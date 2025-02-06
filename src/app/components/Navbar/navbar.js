@@ -1,15 +1,10 @@
-
 "use client";
 import { useEffect, useState } from "react";
-import Home from "../../page";
-import Paper_June_2018 from "../../exam_solutions/paper_June_2018";
 import companyDetails from "../Company-Details/companyDetails";
 import { useRouter } from "next/navigation";
-
-
+import { MoreVertical } from "lucide-react"; // Three-dot icon from lucide-react
+import Link from "next/link";
 const menuItems = [
-
-
   {
     label: "General",
     children: [
@@ -17,7 +12,6 @@ const menuItems = [
       { label: "Bisect Line", path: "bisectLine" },
     ],
   },
-
   {
     label: "Scales",
     children: [
@@ -34,7 +28,6 @@ const menuItems = [
       },
     ],
   },
-
   {
     label: "Lines",
     children: [
@@ -53,31 +46,18 @@ const menuItems = [
           { label: "Parallel to VP & Inclination to HP", path: "parallelToVPAndInclinationToHP" },
         ],
       },
-
       { label: "InclinationToBoth", path: "inclinationToBoth" },
       { label: "MidPoint", path: "MidPoint" },
-
-    
-
     ],
   },
-
   {
     label: "Planes",
-    children: [
-      { label: "Plane", path: "plane" },
-    ],
+    children: [{ label: "Plane", path: "plane" }],
   },
-
   {
     label: "Solid",
-    children: [
-      { label: "Solid", path: "solid" },
-    ],
+    children: [{ label: "Solid", path: "solid" }],
   },
-
-
-
   {
     label: "Curves",
     children: [
@@ -92,9 +72,7 @@ const menuItems = [
       },
       {
         label: "Hyperbola",
-        children: [
-          { label: "General Method", path: "hyperbolaGeneralMethod" },
-        ],
+        children: [{ label: "General Method", path: "hyperbolaGeneralMethod" }],
       },
       {
         label: "Ellipse",
@@ -103,7 +81,6 @@ const menuItems = [
           { label: "Concentric Circle Method", path: "ellipseConcentricCircleMethod" },
         ],
       },
-
       {
         label: "Cycloidal",
         children: [
@@ -115,9 +92,6 @@ const menuItems = [
       { label: "Involute", path: "Involute" },
     ],
   },
-
-
-
   {
     label: "Exam Paper",
     children: [
@@ -129,7 +103,6 @@ const menuItems = [
           { label: "November_2022", path: "november_2022" },
           { label: "June_2020_GS", path: "june_2020_GS" },
           { label: "June_2020_CBGS", path: "june_2020_CBGS" },
-
         ],
       },
       {
@@ -140,36 +113,28 @@ const menuItems = [
           { label: "24_June_2023", path: "24_June_2023" },
         ],
       },
-
     ],
   },
-
   {
     label: "Exercise",
     children: [
-      { label: "Point Exercise", path: "PointExercise" },
-      { label: "Line Exercise", path: "lineExercise" },
-      { label: "Scales Exercise", path: "scaleExercise" },
-      { label: "Plane Exercise", path: "planeExercise" },
-      { label: "Solid Exercise", path: "solidExercise" },
-      { label: "Curve Exercise", path: "CurveExercise" },
-
-
+      { label: " Point ", path: "PointExercise" },
+      { label: " Line ", path: "lineExercise" },
+      { label: " Scales ", path: "scaleExercise" },
+      { label: " Plane ", path: "planeExercise" },
+      { label: " Solid ", path: "solidExercise" },
+      { label: " Curve ", path: "CurveExercise" },
     ],
   },
 ];
-
-
-
-
 
 export default function Navbar({ resetDrawing }) {
   const [hoveredParent, setHoveredParent] = useState(null);
   const [hoveredChild, setHoveredChild] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false); // State for profile dropdown
   const [activeParent, setActiveParent] = useState(null);
-
-  // Fetch username from localStorage
+  const [menuOpen, setMenuOpen] = useState(false); // Three-dot menu state
+  const router = useRouter(); // Initialize router
 
   const route = (path, label) => {
     resetDrawing(path, label);
@@ -177,9 +142,8 @@ export default function Navbar({ resetDrawing }) {
     setHoveredParent(null);
     setHoveredChild(null);
     setProfileOpen(false);
+    setMenuOpen(false);
   };
-
-
 
   return (
     <>
@@ -198,23 +162,17 @@ export default function Navbar({ resetDrawing }) {
               onMouseEnter={() => setHoveredParent(item.label)}
               onMouseLeave={() => setHoveredParent(null)}
             >
-              <div className="flex items-center space-x-2">
               <button
-                className={`my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r ${
-                  activeParent === item.label || hoveredParent === item.label
-                    ? "from-blue-600 to-blue-800 text-white shadow-lg scale-105 ring-2 ring-offset-2 ring-blue-400"
-                    : "from-blue-500 to-blue-700 text-white shadow-md"
-                } hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transform hover:scale-105 hover:-translate-y-1`}
-                onClick={() => setActiveParent(activeParent === item.label ? null : item.label)}
+                className={`my-2 px-10 py-2 text-sm font-medium transition-all duration-300 rounded-3xl bg-gradient-to-r ${activeParent === item.label || hoveredParent === item.label
+                  ? "from-blue-600 to-blue-800 text-white shadow-lg scale-105 ring-2 ring-offset-2 ring-blue-400"
+                  : "from-blue-500 to-blue-700 text-white shadow-md"
+                  } hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transform hover:scale-105 hover:-translate-y-1`}
               >
                 {item.label}
               </button>
-              </div>
-
-
 
               {item.children && hoveredParent === item.label && (
-                <div className="absolute top-full left-0 bg-gray-100 py-1 shadow-xl">
+                <div className="absolute top-full left-0 bg-gray-200 py-1 shadow-xl">
                   {item.children.map((child, idx) => (
                     <div
                       key={idx}
@@ -223,17 +181,18 @@ export default function Navbar({ resetDrawing }) {
                       onMouseLeave={() => setHoveredChild(null)}
                     >
                       <button
-                        className="block w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-red-400 hover:scale-105 hover:underline"
+                        className={`block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900 hover:scale-105 hover:underline ${idx % 2 === 0 ? "bg-blue-100" : "bg-blue-200"
+                          }`}
                         onClick={() => child.path && route(child.path, child.label)}
                       >
                         {child.label}
                       </button>
                       {child.children && hoveredChild === child.label && (
-                        <div className="absolute left-full top-0 bg-gray-200 py-1 shadow-lg">
+                        <div className="absolute left-full top-0 bg-gray-200 py-1 shadow-xl  ">
                           {child.children.map((subChild, subIdx) => (
                             <button
                               key={subIdx}
-                              className="block w-full py-2 px-4 text-left text-gray-700 font-medium transition-all duration-300 transform hover:bg-gray-200 hover:text-green-600 hover:scale-105"
+                              className={` block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900  hover:scale-105 ${subIdx % 2 === 0 ? "bg-blue-100 " : "bg-blue-200"}`}
                               onClick={() => route(subChild.path, subChild.label)}
                             >
                               {subChild.label}
@@ -242,21 +201,52 @@ export default function Navbar({ resetDrawing }) {
                         </div>
                       )}
                     </div>
-
-                    
                   ))}
+
                 </div>
               )}
+
+
             </div>
           ))}
+        </div>
+        {/* Three-dot menu */}
+        <div className="relative">
+          <button
+            className="p-2 rounded-full hover:bg-blue-700   hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transform hover:scale-105 hover:-translate-y-1"
+            onClick={() => setMenuOpen(!menuOpen)}
 
-        
+          >
+            <MoreVertical size={24} />
+          </button>
 
-          
-
-
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg text-black">
+              <button className="block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900 hover:scale-105 hover:underline "
+                onClick={() => router.push("/home")}
+              >
+                Home
+              </button>
+              <button className="block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900 hover:scale-105 hover:underline "
+                onClick={() => router.push("/contact")}
+              >
+                Contact Us
+              </button>
+              <button className="block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900 hover:scale-105 hover:underline "
+                onClick={() => router.push("/about")}
+              >
+                About Us
+              </button>
+              <button className="block w-full py-2 px-4 text-black text-left font-medium transition-all duration-300 transform hover:bg-gray-350 hover:text-blue-900 hover:scale-105 hover:underline "
+                onClick={() => router.push("/login")}
+              >
+                logout
+              </button>
+            </div>
+          )}
         </div>
       </nav>
     </>
   );
 }
+

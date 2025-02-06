@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import PrintInput from "../Print-Input/print-input";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { drawPointsWithLabels, getDisplayValueOfType, getPointsForDrawing, updateStepText } from "./canvasHelper";
 
@@ -21,8 +20,8 @@ export const resizeCanvas = (canvas) => {
 export default function Canvas({ inputs, drawingType }) {
 
   // console.log("canvasjjjjjjj",themeSelect)
-    console.log(inputs,"ooooooooooooooooooooooooooooooo")
-    
+  console.log(inputs, "ooooooooooooooooooooooooooooooo")
+
   const [PointsArray, setPointsArray] = useState([]);
   const [counter, setCounter] = useState(0);
   const [stepText, setStepText] = useState("");
@@ -118,9 +117,6 @@ export default function Canvas({ inputs, drawingType }) {
       setCounter(newCounter);
     }
 
-
-
-
     try {
       const response = await fetch("/api/next-point", {
         method: "POST",
@@ -163,7 +159,6 @@ export default function Canvas({ inputs, drawingType }) {
 
   };
 
-
   const buttonStyle =
     "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
 
@@ -191,23 +186,50 @@ export default function Canvas({ inputs, drawingType }) {
       );
     });
   };
-
-
-  const handleReset = () => {
-    // Reset all states
-    setPointsArray([]);
-    setCounter(0);
-    setStepText("");
-    setFinalDrawing(false);
-    drawingState.current = [];
-    // Clear the canvas
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvasWidth1, canvasHeight1);
-
+  const handleSave = async () => {
+    const fileName = window.prompt("Please enter a file name:");
+    
+    if (!fileName) {
+      alert("File name is required to save the data.");
+      return;
+    }
+  
+    if (fileName.length > 40) {
+      alert("File name must be at most 40 characters long.");
+      return;
+    }
+  
+    let data = {
+      fileName,
+      drawingType,
+      inputs,
+    };
+  
+    try {
+      let response = await fetch("/api/saveUserProblem", { // ✅ FIXED PATH
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      let result = await response.json(); 
+  
+      if (response.ok) {
+        console.log(result.message);
+        alert("Data sent successfully!");
+      } else {
+        console.error("API Error:", result);
+        alert("Failed to send data: " + (result.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Error details:", error);
+      alert(`An error occurred: ${error.message}`);
+    }
   };
-
-
+  
+  
 
   return (
     <main
@@ -220,14 +242,14 @@ export default function Canvas({ inputs, drawingType }) {
           {/* Drawing Type Section */}
           <section
             id="print-input-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto bg-gradient-to-r from-blue-50 to-blue-200 "
+            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto bg-gradient-to-r from-blue-50 to-blue-200"
             style={{ height: "30%" }}
           >
-            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700 ">
+            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700">
               Drawing Type: {getDisplayValueOfType(drawingType)}
             </div>
             <div className="w-full flex items-center justify-center">
-              <table className="">
+              <table>
                 <tbody>
                   {Object.entries(inputs).map(([key, value], index) => (
                     <tr key={index}>
@@ -238,7 +260,15 @@ export default function Canvas({ inputs, drawingType }) {
                 </tbody>
               </table>
             </div>
+            {/* Save Button */}
+            <button
+              className="px-4 py-1 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all"
+              onClick={handleSave}
+            >
+              Save
+            </button>
           </section>
+
 
           {/* Button Section */}
           <section
@@ -342,7 +372,7 @@ export default function Canvas({ inputs, drawingType }) {
             id="canvas-container"
             className="bg-white shadow-lg rounded flex items-center  bg-yellow-100"
           >
-          <canvas ref={canvasRef} className="rounded-lg" />
+            <canvas ref={canvasRef} className="rounded-lg" />
           </section>
         </div>
       </div>

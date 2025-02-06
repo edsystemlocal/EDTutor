@@ -2,16 +2,16 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import LineDetails from "../../content/line-details";
-import { buttonStyle, FirstPointofHPLengthInfo, FirstPointofVPLengthInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, LineLengthInfo, onClickStyle, selectInputStyle } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, FirstPointofHPLengthInfo, FirstPointofVPLengthInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, LineLengthInfo, onClickStyle, parameterPageStyle, parameterPageStyle1, selectInputStyle } from "../Helper/informationIconHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 import { ParalleltobothValidation } from "../Helper/validationHelper";
 
 export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
 
   const [isCanvas, setIsCanvas] = useState(false);
-  const [LineLength, setLineLength] = useState();
-  const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState();
-  const [firstPointAboveHPLength, setFirstPointAboveHPLength] = useState();
+  const [LineLength, setLineLength] = useState("75");
+  const [firstpointfrontOfVPLength, setFirstPointFrontOfVPLength] = useState("25");
+  const [firstPointAboveHPLength, setFirstPointAboveHPLength] = useState("25");
   const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
   const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
   const [warningMessage, setWarningMessage] = useState([]);
@@ -76,9 +76,9 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-full top-5">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4">
+          <div className={parameterPageStyle}>
             <section
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200">
+              className={parameterPageStyle1}>
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
@@ -100,24 +100,28 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
                         </span>
                         {showInfo1 && (
                           <div ref={showInfoRef1} className={onClickStyle}>
-                            {LineLengthInfo}
+                            {LineLengthInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
-                      <td className="p-2">
+                      <td >
                         <input
                           type="text"
                           value={LineLength}
-                          onChange={(e) => setLineLength(Number(e.target.value))}
+                          onChange={(e) => setLineLength(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
                     </tr>
                     <tr>
-                    <td colSpan="3">
-                      <hr />
-                    </td>
-                  </tr>
+                      <td colSpan="3">
+                        <hr />
+                      </td>
+                    </tr>
                     <tr>
                       <td className="p-2">
                         <span className={labelStyle}>
@@ -132,7 +136,11 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
                         </span>
                         {showInfo2 && (
                           <div ref={showInfoRef2} className={onClickStyle}>
-                            {FirstPointofHPLengthInfo}
+                            {FirstPointofHPLengthInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -175,7 +183,11 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
                         </span>
                         {showInfo3 && (
                           <div ref={showInfoRef3} className={onClickStyle}>
-                            {FirstPointofVPLengthInfo}
+                           {FirstPointofVPLengthInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -219,8 +231,8 @@ export default function ParalleltobothDashboard({ drawingType, themeSelect }) {
             </section>
           </div>
 
-          <div className="col-span-8 ">
-            <section className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200 overflow-scroll">
+          <div className={detailPageStyle}>
+            <section className={detailPageStyle1}>
               <LineDetails drawingType={drawingType} />
             </section>
           </div>

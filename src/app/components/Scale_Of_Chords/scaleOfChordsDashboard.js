@@ -4,6 +4,7 @@ import { useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ScaleOfChordsDetails from "@/app/content/scaleOfChords-details";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
+import { detailPageStyle, detailPageStyle1, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 
 export default function ScaleOfChordsDashboard({ drawingType }) {
     const [isCanvas, setIsCanvas] = useState(false);
@@ -29,16 +30,16 @@ export default function ScaleOfChordsDashboard({ drawingType }) {
         <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-full top-5">
             <main id="main-container" className="w-full p-2">
                 <div className="grid grid-cols-12 gap-2">
-                    <div className="col-span-4 h-full">
+                    <div className={parameterPageStyle}>
                         <section
                             id="input-container"
-                            className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
+                            className={parameterPageStyle1}
                         >
                             <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                                 Drawing Type: {getDisplayValueOfType(drawingType)}
                             </div>
-                            <div className="text-center mt-4">
-                          Draw "scale of chords" please click the sumbit button
+                            <div className="text-center mt-4 text-black">
+                          Please click on Submit button to draw the 'Scale of Chords.'
                             </div>
                             <div className="text-center mt-4">
                                 <button
@@ -51,10 +52,10 @@ export default function ScaleOfChordsDashboard({ drawingType }) {
                         </section>
                     </div>
 
-                    <div className="col-span-8">
+                    <div className={detailPageStyle}>
                         <section
                             id="bisect-line-details-container"
-                            className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll bg-gradient-to-r from-blue-50 to-blue-200"
+                            className={detailPageStyle1}
                         >
                             < ScaleOfChordsDetails />
                         </section>

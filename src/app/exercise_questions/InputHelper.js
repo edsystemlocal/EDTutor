@@ -55,7 +55,9 @@ export const Scale = {
  ScaleQ12:"RF :,\nActual Length:5,\nActual Length Unit:m,\nDrawing Length:10,\nDrawing Length Unit :cm,\nMaximum Length:6,\nMaximum Length Unit:m,\nShow Length1: 3,\nShow Length1 Unit: m,\nShow Length2:2,\nShow Length2 Unit:dcm,\nShow Length3:4,\nShow Length3 Unit:cm",
  ScaleQ13:"RF :1:50000,\nActual Length:,\nActual Length Unit:,\nDrawing Length:,\nDrawing Length Unit :,\nMaximum Length:6,\nMaximum Length Unit:km,\nShow Length1: 5,\nShow Length1 Unit: km,\nShow Length2:4,\nShow Length2 Unit:hm,\nShow Length3:3,\Show Length3 Unit:dm",
 ScaleQ14:"RF :1:32,\nActual Length:,\nActual Length Unit:,\nDrawing Length:,\nDrawing Length Unit :,\nMaximum Length:4,\nMaximum Length Unit:yard,\nShow Length1: 1,\nShow Length1 Unit: yard,\nShow Length2:1,\nShow Length2 Unit:ft,\nShow Length3:1,\nShow Length3 Unit:inch",
- ScaleQ15:"RF :1:50000,\nActual Length:25,\nActual Length Unit:m,\nDrawing Length:1,\nDrawing Length Unit :cm,\nMaximum Length:300,\nMaximum Length Unit:m,\nShow Length1: 235,\nShow Length1 Unit: m,\nShow Length2:,\nShow Length2 Unit:,\nShow Length3:,\nShow Length3 Unit:"
+ ScaleQ15:"RF :1:50000,\nActual Length:25,\nActual Length Unit:m,\nDrawing Length:1,\nDrawing Length Unit :cm,\nMaximum Length:300,\nMaximum Length Unit:m,\nShow Length1: 235,\nShow Length1 Unit: m,\nShow Length2:,\nShow Length2 Unit:,\nShow Length3:,\nShow Length3 Unit:",
+ ScaleQ16:"",
+ ScaleQ17:""
 }
 //Plane  question Input
 

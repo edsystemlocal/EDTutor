@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ParabolaDetails from "@/app/content/parabola-details";
-import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaAngleInfo, ParaBaseInfo, ParaHeightInfo } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaAngleInfo, ParaBaseInfo, ParaHeightInfo, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 import { ParallelogramValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
@@ -43,9 +43,9 @@ export default function ParallelogramDashboard({ drawingType }) {
 
 
   // Parallelogram properties
-  const [Base, setBase] = useState();
-  const [Height, setHeight] = useState();
-  const [angleInDegrees, setAngleInDegrees] = useState();
+  const [Base, setBase] = useState("200");
+  const [Height, setHeight] = useState("100");
+  const [angleInDegrees, setAngleInDegrees] = useState("30");
 
   const inputs = {
     "Base": Base,
@@ -54,13 +54,13 @@ export default function ParallelogramDashboard({ drawingType }) {
   };
 
 
-    const handleSubmit = () => {
-      ParallelogramValidation(
-        inputs, // Pass the inputs object directly
-        setWarningMessage,
-        setIsCanvas
-      );
-    };
+  const handleSubmit = () => {
+    ParallelogramValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
 
   if (isCanvas) {
     return (
@@ -74,13 +74,13 @@ export default function ParallelogramDashboard({ drawingType }) {
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4 h-150">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                 Drawing Type: {getDisplayValueOfType(drawingType)}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -99,7 +99,11 @@ export default function ParallelogramDashboard({ drawingType }) {
                         </span>
                         {showInfo1 && (
                           <div ref={showInfoRef1} className={onClickStyle}>
-                            {ParaBaseInfo}
+                            {ParaBaseInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -107,15 +111,15 @@ export default function ParallelogramDashboard({ drawingType }) {
                         <input
                           type="text"
                           value={Base}
-                          onChange={(e) => setBase(Number(e.target.value))}
+                          onChange={(e) => setBase(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
                     </tr>
                     <tr>
-                        <td className="p-2">
+                      <td className="p-2">
                         <span className={labelStyle}>
-                        Height:
+                          Height:
                           <span
                             className={infoIconStyle}
                             title={HoverMsg}
@@ -126,23 +130,27 @@ export default function ParallelogramDashboard({ drawingType }) {
                         </span>
                         {showInfo2 && (
                           <div ref={showInfoRef2} className={onClickStyle}>
-                            {ParaHeightInfo}
+                           {ParaHeightInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
                       <td className="p-2">
                         <input
                           type="text"
-                          value={Base}
-                          onChange={(e) => setHeight(Number(e.target.value))}
+                          value={Height}
+                          onChange={(e) => setHeight(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
                     </tr>
                     <tr>
-                    <td className="p-2">
+                      <td className="p-2">
                         <span className={labelStyle}>
-                        Angle (Degrees):
+                          Angle (Degrees):
                           <span
                             className={infoIconStyle}
                             title={HoverMsg}
@@ -153,15 +161,19 @@ export default function ParallelogramDashboard({ drawingType }) {
                         </span>
                         {showInfo3 && (
                           <div ref={showInfoRef3} className={onClickStyle}>
-                            {ParaAngleInfo}
+                           {ParaAngleInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
                       <td className="p-2">
                         <input
                           type="text"
-                          value={Base}
-                          onChange={(e) => setAngleInDegrees(Number(e.target.value))}
+                          value={angleInDegrees}
+                          onChange={(e) => setAngleInDegrees(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
@@ -169,23 +181,23 @@ export default function ParallelogramDashboard({ drawingType }) {
                   </tbody>
                 </table>
                 <div className="text-center">
-                <div className="text-red-500 text-center">
-                  {warningMessage.map((msg, index) => (
-                    <div key={index}>{msg}</div>
-                  ))}
+                  <div className="text-red-500 text-center">
+                    {warningMessage.map((msg, index) => (
+                      <div key={index}>{msg}</div>
+                    ))}
+                  </div>
+                  <button onClick={handleSubmit} className={buttonStyle}>
+                    Submit
+                  </button>
                 </div>
-                <button onClick={handleSubmit} className={buttonStyle}>
-                  Submit
-                </button>
-              </div>
               </div>
             </section>
           </div>
 
-          <div className="col-span-8 h-150">
+          <div className={detailPageStyle}>
             <section
               id="parabola-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200  h-screen shadow-lg bg-white h-screen overflow-scroll"
+              className={detailPageStyle1}
             >
               <ParabolaDetails drawingType={drawingType} />
             </section>

@@ -5,24 +5,27 @@ import Canvas from "@/app/components/Canvas/canvas";
 import Navbar from "../Navbar/navbar";
 import ScaleDetails from "@/app/content/scale-details";
 import LineDetails from "../../content/line-details";
-import { ActualLengthInfo, buttonStyle, DrawingLengthInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, RFInfo, RFLenghtInfo, ScaleMaximumLengthInfo, ScaleShowLength1Info, ScaleShowLength2Info, selectInputStyle } from "../informationIconHelper";
+import { ActualLengthInfo, buttonStyle, detailPageStyle, detailPageStyle1, DrawingLengthInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, pageStyle, parameterPageStyle, parameterPageStyle1, RFInfo, RFLenghtInfo, ScaleMaximumLengthInfo, ScaleShowLength1Info, ScaleShowLength2Info, selectInputStyle } from "../Helper/informationIconHelper";
+import { scaleValidation } from "../Helper/validationHelper";
+import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function ScaleDashboard({ drawingType }) {
   // const [drawingType, setDrawingType] = useState("scale");
   const [isCanvas, setIsCanvas] = useState(false); // Default value
-  const [RF1, setRF1] = useState(1);
-  const [RF2, setRF2] = useState();
-  const [RealLength, setRealLength] = useState();
-  const [RealUnit, setRealUnit] = useState();
-  const [DrawingLength, setDrawingLength] = useState();
-  const [DrawingUnit, setDrawingUnit] = useState();
+  const [RF1, setRF1] = useState("");
+  const [RF2, setRF2] = useState("");
+  const [RealLength, setRealLength] = useState("");
+  const [RealUnit, setRealUnit] = useState("");
+  const [DrawingLength, setDrawingLength] = useState("");
+  const [DrawingUnit, setDrawingUnit] = useState("");
+  const [warningMessage, setWarningMessage] = useState([]);
 
-  const [ScaleMaximumLength, setScaleMaximumLength] = useState(8); // Default value
-  const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState("km"); // Default value
-  const [ScaleShowLength1, setScaleShowLength1] = useState(6); // Default value
-  const [ScaleShowUnit1, setScaleShowUnit1] = useState("km"); // Default value
-  const [ScaleShowLength2, setScaleShowLength2] = useState(7); // Default value
-  const [ScaleShowUnit2, setScaleShowUnit2] = useState("hm"); // Default value
+  const [ScaleMaximumLength, setScaleMaximumLength] = useState(""); // Default value
+  const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState(""); // Default value
+  const [ScaleShowLength1, setScaleShowLength1] = useState(""); // Default value
+  const [ScaleShowUnit1, setScaleShowUnit1] = useState(""); // Default value
+  const [ScaleShowLength2, setScaleShowLength2] = useState(""); // Default value
+  const [ScaleShowUnit2, setScaleShowUnit2] = useState(""); // Default value
 
   const [RFInfo, setRFInfo] = useState(false);
   const [DrawingLength1, setDrawingLengthInfo] = useState(false);
@@ -100,20 +103,13 @@ export default function ScaleDashboard({ drawingType }) {
     "Show Length2 Unit": ScaleShowUnit2,
   };
 
-  // Function to reset Drawing
-  // const resetDrawing = (path) => {
-  //   setDrawingType(path);
-  //   if(isCanvas) setIsCanvas(false);
-  // };
-
-  // if (isCanvas) {
-  //   return (
-  //     <div className="flex flex-col w-full">
-  //       <Navbar resetDrawing={resetDrawing} />
-  //       <Canvas inputs={inputs} drawingType={drawingType} />
-  //     </div>
-  //   );
-  // }
+  const handleSubmit = () => {
+    scaleValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
 
   if (isCanvas) {
     return (
@@ -128,13 +124,13 @@ export default function ScaleDashboard({ drawingType }) {
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                Drawing Type: {drawingType}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <table className="table-auto w-full text-left text-gray-700">
                 <tbody>
@@ -151,7 +147,11 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {RFInfo && (
                         <div ref={RFInfoRef} className={onClickStyle}>
-                          {RFLenghtInfo}
+                          {RFLenghtInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
@@ -160,16 +160,16 @@ export default function ScaleDashboard({ drawingType }) {
                       <input
                         type="text"
                         value={RF1}
-                        onChange={(e) => setRF1(Number(e.target.value))}
+                        onChange={(e) => setRF1(e.target.value)}
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <input
                         type="text"
                         value={RF2}
-                        onChange={(e) => setRF2(Number(e.target.value))}
+                        onChange={(e) => setRF2(e.target.value)}
                         className={inputStyle}
                       />
                     </td>
@@ -180,7 +180,7 @@ export default function ScaleDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                  <td className="p-2">
+                    <td className="p-2">
                       <span className={labelStyle}>Drawing Length:
                         <span
                           className={infoIconStyle}
@@ -192,20 +192,24 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {DrawingLength1 && (
                         <div ref={DrawingLengthInfoRef} className={onClickStyle}>
-                          {DrawingLengthInfo}
+                          {DrawingLengthInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
                     </td>
                     <td className="">
                       <input
-                        type="number"
+                        type="text"
                         value={DrawingLength}
-                        onChange={(e) => setDrawingLength(Number(e.target.value))}
+                        onChange={(e) => setDrawingLength(e.target.value)}
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>Unit:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <select
                         value={DrawingUnit}
@@ -247,7 +251,11 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {ActualLength && (
                         <div ref={ActualLengthInfoRef} className={onClickStyle}>
-                          {ActualLengthInfo}
+                          {ActualLengthInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
@@ -256,17 +264,18 @@ export default function ScaleDashboard({ drawingType }) {
                       <input
                         type="text"
                         value={RealLength}
-                        onChange={(e) => setRealLength(Number(e.target.value))}
+                        onChange={(e) => setRealLength(e.target.value)}
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>Unit:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <select
                         value={RealUnit}
                         onChange={(e) => setRealUnit(e.target.value)}
                         className={selectInputStyle}
                       >
+                        <option value="select">unit</option>
                         <option value="km">km</option>
                         <option value="hm">hm</option>
                         <option value="dm">dm</option>
@@ -289,7 +298,7 @@ export default function ScaleDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                  <td className="p-2">
+                    <td className="p-2">
                       <span className={labelStyle}>Maximum Length:
                         <span
                           className={infoIconStyle}
@@ -301,7 +310,11 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {ScaleMaximumLength1 && (
                         <div ref={ScaleMaximumLength1Ref} className={onClickStyle}>
-                          {ScaleMaximumLengthInfo}
+                          {ScaleMaximumLengthInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
@@ -311,18 +324,19 @@ export default function ScaleDashboard({ drawingType }) {
                         type="text"
                         value={ScaleMaximumLength}
                         onChange={(e) =>
-                          setScaleMaximumLength(Number(e.target.value))
+                          setScaleMaximumLength(e.target.value)
                         }
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>Unit:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <select
                         value={ScaleMaximumLengthUnit}
                         onChange={(e) => setScaleMaximumLengthUnit(e.target.value)}
                         className={selectInputStyle}
                       >
+                        <option value="select">unit</option>
                         <option value="km">km</option>
                         <option value="hm">hm</option>
                         <option value="dm">dm</option>
@@ -357,7 +371,11 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {ShowLength1 && (
                         <div ref={ShowLength1Ref} className={onClickStyle}>
-                          {ScaleShowLength1Info}
+                           {ScaleShowLength1Info.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
@@ -367,18 +385,19 @@ export default function ScaleDashboard({ drawingType }) {
                         type="text"
                         value={ScaleShowLength1}
                         onChange={(e) =>
-                          setScaleShowLength1(Number(e.target.value))
+                          setScaleShowLength1(e.target.value)
                         }
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>Unit:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <select
                         value={ScaleShowUnit1}
                         onChange={(e) => setScaleShowUnit1(e.target.value)}
                         className={selectInputStyle}
                       >
+                        <option value="select">unit</option>
                         <option value="km">km</option>
                         <option value="hm">hm</option>
                         <option value="dm">dm</option>
@@ -401,7 +420,7 @@ export default function ScaleDashboard({ drawingType }) {
                     </td>
                   </tr>
                   <tr>
-                  <td className="p-2">
+                    <td className="p-2">
                       <span className={labelStyle}>Show Length2:
                         <span
                           className={infoIconStyle}
@@ -413,7 +432,11 @@ export default function ScaleDashboard({ drawingType }) {
                       </span>
                       {ShowLength2 && (
                         <div ref={ShowLength2Ref} className={onClickStyle}>
-                          {ScaleShowLength2Info}
+                        {ScaleShowLength2Info.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
 
@@ -423,18 +446,19 @@ export default function ScaleDashboard({ drawingType }) {
                         type="text"
                         value={ScaleShowLength2}
                         onChange={(e) =>
-                          setScaleShowLength2(Number(e.target.value))
+                          setScaleShowLength2(e.target.value)
                         }
                         className={inputStyle}
                       />
                     </td>
-                    <td className={labelStyle}>Unit:</td>
+                    <td className={labelStyle}></td>
                     <td className="">
                       <select
                         value={ScaleShowUnit2}
                         onChange={(e) => setScaleShowUnit2(e.target.value)}
                         className={selectInputStyle}
                       >
+                        <option value="select">unit</option>
                         <option value="km">km</option>
                         <option value="hm">hm</option>
                         <option value="dm">dm</option>
@@ -458,20 +482,22 @@ export default function ScaleDashboard({ drawingType }) {
                   </tr>
                 </tbody>
               </table>
-              <div className="text-center mt-4">
-                <button
-                  onClick={() => setIsCanvas(true)}
-                  className={buttonStyle}
-                >
+              <div className="text-center">
+                <div className="text-red-500 text-center">
+                  {warningMessage.map((msg, index) => (
+                    <div key={index}>{msg}</div>
+                  ))}
+                </div>
+                <button onClick={handleSubmit} className={buttonStyle}>
                   Submit
                 </button>
               </div>
             </section>
           </div>
-          <div className="col-span-8">
+          <div className={detailPageStyle}>
             <section
               id="scale-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200"
+              className={detailPageStyle1}
             >
               <ScaleDetails drawingType={drawingType} />
             </section>

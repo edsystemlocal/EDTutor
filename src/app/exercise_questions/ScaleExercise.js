@@ -595,6 +595,28 @@ const ScaleExercise = () => {
                                       <h3 className="text-2xl font-semibold">Scale Of Chords</h3>
                                       <div className="space-y-4">
                                           {/* Add questions for the third quadrant */}
+                                          
+                            <QuestionCard
+                                    question="16. Construct a scale of chords showing 5° divisions and with its aid set-off angles 
+                                                of 25°, 40°, 55° and 130°. "
+
+ 
+                                    tooltipContent={Scale.ScaleQ16}
+                                    tooltipId="q16"
+                                    activeTooltip={activeTooltip}
+                                    toggleTooltip={toggleTooltip}
+                                    onDrawClick={() => handleClick('q16')} />
+
+                            <QuestionCard
+                                    question=" 17. Draw a triangle having sides 8 cm, 9 cm and 10 cm long respectively and 
+                                                   measure its angles with the aid of a scale of chords. "
+
+ 
+                                    tooltipContent={Scale.ScaleQ17}
+                                    tooltipId="q17"
+                                    activeTooltip={activeTooltip}
+                                    toggleTooltip={toggleTooltip}
+                                    onDrawClick={() => handleClick('q17')} />
               
                                         
               

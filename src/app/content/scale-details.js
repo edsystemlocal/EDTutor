@@ -3,7 +3,7 @@ export default function ScaleDetails({drawingType}) {
     <div className="flex flex-col w-full text-gray-700">
       {drawingType === "plainScale" && (
         <div>
- <b>➽ plainScale :</b>A plain scale consists of a line divided into suitable number of
+ <b>➽ Plain Scale :</b>A plain scale consists of a line divided into suitable number of
 equal parts or units, the first of which is sub-divided into smaller parts. Plain scales
 represent either two units or a unit and its sub-division. . <br />
 <br/>
@@ -16,11 +16,11 @@ represent either two units or a unit and its sub-division. . <br />
 <b>➽ Representative fraction (r.f) :</b>The ratio of the length of the object represented on drawing to the actual length of the 
 object represented is called the Representative Fraction (i.e. R.F.). <br />
 <br/>
-<b>➽ formula of Representative fraction (r.f):</b><br />
+<b>➽ Formula of Representative fraction (r.f):</b><br />
 &nbsp;&nbsp; &nbsp;&nbsp;   r.f. = Drawing length / Actual length <br />
 <br/>
 <b>➽ Calculate Rf :</b><br/>
-<b>➽ example :</b><br/>
+<b>➽ Example :</b><br/>
 Distance on drawing:5cm<br/>
 Actual distance:500m<br/>
 &nbsp;&nbsp;Step 1: Convert actual distance to the same unit as the drawing distance: 500m = 500 * 100 = 50,000cm<br/>

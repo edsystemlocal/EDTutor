@@ -1,21 +1,16 @@
-// Validation function for "First Point Above HP"
-function validateFirstPointAboveHP(firstPointAboveHP, warnings) {
-  if (!firstPointAboveHP || firstPointAboveHP.trim() === "") {
-    warnings.push("Please provide a value for 'First Point Above HP'.");
+function validateField(value, fieldName, maxLimit, warnings) {
+ if (isNaN(value)) {
+    warnings.push(`Please provide a numeric value for '${fieldName}'.`);
+  } else if (Number(value) < 0) {
+    warnings.push(`Please provide a non-negative value for '${fieldName}'.`);
+  } else if (String(value).includes(".")) { // New condition to catch decimal values like 1.0
+    warnings.push(`Please provide an integer value for '${fieldName}' (no decimals allowed).`);
+  } else if (Number(value) > maxLimit) {
+    warnings.push(`Please provide a value for '${fieldName}' less than ${maxLimit}.`);
   }
 }
 
-// Validation function for "First Point Front of VP"
-function validateFirstPointFrontOfVP(firstPointFrontOfVP, warnings) {
-  if (!firstPointFrontOfVP || firstPointFrontOfVP.trim() === "") {
-    warnings.push("Please provide a value for 'First Point Front of VP'.");
-  }
-  if (firstPointFrontOfVP && Number(firstPointFrontOfVP) > 500) {
-    warnings.push(
-      "Please provide a value for 'First Point Front of VP' less than 500."
-    );
-  }
-}
+
 // ======================================================================================================
 
 export default function PointValidation(inputs, setWarningMessage, setIsCanvas) {
@@ -33,8 +28,8 @@ export default function PointValidation(inputs, setWarningMessage, setIsCanvas) 
   let warnings = [];
 
   // Call individual validation functions
-  validateFirstPointAboveHP(firstPointAboveHP, warnings);
-  validateFirstPointFrontOfVP(firstPointFrontOfVP, warnings);
+  validateField(firstPointAboveHP,"First Point Of HP",500, warnings);
+  validateField(firstPointFrontOfVP, "First Point Of VP", 500 ,warnings);
 
   // If there are any warnings, set the warning message and return
   if (warnings.length > 0) {
@@ -47,17 +42,25 @@ export default function PointValidation(inputs, setWarningMessage, setIsCanvas) 
   setIsCanvas(true);
 }
 
-
 // =======================================================================================================
 
 export const bisectValidation = (inputs, setWarningMessage, setIsCanvas) => {
   const { Length } = inputs; // Destructure Length from inputs
   const warnings = [];
 
+  validateField(Length,"Length",400, warnings);
+  
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
 };
+
 
 // =======================================================================================================
 export const scaleValidation = (inputs, setWarningMessage, setIsCanvas) => {
@@ -76,6 +79,20 @@ export const scaleValidation = (inputs, setWarningMessage, setIsCanvas) => {
     "Show Length2 Unit": ScaleShowUnit2,
   } = inputs;
   const warnings = [];
+
+  validateField(RF1,"RF",500, warnings);
+  validateField(DrawingLength,"Drawing Length",500, warnings);
+  validateField(RealLength,"Actual Length",500, warnings);
+  validateField(ScaleMaximumLength,"Maximum Length",500, warnings);
+  validateField(ScaleShowLength1,"Show Length1",500, warnings);
+  validateField(ScaleShowLength2,"Show Length2",500, warnings);
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -98,6 +115,18 @@ export const dScaleValidation = (inputs, setWarningMessage, setIsCanvas) => {
   } = inputs;
   const warnings = [];
 
+  validateField(ScaleRF,"RF [1]",500, warnings);
+  validateField(ScaleMaximumLength,"Maximum Length",500, warnings);
+  validateField(ScaleShowLength1,"Show Length1",500, warnings);
+  validateField(ScaleShowLength2,"Show Length2",500, warnings);
+  validateField(ScaleShowLength3,"Show Length3",500, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -110,6 +139,14 @@ export const angleInScaleOfChordsValidation = (inputs, setWarningMessage, setIsC
     Angle
   } = inputs;
   const warnings = [];
+
+  validateField(Angle,"Angle",360, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -129,6 +166,16 @@ export const ParalleltobothValidation = (inputs, setWarningMessage, setIsCanvas)
   } = inputs;
   const warnings = [];
 
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -146,6 +193,16 @@ export const PerpendiculartoHpValidation = (inputs, setWarningMessage, setIsCanv
   } = inputs;
   const warnings = [];
 
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -162,6 +219,16 @@ export const PerpendiculartoVpValidation = (inputs, setWarningMessage, setIsCanv
     "First point Position VP": firstpointPositionVP,
   } = inputs;
   const warnings = [];
+
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -186,6 +253,18 @@ export const ParalleltohpandinclinationtovpValidation = (inputs, setWarningMessa
   } = inputs;
   const warnings = [];
 
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+  // validateField(secondpointFrontOfVPLength,"Second Point of VP Length",500, warnings);
+  // validateField(InclinationToVP,"Inclination To VP",360, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -208,6 +287,18 @@ export const ParalleltovpandinclinationtohpValidation = (inputs, setWarningMessa
 
   } = inputs;
   const warnings = [];
+  
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+  // validateField(secondpointAboveHPLength,"Second Point of HP Length",500, warnings);
+  // validateField(InclinationToHP,"Inclination To HP",360, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -237,6 +328,24 @@ export const InclinationtobothValidation = (inputs, setWarningMessage, setIsCanv
 
   } = inputs;
   const warnings = [];
+    
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+  // validateField(secondpointAboveHPLength,"Second Point of HP Length",500, warnings);
+  // validateField(secondpointFrontOfVPLength,"Second Point of VP Length",500, warnings);
+  // validateField(InclinationToVP,"Inclination To VP",360, warnings);
+  // validateField(InclinationToHP,"Inclination To HP",360, warnings);
+  // validateField(topViewLength,"Top View Length",500, warnings);
+  // validateField(frontViewLength,"Front View Length",500, warnings);
+  // validateField(TopviewAngle,"Top View Angle",360, warnings);
+  // validateField(FrontviewAngle,"Front View Angle",360, warnings);
+
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -270,6 +379,28 @@ export const MidpointValidation = (inputs, setWarningMessage, setIsCanvas) => {
 
   } = inputs;
   const warnings = [];
+  
+  // validateField(LineLength,"Line Length",500, warnings);
+  // validateField(firstPointAboveHPLength,"First Point of HP Length",500, warnings);
+  // validateField(firstpointfrontOfVPLength,"First Point of VP Length",500, warnings);
+  // validateField(secondpointAboveHPLength,"Second Point of HP Length",500, warnings);
+  // validateField(secondpointFrontOfVPLength,"Second Point of VP Length",500, warnings);
+  // validateField(InclinationToVP,"Inclination To VP",360, warnings);
+  // validateField(InclinationToHP,"Inclination To HP",360, warnings);
+  // validateField(topViewLength,"Top View Length",500, warnings);
+  // validateField(frontViewLength,"Front View Length",500, warnings);
+  // validateField(TopviewAngle,"Top View Angle",360, warnings);
+  // validateField(FrontviewAngle,"Front View Angle",360, warnings);
+  // validateField(MidpointHPLength,"Mid Point of HP Length",360, warnings);
+  // validateField(MidpointVPLength,"Mid Point of VP Length",360, warnings);
+
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -292,6 +423,18 @@ export const PlaneValidation = (inputs, setWarningMessage, setIsCanvas) => {
   } = inputs;
   const warnings = [];
 
+  validateField(PlaneType,"Plane Type",500, warnings);
+  validateField(PlaneSideLength,"Side Length",500, warnings);
+  validateField(PlaneHPAngle,"Incline With HP",360, warnings);
+  validateField(PlaneVPAngle,"Inclined With VP",360, warnings);
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -306,6 +449,13 @@ export const GeneralMethodValidation = (inputs, setWarningMessage, setIsCanvas) 
 
   } = inputs;
   const warnings = [];
+  validateField(distanceofthefocusfromthedirectrix,"Distance From focus To Directrix",100, warnings);
+
+    // If there are any warnings, set the warning message and return
+    if (warnings.length > 0) {
+      setWarningMessage(warnings);
+      return;
+    }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -321,6 +471,15 @@ export const EllipseConcentricCircleMethodValidation = (inputs, setWarningMessag
 
   } = inputs;
   const warnings = [];
+  validateField(majorAxis,"Major Axis",500, warnings);
+  validateField(minorAxis,"Minor Axis",300, warnings);
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -338,6 +497,15 @@ export const ParallelogramValidation = (inputs, setWarningMessage, setIsCanvas) 
 
   } = inputs;
   const warnings = [];
+  validateField(Base,"Base",200, warnings);
+  validateField(Height,"Height",200, warnings);
+  validateField(angleInDegrees,"Angle (Degrees)",40, warnings);
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -354,6 +522,14 @@ export const TangentValidation = (inputs, setWarningMessage, setIsCanvas) => {
 
   } = inputs;
   const warnings = [];
+  validateField(Base,"Base",500, warnings);
+  validateField(Height,"Height",300, warnings);
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -365,11 +541,20 @@ export const TangentValidation = (inputs, setWarningMessage, setIsCanvas) => {
 
 export const CycloidValidation = (inputs, setWarningMessage, setIsCanvas) => {
   const { 
-    "Major Axis": majorAxis,
-    "Minor Axis": minorAxis,
+    "Diameter": Diameter
+
 
   } = inputs;
   const warnings = [];
+
+  validateField(Diameter,"Diameter",500, warnings);
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
 
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
@@ -386,6 +571,17 @@ export const EpicycloidValidation = (inputs, setWarningMessage, setIsCanvas) => 
   } = inputs;
   const warnings = [];
 
+  validateField(Diameter,"Diameter",500, warnings);
+  validateField(DirectingCircle,"Directing Circle",500, warnings);
+
+
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
@@ -400,10 +596,17 @@ export const InvoluteValidation = (inputs, setWarningMessage, setIsCanvas) => {
   } = inputs;
   const warnings = [];
 
+  validateField(Diameter,"Diameter",300, warnings);
+   
+  // If there are any warnings, set the warning message and return
+  if (warnings.length > 0) {
+    setWarningMessage(warnings);
+    return;
+  }
+
   // Clear warnings and allow canvas rendering
   setWarningMessage([]);
   setIsCanvas(true);
 };
 
 // =======================================================================================================
-

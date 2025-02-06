@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ElipseDetails from "@/app/content/elipse-details";
-import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, majorAxisInfo, minorAxisInfo, onClickStyle } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, majorAxisInfo, minorAxisInfo, onClickStyle, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 import { EllipseConcentricCircleMethodValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
@@ -35,8 +35,8 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
 
 
   // Ellipse properties
-  const [majorAxis, setmajorAxis] = useState();
-  const [minorAxis, setminorAxis] = useState();
+  const [majorAxis, setmajorAxis] = useState("200");
+  const [minorAxis, setminorAxis] = useState("100");
 
   const inputs = {
     "Major Axis": majorAxis,
@@ -44,13 +44,13 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
   };
 
 
-    const handleSubmit = () => {
-      EllipseConcentricCircleMethodValidation(
-        inputs, // Pass the inputs object directly
-        setWarningMessage,
-        setIsCanvas
-      );
-    };
+  const handleSubmit = () => {
+    EllipseConcentricCircleMethodValidation(
+      inputs, // Pass the inputs object directly
+      setWarningMessage,
+      setIsCanvas
+    );
+  };
 
 
   if (isCanvas) {
@@ -65,13 +65,13 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4 h-150">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white  bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                 Drawing Type: {getDisplayValueOfType(drawingType)}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -90,7 +90,11 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                         </span>
                         {showInfo1 && (
                           <div ref={showInfoRef1} className={onClickStyle}>
-                            {majorAxisInfo}
+                            {majorAxisInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -98,7 +102,7 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                         <input
                           type="text"
                           value={majorAxis}
-                          onChange={(e) => setmajorAxis(Number(e.target.value))}
+                          onChange={(e) => setmajorAxis(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
@@ -117,7 +121,11 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                         </span>
                         {showInfo2 && (
                           <div ref={showInfoRef2} className={onClickStyle}>
-                            {minorAxisInfo}
+                           {minorAxisInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -125,14 +133,14 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
                         <input
                           type="text"
                           value={minorAxis}
-                          onChange={(e) => setminorAxis(Number(e.target.value))}
+                          onChange={(e) => setminorAxis(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                 <div className="text-center">
+                <div className="text-center">
                   <div className="text-red-500 text-center">
                     {warningMessage.map((msg, index) => (
                       <div key={index}>{msg}</div>
@@ -146,10 +154,10 @@ export default function EllipseConcentricCircleMethodDashboard({ drawingType }) 
             </section>
           </div>
 
-          <div className="col-span-8 h-150">
+          <div className={detailPageStyle}>
             <section
               id="ellipse-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200  h-screen shadow-lg bg-white h-screen overflow-scroll"
+              className={detailPageStyle1}
             >
               <ElipseDetails drawingType={drawingType} />
             </section>

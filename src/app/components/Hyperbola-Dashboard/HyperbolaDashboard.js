@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "@/app/components/Canvas/canvas";
 import HyperbolaDetails from "@/app/content/hyperbola-details";
-import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaDistanceInfo } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaDistanceInfo, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 import { GeneralMethodValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
@@ -28,7 +28,7 @@ export default function HyperbolaDashboard({ drawingType }) {
   }, []);
 
   // Parabola properties
-  const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState();
+  const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState("100");
 
   const inputs = {
     "Distance From focus To Directrix": distanceofthefocusfromthedirectrix,
@@ -55,13 +55,13 @@ export default function HyperbolaDashboard({ drawingType }) {
     <div className="flex flex-col w-full bg-gradient-to-b from-blue-50 to-white min-h-screen top-5">
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
-          <div className="col-span-4 h-150">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                 Drawing Type: {getDisplayValueOfType(drawingType)}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -79,7 +79,11 @@ export default function HyperbolaDashboard({ drawingType }) {
                         </span>
                         {showInfo && (
                           <div ref={InfoRef} className={onClickStyle}>
-                            {ParaDistanceInfo}
+                            {ParaDistanceInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -88,7 +92,7 @@ export default function HyperbolaDashboard({ drawingType }) {
                           type="text"
                           value={distanceofthefocusfromthedirectrix}
                           onChange={(e) =>
-                            setdistanceofthefocusfromthedirectrix(Number(e.target.value))
+                            setdistanceofthefocusfromthedirectrix(e.target.value)
                           }
                           className={inputStyle}
                         />
@@ -110,10 +114,10 @@ export default function HyperbolaDashboard({ drawingType }) {
             </section>
           </div>
 
-          <div className="col-span-8 h-150">
+          <div className={detailPageStyle}>
             <section
               id="parabola-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200  h-screen shadow-lg bg-white h-screen overflow-scroll"
+              className={detailPageStyle1}
             >
               <HyperbolaDetails drawingType={drawingType} />
             </section>

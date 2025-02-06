@@ -2,14 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import PointDetails from "@/app/content/point-details";
-import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, PointFristInHPInfo, PointFristInVPInfo, selectInputStyle } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, ff, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, pageStyle, parameterPageStyle, parameterPageStyle1, PointFristInHPInfo, PointFristInVPInfo, selectInputStyle } from "../Helper/informationIconHelper";
 import PointValidation from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function PointDashboard({ drawingType }) {
   // State for variables
-  const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState("");
-  const [firstPointAboveHP, setFirstPointAboveHP] = useState("");
+  const [firstPointFrontOfVP, setFirstPointFrontOfVP] = useState("25");
+  const [firstPointAboveHP, setFirstPointAboveHP] = useState("50");
   const [firstpointPositionVP, setfirstpointPositionVP] = useState("Front");
   const [firstpointPositionHP, setfirstpointPositionHP] = useState("Above");
   const [isCanvas, setIsCanvas] = useState(false);
@@ -52,7 +52,7 @@ export default function PointDashboard({ drawingType }) {
       setIsCanvas
     );
   };
-  
+
 
   if (isCanvas) {
     return (
@@ -67,10 +67,10 @@ export default function PointDashboard({ drawingType }) {
       <main id="main-container " className="w-full p-2  ">
         <div className="grid grid-cols-12 gap-2 ">
           {/* Input Form Section */}
-          <div className="col-span-4 h-150">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-gradient-to-r from-blue-50 to-blue-200  h-screen"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {getDisplayValueOfType(drawingType)}
@@ -82,7 +82,7 @@ export default function PointDashboard({ drawingType }) {
                   <tr>
                     <td className="p-2">
                       <span className={labelStyle}>
-                        First Point Above HP:
+                        First Point Of HP:
                         <span
                           className={infoIconStyle}
                           title={HoverMsg}
@@ -93,7 +93,11 @@ export default function PointDashboard({ drawingType }) {
                       </span>
                       {firstPointAboveHPInfo && (
                         <div ref={firstPointAboveHPInfoRef} className={onClickStyle}>
-                          {PointFristInHPInfo}
+                          {PointFristInHPInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
                     </td>
@@ -124,7 +128,7 @@ export default function PointDashboard({ drawingType }) {
                   <tr>
                     <td className="p-2">
                       <span className={labelStyle}>
-                        First Point Front of VP:
+                        First Point Of VP:
                         <span
                           className={infoIconStyle}
                           title={HoverMsg}
@@ -135,7 +139,11 @@ export default function PointDashboard({ drawingType }) {
                       </span>
                       {firstPointFrontOfVPInfo && (
                         <div ref={firstPointFrontOfVPInfoRef} className={onClickStyle}>
-                          {PointFristInVPInfo}
+                         {PointFristInVPInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
                     </td>
@@ -178,10 +186,10 @@ export default function PointDashboard({ drawingType }) {
             </section>
           </div>
 
-          <div className="col-span-8 h-150 ">
+          <div className={detailPageStyle}>
             <section
               id="point-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200 shadow-lg bg-white h-screen overflow-scroll"
+              className={detailPageStyle1}
             >
               <PointDetails />
             </section>

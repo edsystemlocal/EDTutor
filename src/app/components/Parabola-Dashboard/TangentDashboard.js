@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import Canvas from "../Canvas/canvas";
 import ParabolaDetails from "@/app/content/parabola-details";
-import { buttonStyle, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaBaseInfo, ParaHeightInfo } from "../informationIconHelper";
+import { buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, ParaBaseInfo, ParaHeightInfo, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 import { TangentValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
@@ -10,8 +10,8 @@ export default function TangentDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
 
   // Parabola properties
-  const [Base, setBase] = useState();
-  const [Height, setHeight] = useState();
+  const [Base, setBase] = useState("200");
+  const [Height, setHeight] = useState("100");
   const [showBaseInfo, setShowBaseInfo] = useState(false); // state for tooltip visibility
   const [showHeightInfo, setShowHeightInfo] = useState(false); // state for tooltip visibility
   const [warningMessage, setWarningMessage] = useState([]);
@@ -65,13 +65,13 @@ export default function TangentDashboard({ drawingType }) {
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
           {/* Input Form Section */}
-          <div className="col-span-4 h-150">
+          <div className={parameterPageStyle}>
             <section
               id="input-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen bg-gradient-to-r from-blue-50 to-blue-200 h-screen"
+              className={parameterPageStyle1}
             >
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
-                 Drawing Type: {getDisplayValueOfType(drawingType)}
+                Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
               <div>
                 <table className="table-auto w-full">
@@ -90,7 +90,11 @@ export default function TangentDashboard({ drawingType }) {
                         </span>
                         {showBaseInfo && (
                           <div ref={baseInfoRef} className={onClickStyle}>
-                            {ParaBaseInfo}
+                            {ParaBaseInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -98,7 +102,7 @@ export default function TangentDashboard({ drawingType }) {
                         <input
                           type="text"
                           value={Base}
-                          onChange={(e) => setBase(Number(e.target.value))}
+                          onChange={(e) => setBase(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
@@ -122,7 +126,11 @@ export default function TangentDashboard({ drawingType }) {
                         </span>
                         {showHeightInfo && (
                           <div ref={heightInfoRef} className={onClickStyle}>
-                            {ParaHeightInfo}
+                            {ParaHeightInfo.split("\n").map((line, index) => (
+                              <p key={index} className="mb-2">
+                                {line}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </td>
@@ -131,7 +139,7 @@ export default function TangentDashboard({ drawingType }) {
                         <input
                           type="text"
                           value={Height}
-                          onChange={(e) => setHeight(Number(e.target.value))}
+                          onChange={(e) => setHeight(e.target.value)}
                           className={inputStyle}
                         />
                       </td>
@@ -158,10 +166,10 @@ export default function TangentDashboard({ drawingType }) {
           </div>
 
           {/* Parabola Details Section */}
-          <div className="col-span-8 h-150">
+          <div className={detailPageStyle}>
             <section
               id="parabola-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 bg-gradient-to-r from-blue-50 to-blue-200 h-screen shadow-lg bg-white h-full overflow-scroll"
+              className={detailPageStyle1}
             >
               <ParabolaDetails drawingType={drawingType} />
             </section>

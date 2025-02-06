@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
 import ScaleOfChordsDetails from "@/app/content/scaleOfChords-details";
-import { buttonStyle, ChordsAngleInfo, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle } from "../informationIconHelper";
+import { buttonStyle, ChordsAngleInfo, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, parameterPageStyle, parameterPageStyle1 } from "../Helper/informationIconHelper";
 import { angleInScaleOfChordsValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
 
 export default function AngleInScaleOfChordsDashboard({ drawingType }) {
-  const [Angle, setAngle] = useState();
+  const [Angle, setAngle] = useState("45");
   const [isCanvas, setIsCanvas] = useState(false);
   const [warningMessage, setWarningMessage] = useState([]);
 
@@ -53,8 +53,8 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
       <main id="main-container" className="w-full p-2">
         <div className="grid grid-cols-12 gap-2">
           {/* Left Section for Input */}
-          <div className="col-span-4 h-150">
-            <section className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-full bg-gradient-to-r from-blue-50 to-blue-200">
+          <div className={parameterPageStyle}>
+            <section className={parameterPageStyle1}>
               <div className="mb-6 text-center text-xl font-semibold text-blue-700">
                 Drawing Type: {getDisplayValueOfType(drawingType)}
               </div>
@@ -73,7 +73,11 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
                       </span>
                       {showInfo && (
                         <div ref={InfoRef} className={onClickStyle}>
-                          {ChordsAngleInfo}
+                          {ChordsAngleInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
                         </div>
                       )}
                     </td>
@@ -107,10 +111,10 @@ export default function AngleInScaleOfChordsDashboard({ drawingType }) {
           </div>
 
           {/* Right Section for Details */}
-          <div className="col-span-8 h-150">
+          <div className={detailPageStyle}>
             <section
               id="scale-of-chords-details-container"
-              className="border-2 border-gray-300 rounded-lg p-4 shadow-lg bg-white h-screen overflow-scroll bg-gradient-to-r from-blue-50 to-blue-200"
+              className={detailPageStyle1}
             >
               <ScaleOfChordsDetails />
             </section>

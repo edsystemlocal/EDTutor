@@ -1,234 +1,19 @@
-// import React, { useState } from 'react'
-// import Canvas from "../components/Canvas/canvas";
-// import "../components/Style/paperStyle.css" // Import the CSS file
 
-// const Paper_June_2023 = () => {
-//   const [currentDrawing, setCurrentDrawing] = useState(null);
-  
-//     const handleClick = (question) => {
-//       if (question === "q1") {
-//         setCurrentDrawing({
-//           drawingType: "parallelToHP",
-//           inputs: {
-//             LineLength: 65,
-//             firstPointAboveHPLength: 30,
-//           },
-//         });
-//       } else if (question === "q2") {
-//         setCurrentDrawing({
-//           drawingType: "parallelToVP",
-//           inputs: {
-//             LineLength: 75,
-//             firstpointfrontOfVPLength: 40,
-//           },
-//         });
-//       } else if (question === "q3") {
-//         setCurrentDrawing({
-//           drawingType: "ellipseGeneralMethod",
-//           inputs: {
-//             majorAxis: 500,
-//             minorAxis: 300,
-//             distanceofthefocusfromthedirectrix: 100,
-//           },
-//         });
-//       } else if (question === "q4") {
-//         setCurrentDrawing({
-//           drawingType: "ellipseConcentricCircleMethod",
-//           inputs: {
-//             majorAxis: 500,
-//             minorAxis: 300,
-//             distanceofthefocusfromthedirectrix: 100,
-//           },
-//         });
-//       }
-//     };
-  
-//     if (currentDrawing) {
-//       return (
-//         <Canvas
-//           inputs={currentDrawing.inputs}
-//           drawingType={currentDrawing.drawingType}
-//         />
-//       );
-//     }
-  
-//     return (
-//       <div className="container">
-//         <h1 className="title">Paper June 2023</h1>
-//         <div className="max-w-4xl mx-auto space-y-6">
-
-//         <div className="card">
-//             <p className="card-text">
-//             a) Fill in the blanks.
-//             <br></br>
-
-//             i) The number of mutually perpendicular planes that may surround an object in space is________.
-//             <br></br>
-//             ii) In the third angle projection, the object is imagined to be placed________.
-//             <br></br>
-//             iii) In half sectional view, _________ of the object is imagined to be removed. 
-//             <br></br>
-//             iv) In the orthographic projection, the projectors are ___________to the plane of projection.
-//             <br></br>
-//             v) Hatching lines are drawn at an angle of __________to the axis or to the main outline of the sections.
-//             <br></br>
-//             vi) Graphics can be converted into hard copy with a_______.
-          
-//                </p>
-//             <button onClick={() => handleClick("q1(a)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-//           <div className="card">
-//             <p className="card-text">
-//             What are Scale? Classify its different types, also describe how RF is calculated.
-//             </p>
-//             <button onClick={() => handleClick("q1(b)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-//           <div className="card">
-//             <p className="card-text">
-//             A rectangular plot of land arca 0.45 hectare, is represented on a map by a similar rectangle of 5 sq. cm. 
-//             Calculate the RF of the map, Also draw a scale to read up to single metre from the map, the scale should be long enough to measure up to 400 metres.
-//             </p>
-//             <button onClick={() => handleClick("q2(a)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-//           <div className="card">
-//             <p className="card-text">An inelastic string is unwound to a length of 122 mm from a drum of $30 mm.
-//                Draw the locus of free end of the string which is held taut during unwinding.</p>
-//             <button onClick={() => handleClick("q2(b)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-//           <div className="card">
-//             <p className="card-text">The projections a'b' and ab of a line AB are 65 mm and 50 mm long, respectively. The midpoint of the line is 38 mm in front of VP and 30 mm above HP. End A is 10 mm in front of the VP and nearer to it.
-//                End B is nearer to the HP. Draw the projections of the line, find its true length.</p>
-//             <button onClick={() => handleClick("q3(a)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-//           <div className="card">
-//             <p className="card-text">
-//             A regular hexagonal lamina 40 mm side has a square hole of 25 mm side centrally cut through it.
-//              Draw its projections when it is resting on one of its sides on HP with its surface inclined at 60° to VP and its corner nearest to VP is 24 mm from VP.
-               
-//                </p>
-//             <button onClick={() => handleClick("q3(b)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-        
-//           <div className="card">
-//             <p className="card-text">
-//             A triangular prism of side of base 30 mm and axis 55 mm long lies on one of its rectangular faces in HP with its axis parallel to VP. Draw its Projection.
-//                </p>
-//             <button onClick={() => handleClick("q4")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-          
-//           <div className="card">
-//             <p className="card-text">
-//             A right regular square pyramid, edge of base 35 mm and height 50 mm, rest on its base on HP with its base edges equally inclined to VP.
-//              A section plane perpendicular to VP and inclined to HP on 32°, cuts the pyramid bisecting its axis, Draw the projections and true shape of the section of truncated pyramid.
-//                </p>
-//             <button onClick={() => handleClick("q5")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-        
-
-//           <div className="card">
-//             <p className="card-text">
-//             Develop the lateral surface of an oblique cone, diameter of the base 40mm and height 40 mm having its axis inclined at 60° to its base..
-//                </p>
-//             <button onClick={() => handleClick("q6(a)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-//           <div className="card">
-//             <p className="card-text">
-//             A right circular cone, diameter of base 50 mm and axis 62 mm long, rest on its base rim on HP with its axis parallel to VP and one of the elements perpendicular to HP. Draw the projections..
-//                </p>
-//             <button onClick={() => handleClick("q6(b)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-//           <div className="card">
-//             <p className="card-text">
-//             A cube 30 mm edge is placed centrally on the top of a cylindrical block of 52 mm and 20 mm height. Draw the isometric drawing of the solid.
-//                </p>
-//             <button onClick={() => handleClick("q7(a)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-//           <div className="card">
-//             <p className="card-text">
-//             Explain the purpose of Zoom Command.
-//                </p>
-//             <button onClick={() => handleClick("q7(b)")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-//           <div className="card">
-//             <p className="card-text">
-//             Write short note on: (any two) 
-//             i) View ports 
-//             ii) Layering concept 
-//             iii) Type of projections
-//                </p>
-//             <button onClick={() => handleClick("q8")} className="button-blue">
-//               Click Here
-//             </button>
-//           </div>
-
-
-
-
-        
-        
-            
-         
-//         </div>
-//       </div>
-//     );
-//   };
-  
- 
-  
-  
-//   export default Paper_June_2023;
-  
-//************************************************************************
-
-
-
-
-
-// ------------------------------------
-
-import React, { useState } from 'react'
-import Canvas from "../components/Canvas/canvas";
+import React, { useState } from 'react';
+import Canvas from '../components/Canvas/canvas';
+import QuestionCard from '../components/QuestionCard/QuestionCard';
+import { June } from './ExamInputHelper';
 import "../components/Style/paperStyle.css" // Import the CSS file
 
 const Paper_June_2023 = () => {
   const [currentDrawing, setCurrentDrawing] = useState(null);
+  const [activeTooltip, setActiveTooltip] = useState(null);
    const [visibleAnswers, setVisibleAnswers] = useState({});
+
+   const toggleTooltip = (tooltipId) => {
+         setActiveTooltip((prev) => (prev === tooltipId ? null : tooltipId));
+       };
+    
  
    // Function to toggle the answer visibility for theory questions
    const toggleAnswer = (question) => {
@@ -249,6 +34,26 @@ const Paper_June_2023 = () => {
     //     });
      
     // };
+
+  //   if (question === "q3(b)") {
+  //     setCurrentDrawing({
+  //         drawingType: "plane",
+  //         inputs: {
+  //             "Plane Type":"Hexagone",
+  //             "Side Length":40,
+  //             "Plane Position":"Corner",
+  //             "Plane in/parallel Postion":"in",
+  //             "Plane HP/VP Postion":"HP",
+  //             "Incline With HP":45,
+  //             "Inclined With VP":60
+  //             //"Plane Type": "Hexagone", // Static value
+  //             //"Side Length": 40, // Static value
+  //            // "Plane Position": "Corner -> in -> HP", // Static value
+  //            // "Incline With HP":45 , // Replace with the actual value
+  //            // "Inclined With VP": 60, // Replace with the actual value
+  //         },
+  //     });
+  // }
   }
   
     if (currentDrawing) {
@@ -265,302 +70,363 @@ const Paper_June_2023 = () => {
         <h1 className="title">Paper June 2023</h1>
         <div className="max-w-4xl mx-auto space-y-6">
 
-        <div className="card">
-            <p className="card-text">
-           1. a) Fill in the blanks.
-            <br></br>
-
-            i) The number of mutually perpendicular planes that may surround an object in space is________.
-            <br></br>
-            ii) In the third angle projection, the object is imagined to be placed________.
-            <br></br>
-            iii) In half sectional view, _________ of the object is imagined to be removed. 
-            <br></br>
-            iv) In the orthographic projection, the projectors are ___________to the plane of projection.
-            <br></br>
-            v) Hatching lines are drawn at an angle of __________to the axis or to the main outline of the sections.
-            <br></br>
-            vi) Graphics can be converted into hard copy with a_______.
-          
-            </p>
-          <button onClick={() => toggleAnswer("q1(a)")} className="button-blue">
-            {visibleAnswers["q1(a)"] ? "Hide Answer" : "Show Answer"}
-          </button>
-          {visibleAnswers["q1(a)"] && (
-            <div className="answer-text">
-              <p>
-              i) three<br />
-                ii) below and behind the projection planes.<br />
-                iii) one-fourth<br />
-                iv) perpendicular <br />
-                v) 45 degrees <br />
-                vi) plotter.<br />
-                
-              </p>
-            </div>
-          )}
-        </div>
-
-
-          
-          <div className="card">
-          <p className="card-text">
-          b) What are Scale? Classify its different types, also describe how RF is calculated.
-
+        <table className="card" style={{ width: "100%", borderCollapse: "collapse" }}>
+  <tbody>
+    <tr>
+      <td style={{ padding: "10px", verticalAlign: "top", width: "80%" }}>
+        <p className="card-text">
+          1. a) Fill in the blanks.
+          <br />
+          i) The number of mutually perpendicular planes that may surround an object in space is________.
+          <br />
+          ii) In the third angle projection, the object is imagined to be placed________.
+          <br />
+          iii) In half sectional view, _________ of the object is imagined to be removed.
+          <br />
+          iv) In the orthographic projection, the projectors are ___________to the plane of projection.
+          <br />
+          v) Hatching lines are drawn at an angle of __________to the axis or to the main outline of the sections.
+          <br />
+          vi) Graphics can be converted into hard copy with a_______.
+        </p>
+      </td>
+      <td style={{ textAlign: "right", padding: "10px", width: "20%" }}>
+        <button
+          onClick={() => toggleAnswer("q1(a)")}
+          className="button-blue"
+          style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+          }}
+        >
+          {visibleAnswers["q1(a)"] ? "Hide Answer" : "Show Answer"}
+        </button>
+      </td>
+    </tr>
+    {visibleAnswers["q1(a)"] && (
+      <tr>
+        <td colSpan="2" style={{ padding: "10px" }} className="answer-text">
+          <p>
+            <b>i)</b> Three
+            <br />
+            <b>ii)</b> Below and behind the projection planes.
+            <br />
+            <b>iii)</b> One-fourth
+            <br />
+            <b>iv)</b> Perpendicular
+            <br />
+            <b>v)</b> 45 degrees
+            <br />
+            <b>vi)</b> Plotter.
           </p>
-          <button onClick={() => toggleAnswer("q1(b)")} className="button-blue">
-            {visibleAnswers["q1(b)"] ? "Hide Answer" : "Show Answer"}
-          </button>
-          {visibleAnswers["q1(b)"] && (
-            <div className="answer-text">
-              <p>
-              It is not always possible or convenient to draw drawings of an object to its actual size. For instance, drawings of very big objects like buildings, machines etc. 
-              cannot be prepared in full size because they could be too big to accommodate on the drawing sheet. Drawings, of very small objects like precision instruments, namely, watches, electronic devices etc.
-               also cannot be prepared in full size because they would be too small to draw and to read Therefore, a convenient scale is always chosen to prepare the drawings of big as well as small objects in proportionately smaller or larger sizes.
-               <br/>
-               Some commonly used types of scales in engineering practice are listed below - 
-               (i) Plain scales 
-               <br/>
-               (ii) Diagonal scales 
-               <br/>
-               (iii) Comparative scales 
-               <br/>
-               (iv) Vernier scales 
-               <br/>
-               (v) Scale of chords 
-               <br/>
-               (vi) Isometric scales.
-
-               Representative fraction is defined as the ratio of the linear dimensions of an element of the object in the 
-               drawing to its actual linear dimension of the same element of the object itself. 
-                           R.F. =Length of an element in the drawing / Actual length of the same element.
-              </p>
-            </div>
-          )}
-        </div>
-
-          <div className="card">
-            <p className="card-text">
-           2. a) A rectangular plot of land arca 0.45 hectare, is represented on a map by a similar rectangle of 5 sq. cm. 
-            Calculate the RF of the map, Also draw a scale to read up to single metre from the map, the scale should be long enough to measure up to 400 metres.
-            </p>
-            <button onClick={() => handleClick("q2(a)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-          <div className="card">
-            <p className="card-text">
-              b) An inelastic string is unwound to a length of 122 mm from a drum of $30 mm.
-               Draw the locus of free end of the string which is held taut during unwinding.</p>
-            <button onClick={() => handleClick("q2(b)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-          <div className="card">
-            <p className="card-text">
-              3. a)The projections a'b' and ab of a line AB are 65 mm and 50 mm long, respectively. The midpoint of the line is 38 mm in front of VP and 30 mm above HP. End A is 10 mm in front of the VP and nearer to it.
-               End B is nearer to the HP. Draw the projections of the line, find its true length.</p>
-            <button onClick={() => handleClick("q3(a)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
 
 
-          <div className="card">
-            <p className="card-text">
-           b)  A regular hexagonal lamina 40 mm side has a square hole of 25 mm side centrally cut through it.
-             Draw its projections when it is resting on one of its sides on HP with its surface inclined at 60° to VP and its corner nearest to VP is 24 mm from VP.
-               
-               </p>
-            <button onClick={() => handleClick("q3(b)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-        
-          <div className="card">
-            <p className="card-text">
-           4) A triangular prism of side of base 30 mm and axis 55 mm long lies on one of its rectangular faces in HP with its axis parallel to VP. Draw its Projection.
-               </p>
-            <button onClick={() => handleClick("q4")} className="button-blue">
-              Click Here
-            </button>
-          </div>
 
-          
-          <div className="card">
-            <p className="card-text">
-          5)  A right regular square pyramid, edge of base 35 mm and height 50 mm, rest on its base on HP with its base edges equally inclined to VP.
-             A section plane perpendicular to VP and inclined to HP on 32°, cuts the pyramid bisecting its axis, Draw the projections and true shape of the section of truncated pyramid.
-               </p>
-            <button onClick={() => handleClick("q5")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-        
-
-          <div className="card">
-            <p className="card-text">
-           6. a) Develop the lateral surface of an oblique cone, diameter of the base 40mm and height 40 mm having its axis inclined at 60° to its base..
-               </p>
-            <button onClick={() => handleClick("q6(a)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-
-
-          <div className="card">
-            <p className="card-text">
-           b) A right circular cone, diameter of base 50 mm and axis 62 mm long, rest on its base rim on HP with its axis parallel to VP and one of the elements perpendicular to HP. Draw the projections..
-               </p>
-            <button onClick={() => handleClick("q6(b)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-
-
-          <div className="card">
-            <p className="card-text">
-           7.a) A cube 30 mm edge is placed centrally on the top of a cylindrical block of 52 mm and 20 mm height. Draw the isometric drawing of the solid.
-               </p>
-            <button onClick={() => handleClick("q7(a)")} className="button-blue">
-              Click Here
-            </button>
-          </div>
-
-
-          <div className="card">
-          <p className="card-text">
-            7. b)  Explain the purpose of Zoom Command.
+        <table className="card" style={{ width: "100%", borderCollapse: "collapse" }}>
+  <tbody>
+    {/* Question and Button */}
+    <tr>
+      <td style={{ padding: "10px", verticalAlign: "top" }}>
+        <p className="card-text">
+          1. b) What are Scale? Classify its different types, also describe how RF is calculated.
+        </p>
+      </td>
+      <td style={{ textAlign: "right", padding: "10px" }}>
+        <button onClick={() => toggleAnswer("q1(b)")} className="button-blue">
+          {visibleAnswers["q1(b)"] ? "Hide Answer" : "Show Answer"}
+        </button>
+      </td>
+    </tr>
+    {/* Answer Section */}
+    {visibleAnswers["q1(b)"] && (
+      <tr>
+        <td colSpan="2" style={{ padding: "10px" }} className="answer-text">
+          <p>
+            <strong>Scales:</strong> It is not always possible or convenient to draw drawings of an object to its actual size. 
+            For instance:
           </p>
-          <button onClick={() => toggleAnswer("q7(b)")} className="button-blue">
-            {visibleAnswers["q7(b)"] ? "Hide Answer" : "Show Answer"}
-          </button>
-          {visibleAnswers["q7(b)"] && (
-            <div className="answer-text">
-              <p>
-              The Zoom Command is a tool commonly used in applications such as CAD software (e.g., AutoCAD), graphic design tools, or other visualization software to enhance the user's ability to focus on specific areas of a drawing, model, or workspace. Here's a breakdown of its purpose:
-
-Purpose of the Zoom Command
-<br/>
-1)Focus on Details:
-The command allows users to magnify specific sections of the workspace or drawing to closely inspect or modify details.
-<br/>
-2)Adjust View Scale:
-Users can zoom in to increase the scale (make elements appear larger) or zoom out to decrease the scale (see more of the overall workspace).
-<br/>
-3)Navigation:
-Helps users navigate large or complex drawings efficiently by quickly shifting focus to a particular area.
-<br/>
-4)Improve Precision:
-In design or drafting applications, zooming enables precise selection, alignment, and editing of elements.
-<br/>
-5)Customizable Viewing:
-Often allows users to set predefined zoom levels, zoom to fit the entire drawing, or zoom to specific extents (e.g., selected objects or the entire model).
-              </p>
-            </div>
-          )}
-        </div>
-
-         
-            <div className="card">
-          <p className="card-text">
-          8) Write short note on: (any two) 
-            i) View ports 
-            ii) Layering concept 
-            iii) Type of projections
+          <ol>
+            <li>
+              Drawings of very big objects like buildings or machines cannot be prepared in full size because they could be too big to fit on the drawing sheet.
+            </li>
+            <li>
+              Drawings of very small objects like precision instruments (e.g., watches, electronic devices) cannot be prepared in full size because they would be too small to draw and read.
+            </li>
+            <li>
+              To address this, a convenient scale is chosen to prepare drawings of both big and small objects in proportionately smaller or larger sizes.
+            </li>
+          </ol>
+          <p>
+            <strong>Types of Scales:</strong> Some commonly used types of scales in engineering practice are listed below:
           </p>
-          <button onClick={() => toggleAnswer("q8")} className="button-blue">
-            {visibleAnswers["q8"] ? "Hide Answer" : "Show Answer"}
-          </button>
-          {visibleAnswers["q8"] && (
-            <div className="answer-text">
-              <p>
-              1) View ports =  The Viewports command in AutoCAD is used to split the screen in 2, 3 or 4 partitions, called viewports.
-               Using Viewports command, we can view a drawing from different directions. For example, we can split the screen
-               into 4 partitions one is showing isometric view and the other three are showing three orthographic views, e.g. front view, top view and side view. 
-               Viewports can also be used to show different details of a drawing, e.g. one viewport can display a close-up of the bathroom, another can display the overall plan view and yet another can display the unit plan.
-                Viewports command is very helpful in both creating and editing 3D drawings because it enables a designer to refer different portions of the drawing without changing the views.
-                We can create a viewport in following steps - 
-                <br/>
-                (i) In the Visualize tab's Model Viewports panel, click the Named tool to open the Viewports dialog box.
-                <br/>
-                (ii) The left part of the New Viewports tab shows various standard configurations and the window on the right displays a sample of the selected viewport configuration.
-                 For example, if we choose Three: Right configuration, the display window will show three rectangles with two on the left side and larger one to the right. Each rectangle is labeled as Current; indicating that the current view will be placed in each viewport.
-                 <br/> 
-                (iii) From the setup drop-down list at the bottom of the dialog box select 3D. The labels in the viewport sample change to indicate Top, Front and SE Isometric, displaying the above 3 views of the object 
-                <br/>
-                (iv) If you need to change view in any of the viewport say right one showing SE Isometric view, then click the mouse in that viewport sample. The border of the sample viewport border changes to a double border to indicate that it is selected. otion 
-                <br/>
-                (v) Open the Change View To drop-down list just below the sample viewports, and select the required view say SW Isometric. 
-                The view and the label in the selected viewport changes. P 0% 0%  Embed In a similar way, we can change view in any other viewport, by clicking the Change View To list, which contains the standard four isometric views and the six orthographic views. Port port
-                <br/>
-                (vi) To name this viewport arrangement, enter 'My viewport' in the New Name box.
-                <br/>
-                (vii) Click OK. Your display changes to show three viewports arrangement as indicated in the Viewports dialog box. 
-                <br/>
-                (viii) To check that your viewport arrangement is saved, again open the Viewports dialog box. 
-                <br/>
-                (ix) Click the Named Viewports tab. You can see 'My Viewport' listed in the Named Viewports list box. Click it, to see a sample view of your viewport arrangement in the right side window.
-                <br/>
-
-
-              2) Layering concept =  A layer in AutoCAD is a transparent imaginary plane on which a drawing is created.
-               A simple two-dimensional drawing having a few dimensions can be drawn on a single layer. 
-               But as our drawing becomes more complex, keeping all details on one layer will make it difficult to understand.
-                This facility is also useful when drawing is used for many purposes. For example, in mechanical drawings, outline may be in one layer, dimensioning in second.
-                 hatching in third, text in fourth and so on. In a floor plan of a building, the walls, ceiling, plumbing fixtures, wiring and furniture can be put on separate
-                 layers. In this way we can display or plot them individually or combine them in different ways. Any number of layers can be made visible at any time. 
-                 A carefully planned layering scheme helps to produce a drawing that contains the types of information needed in each case.
-                  Using layers also allows easy modification of drawings.
-                  AutoCAD allows unlimited number of layers. Their visibility colour and linetype can be controlled globally.
-
-             <br/>
-
-              3) Type of projections =  Various types of projections used in engineering practice may be classified into two main types
-
-              <br/>
-               (1) Orthographic projection
-               <br/>
-                (2) Pictorial projection.
-                <br/>
-                 These projections can be further classified as 
-                 <br/>
-                (1) Orthographic projection 
-                <br/>
-                <span>(a) First angle projection </span>
-                <span>(b) Second angle projection </span>
-                <br/>
-               <span>(c) Third angle projection </span> 
-               <span>(d) Fourth angle projection.</span>
-                
-               <br/>
-
-                 (2) Pictorial projection 
-                 (a) Axonometric projection 
-                 (1) Isometric projection 
-                 
-                 (2) Dimetric projection (3) Trimetric projection. 
-                 <br/>
-                 (b) Oblique projection 
-                 (1) Cabinet projection (2) Cavalier projection Ad (3) Clinographic projection (4) Shades and shadows.
-                 <br/>
-                 (c) Perspective projection 
-                 (1) One point perspective projection 
-                 (2) Two point perspective projection 
-                 (3) Three point perspective projection.
-              </p>
-            </div>
-          )}
-        </div>
-
-
-
+          <ol>
+            <li>1)Plain scales</li>
+            <li>2)Diagonal scales</li>
+            <li>3)Comparative scales</li>
+            <li>4)Vernier scales</li>
+            <li>5)Scale of chords</li>
+            <li>6)Isometric scales</li>
+          </ol>
+          <p>
+            <strong>Representative Fraction (RF):</strong> RF is defined as the ratio of the linear dimensions of an element 
+            in the drawing to the actual linear dimension of the same element in the object.
+          </p>
+          <p>
+            <strong>Formula:</strong> 
+            <br />
+            RF = Length of an element in the drawing / Actual length of the same element
+          </p>
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
 
         
-        
-            
-         
-        </div>
+
+<QuestionCard
+        question="2. a) A rectangular plot of land arca 0.45 hectare, is represented on a map by a similar rectangle of 5 sq. cm. 
+            Calculate the RF of the map, Also draw a scale to read up to single metre from the map, the scale should be long enough to measure up to 400 metres.."
+        tooltipContent={June.JuneQ1}
+        tooltipId="q2(a)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q2(a)')} />
+  <QuestionCard
+        question="b) An inelastic string is unwound to a length of 122 mm from a drum of $30 mm.
+               Draw the locus of free end of the string which is held taut during unwinding"
+        tooltipContent={June.JuneQ2}
+        tooltipId="q2(b)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q2(b)')} />
+   <QuestionCard
+        question="3. a)The projections a'b' and ab of a line AB are 65 mm and 50 mm long, respectively. The midpoint of the line is 38 mm in front of VP and 30 mm above HP. End A is 10 mm in front of the VP and nearer to it.
+               End B is nearer to the HP. Draw the projections of the line, find its true length."
+        tooltipContent={June.JuneQ3}
+        tooltipId="q3(a)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q3(a)')} />
+  <QuestionCard
+        question=" 3.b)  A regular hexagonal lamina 40 mm side has a square hole of 25 mm side centrally cut through it.
+             Draw its projections when it is resting on one of its sides on HP with its surface inclined at 60° to VP and its corner nearest to VP is 24 mm from VP."
+        tooltipContent={June.JuneQ4}
+        tooltipId="q3(b)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q3(b)')} />
+  <QuestionCard
+        question="  4) A triangular prism of side of base 30 mm and axis 55 mm long lies on one of its rectangular faces in HP with its axis parallel to VP. Draw its Projection.."
+        tooltipContent={June.JuneQ5}
+        tooltipId="q4"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q4')} />
+   <QuestionCard
+        question="  5)  A right regular square pyramid, edge of base 35 mm and height 50 mm, rest on its base on HP with its base edges equally inclined to VP.
+             A section plane perpendicular to VP and inclined to HP on 32°, cuts the pyramid bisecting its axis, Draw the projections and true shape of the section of truncated pyramid.."
+        tooltipContent={June.JuneQ6}
+        tooltipId="q5"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q5')} />
+   <QuestionCard
+        question=" 6. a) Develop the lateral surface of an oblique cone, diameter of the base 40mm and height 40 mm having its axis inclined at 60° to its base.."
+        tooltipContent={June.JuneQ7}
+        tooltipId="q6(a)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q6(a)')} />
+  <QuestionCard
+        question=" b) A right circular cone, diameter of base 50 mm and axis 62 mm long, rest on its base rim on HP with its axis parallel to VP and one of the elements perpendicular to HP. Draw the projections.."
+        tooltipContent={June.JuneQ8}
+        tooltipId="q6(b)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q6(b)')} />
+     <QuestionCard
+        question="7.a) A cube 30 mm edge is placed centrally on the top of a cylindrical block of 52 mm and 20 mm height. Draw the isometric drawing of the solid."
+        tooltipContent={June.JuneQ9}
+        tooltipId="q7(a)"
+        activeTooltip={activeTooltip}
+        toggleTooltip={toggleTooltip}
+        onDrawClick={() => handleClick('q7(a)')} />
+ 
+ <table className="card" style={{ width: "100%", borderCollapse: "collapse" }}>
+  <tbody>
+    <tr>
+      <td style={{ padding: "10px", verticalAlign: "top" }}>
+        <p className="card-text">
+          7. b) Explain the purpose of the Zoom Command.
+        </p>
+      </td>
+      <td style={{ textAlign: "right", padding: "10px" }}>
+        <button onClick={() => toggleAnswer("q7(b)")} className="button-blue">
+          {visibleAnswers["q7(b)"] ? "Hide Answer" : "Show Answer"}
+        </button>
+      </td>
+    </tr>
+    {visibleAnswers["q7(b)"] && (
+      <tr>
+        <td colSpan="2" style={{ padding: "10px" }} className="answer-text">
+          <p>
+            The Zoom Command is a tool commonly used in applications such as CAD software (e.g., AutoCAD), graphic design tools, or other visualization software to enhance the user's ability to focus on specific areas of a drawing, model, or workspace. Here's a breakdown of its purpose:
+          </p>
+          <p>
+            <strong>Purpose of the Zoom Command:</strong>
+          </p>
+          <ul>
+            <li>
+              <strong>Focus on Details:</strong> The command allows users to magnify specific sections of the workspace or drawing to closely inspect or modify details.
+            </li>
+            <li>
+              <strong>Adjust View Scale:</strong> Users can zoom in to increase the scale (make elements appear larger) or zoom out to decrease the scale (see more of the overall workspace).
+            </li>
+            <li>
+              <strong>Navigation:</strong> Helps users navigate large or complex drawings efficiently by quickly shifting focus to a particular area.
+            </li>
+            <li>
+              <strong>Improve Precision:</strong> In design or drafting applications, zooming enables precise selection, alignment, and editing of elements.
+            </li>
+            <li>
+              <strong>Customizable Viewing:</strong> Often allows users to set predefined zoom levels, zoom to fit the entire drawing, or zoom to specific extents (e.g., selected objects or the entire model).
+            </li>
+          </ul>
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
+
+
+<table className="card" style={{ width: "100%", borderCollapse: "collapse" }}>
+  <tbody>
+    {/* Question and Button */}
+    <tr>
+      <td style={{ padding: "10px", verticalAlign: "top" }}>
+        <p className="card-text">
+          8) Write short note on: (any two)
+          <br />
+          i) Viewports
+          <br />
+          ii) Layering concept
+          <br />
+          iii) Types of projections
+        </p>
+      </td>
+      <td style={{ textAlign: "right", padding: "10px" }}>
+        <button onClick={() => toggleAnswer("q8")} className="button-blue">
+          {visibleAnswers["q8"] ? "Hide Answer" : "Show Answer"}
+        </button>
+      </td>
+    </tr>
+    {/* Answer Section */}
+    {visibleAnswers["q8"] && (
+      <tr>
+        <td colSpan="2" style={{ padding: "10px" }} className="answer-text">
+          {/* Viewports */}
+          <p>
+            <strong>1) Viewports:</strong>
+          </p>
+          <ol>
+            <li>
+              The Viewports command in AutoCAD is used to split the screen into
+              multiple partitions (e.g., 2, 3, or 4 partitions). Each partition is called a viewport.
+            </li>
+            <li>
+              1)Viewports allow viewing a drawing from different directions or angles.
+            </li>
+            <li>
+              2)They are useful for displaying different parts of a drawing in various zoom levels, such as a close-up view and an overall plan view simultaneously.
+            </li>
+            <li>
+              3)Viewports are especially helpful for 3D drawings, enabling designers to visualize and edit from multiple perspectives.
+            </li>
+            <li>
+              Steps to create a viewport:
+              <ol>
+                <li>1)Open the Viewports dialog box from the Visualize tab.</li>
+                <li>2)Select a configuration (e.g., "Three: Right").</li>
+                <li>3)Modify the view in each viewport as needed.</li>
+                <li>4)Save the viewport configuration for future use.</li>
+              </ol>
+            </li>
+          </ol>
+          {/* Layering Concept */}
+          <p>
+            <strong>2) Layering Concept:</strong>
+          </p>
+          <ol>
+            <li>
+              1)Layers in AutoCAD are transparent planes used to organize a drawing into separate components.
+            </li>
+            <li>
+              2)Different layers can represent different parts of a drawing, such as outlines, dimensions, and hatching in mechanical designs or walls, furniture, and plumbing in architectural plans.
+            </li>
+            <li>
+              3)Layers provide control over visibility, making it easier to focus on specific parts of a drawing.
+            </li>
+            <li>
+              4)AutoCAD allows unlimited layers, and each layer's visibility, color, and linetype can be controlled globally.
+            </li>
+          </ol>
+          {/* Types of Projections */}
+          <p>
+            <strong>3) Types of Projections:</strong>
+          </p>
+          <ol>
+            <li>
+              <strong>Orthographic Projections:</strong>
+              <ul>
+                <li>1)First Angle</li>
+                <li>2)Second Angle</li>
+                <li>3)Third Angle</li>
+                <li>4)Fourth Angle</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Pictorial Projections:</strong>
+              <ol>
+                <li>
+                  Axonometric Projections:
+                  <ul>
+                    <li>1)Isometric</li>
+                    <li>2)Dimetric</li>
+                    <li>3)Trimetric</li>
+                  </ul>
+                </li>
+                <li>
+                  Oblique Projections:
+                  <ul>
+                    <li>1)Cabinet</li>
+                    <li>2)Cavalier</li>
+                    <li>3)Clinographic</li>
+                  </ul>
+                </li>
+                <li>
+                  Perspective Projections:
+                  <ul>
+                    <li>1)One-point</li>
+                    <li>2)Two-point</li>
+                    <li>3)Three-point</li>
+                  </ul>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
+
+</div>
       </div>
     );
   };
@@ -569,3 +435,4 @@ Often allows users to set predefined zoom levels, zoom to fit the entire drawing
   
   
   export default Paper_June_2023;
+

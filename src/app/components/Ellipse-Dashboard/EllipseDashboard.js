@@ -8,8 +8,8 @@ export default function EllipseDashboard({ drawingType }) {
   const [isCanvas, setIsCanvas] = useState(false);
 
   // Ellipse properties
-  const [majorAxis, setMajorAxis] = useState(500);
-  const [minorAxis, setMinorAxis] = useState(300);
+  const [majorAxis, setMajorAxis] = useState("");
+  const [minorAxis, setMinorAxis] = useState("");
   const [distanceofthefocusfromthedirectrix, setdistanceofthefocusfromthedirectrix] = useState(100);
 
   const inputs = {
@@ -47,7 +47,7 @@ export default function EllipseDashboard({ drawingType }) {
                     <input
                       type="number"
                       value={majorAxis}
-                      onChange={(e) => setMajorAxis(Number(e.target.value))}
+                      onChange={(e) => setMajorAxis(e.target.value)}
                       className="w-14 p-1 m-1 border"
                     />
                   </label>
@@ -57,7 +57,7 @@ export default function EllipseDashboard({ drawingType }) {
                     <input
                       type="number"
                       value={minorAxis}
-                      onChange={(e) => setMinorAxis(Number(e.target.value))}
+                      onChange={(e) => setMinorAxis(e.target.value)}
                       className="w-14 p-1 m-1 border"
                     />
                   </label>
@@ -67,7 +67,7 @@ export default function EllipseDashboard({ drawingType }) {
                     <input
                       type="number"
                       value={distanceofthefocusfromthedirectrix}
-                      onChange={(e) => setdistanceofthefocusfromthedirectrix(Number(e.target.value))}
+                      onChange={(e) => setdistanceofthefocusfromthedirectrix(e.target.value)}
                       className="w-14 p-1 m-1 border"
                     />
                   </label>
