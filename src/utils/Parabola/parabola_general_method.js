@@ -57,7 +57,7 @@ export function parabola_by_generalmethodPoint(payload) { //ParalleltoHP_and_Inc
 
     let distanceofthefocusfromthedirectrix = Number(inputs["Distance From focus To Directrix"]) || 0;
     const startpoint = { x: 100,
-        y:200+distanceofthefocusfromthedirectrix };
+        y:300+distanceofthefocusfromthedirectrix };
     let values ={
         distanceofthefocusfromthedirectrix,
    }

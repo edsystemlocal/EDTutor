@@ -36,7 +36,7 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
     // const startPoint = { x: 300, y: 400 };
 
     let Diameter = Number(inputs["Diameter"]) || 0;
-    const string = 22 / 7 * Diameter;
+   let string = 22 / 7 * Diameter;
     const startPoint = { x: 200+Diameter, y: 500+ Diameter};
     console.log("string = ", string)
 
@@ -45,7 +45,8 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
         Diameter,
         string
     }
-
+Diameter  =Diameter*2;
+string = string*2 ;
     const DiameterLineEndPoint = { x: startPoint.x + Diameter, y: startPoint.y };
     const DiameterLinePoints = calculateLinePointsWithCircles(startPoint, DiameterLineEndPoint);
 
@@ -65,13 +66,13 @@ export function involute_by_generalmethod(payload) { //ParalleltoHP_and_Inclined
     const BaseLineEndPoint = { x: BaseLineStartPoint.x + string, y: BaseLineStartPoint.y };
     const BaseLinePoints = calculateLinePointsWithCircles(BaseLineStartPoint, BaseLineEndPoint);
 
-    const InclinedEndPoint = calculateAngledLinePoints(BaseLineStartPoint, -20, 240);
+    const InclinedEndPoint = calculateAngledLinePoints(BaseLineStartPoint, -20, (string-60));
     const InclinedLinePoints = calculateLinePointsWithCircles(BaseLineStartPoint, InclinedEndPoint);
 
     // Generate circles along the inclined line and label them
     const circleRadius = 1; // Radius of the circles
-    const circleSpacing = 20; // Distance between each circle
-    const numberOfCircles = Math.floor(240 / circleSpacing); // Total circles to fit within 240 mm
+    const circleSpacing = (string-60)/12; // Distance between each circle
+    const numberOfCircles = Math.floor((string-60) / circleSpacing); // Total circles to fit within 240 mm
 
     const circleCenters = [];
     const inclinedCircles = [];

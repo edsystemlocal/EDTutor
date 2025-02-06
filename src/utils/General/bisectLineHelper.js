@@ -28,16 +28,18 @@ export function getBisectLinePoints(payload) {
   
 
   // const startPoint = { x: 50, y: 400 };
-    const {Length} = inputs;
+    let Length = Number(inputs["Length"]) || 0;
+
     // const startpoint = { x: 50, y: 400 };
    
     let values ={
       Length
    }
 
+
    // Calculate XY axis line points
       const XYLineStartPoint = startPoint;
-      const XYLineEndPoint = { x: XYLineStartPoint.x + Length, y: startPoint.y };
+      const XYLineEndPoint = { x: XYLineStartPoint.x + Length*2, y: startPoint.y };
       const XYLinePoints = calculateLinePointsWithCircles(XYLineStartPoint, XYLineEndPoint);
 
   // Points calculations

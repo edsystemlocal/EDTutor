@@ -35,7 +35,9 @@ export function cycloidSteps(values) {
 export function cycloidPoint(payload) {
     const { counter, inputs, finalDrawing } = payload;
     // const startPoint = { x: 100, y: 400 };
-    let { Diameter } = inputs;
+    // let { Diameter } = inputs;
+    
+    let Diameter = Number(inputs["Diameter"]) || 0;
     const startPoint = { x: 100, y: 250+ Diameter};
     let values = { Diameter }
     Diameter =Diameter*2;
@@ -52,13 +54,13 @@ export function cycloidPoint(payload) {
     const BaseLineEndPoint = { x: p_Point.x + string, y: p_Point.y };
     const BaseLinePoints = calculateLinePointsWithCircles(p_Point, BaseLineEndPoint);
     const BaseLineendlabel = calculateLabel(BaseLineEndPoint, "a", "down");
-    const InclinedEndPoint = calculateAngledLinePoints(p_Point, -20, 240);
+    const InclinedEndPoint = calculateAngledLinePoints(p_Point, -20, (string-60));
     const InclinedLinePoints = calculateLinePointsWithCircles(p_Point, InclinedEndPoint, lightPencil);
 
     // Generate circles along the inclined line and label them
     const circleRadius = 1; // Radius of the circles
-    const circleSpacing = 20; // Distance between each circle
-    const numberOfCircles = Math.floor(240 / circleSpacing); // Total circles to fit within 240 mm
+    const circleSpacing = (string-60)/12; // Distance between each circle
+    const numberOfCircles = Math.floor((string-60) / circleSpacing); // Total circles to fit within 240 mm
     const circleCenters = [];
     const inclinedCircles = [];
     const labels = [];
@@ -103,7 +105,7 @@ export function cycloidPoint(payload) {
     reversedPoints.forEach((point) => {
         // Calculate the horizontal line start and end points
         const horizontalLineStart = { x: point.x, y: point.y };
-        const horizontalLineEnd = { x:baseLineLength, y: point.y }; // Extend parallel to the baseline
+        const horizontalLineEnd = { x:baseLineLength+30, y: point.y }; // Extend parallel to the baseline
        
         // Generate points for the horizontal line
         const horizontalLinePoints = calculateLinePointsWithCircles(horizontalLineStart, horizontalLineEnd, lightPencil);
@@ -338,7 +340,7 @@ export function cycloidPoint(payload) {
 
             ...calculateArcPoints(cycloidCenterPoint[11], { x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y }),
             ...getCirclePoints( { x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y }),
-            ...calculateLabel({ x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y }, "p12", "left-up"),
+            // ...calculateLabel({ x: cycloidCenterPoint[11].x + x12, y: divisionPoints[0].y }, "p12", "left-up"),
 
 
             
