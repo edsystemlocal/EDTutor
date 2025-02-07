@@ -37,13 +37,13 @@ export function ellipse_by_concentricCriclemethodSteps(values) {
 
     return {
         1: defineSteps(
-            `Draw the major axis line 'ab' with the given length ${majorAxis} mm .`
+            `Draw the major axis line 'ab'= ${majorAxis} mm .`
         ),
         2: defineSteps(
-            `Draw the minor axis line 'cd' with the given length ${minorAxis} mm and intersecting each other at O.`
+            `Draw the minor axis line 'cd' with the given length ${minorAxis} mm and Lines 'ab' and 'cd' perpendicular bisectors of each other meeting at point o.`
         ),
         3: defineSteps(
-            "Draw two concentric circles with centre O of diameters AB and CD."
+            "Draw two concentric circles with centre 'O' of diameters 'ab' and 'cd'."
         ),
         4: defineSteps(
             "Divide both circles into 12 equal parts. Label the intersection points on the outer circle as 1, 2, 3, ..., and on the inner circle as 1', 2', 3', ...."

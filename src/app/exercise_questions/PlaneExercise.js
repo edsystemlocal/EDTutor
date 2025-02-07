@@ -22,10 +22,24 @@ const PlaneExercise = () => {
     const [activeTooltip, setActiveTooltip] = useState(null);
 
     const toggleGroup = (groupKey) => {
-        setExpandedGroups((prevState) => ({
-            ...prevState,
-            [groupKey]: !prevState[groupKey],
-        }));
+        setExpandedGroups((prevState) => {
+            // If the clicked group is already expanded, leave it as is (don't collapse)
+            if (prevState[groupKey]) {
+                return prevState;
+            }
+
+            // Otherwise, collapse all groups and expand the clicked one
+            const newState = {
+        group1: false, 
+        group2: false,
+        group3: false,  // New group for third quadrant
+        group4: false,
+        group5: false,
+        group6: false,
+            };
+            newState[groupKey] = true;
+            return newState;
+        });
     };
     const toggleTooltip = (tooltipId) => {
         setActiveTooltip((prev) => (prev === tooltipId ? null : tooltipId)); // Toggle tooltip
@@ -178,9 +192,24 @@ const PlaneExercise = () => {
         }
  };
 
+     // Handle Show All / Hide All toggle
+     const handleShowAllQuestionsToggle = () => {
+        setShowAllQuestions(!showAllQuestions);
+        if (!showAllQuestions) {
+            // Collapse all groups when hiding all questions
+            setExpandedGroups({
+                group1: false, 
+                group2: false,
+                group3: false,  // New group for third quadrant
+                group4: false,
+                group5: false,
+                group6: false,
+            });
+        }
+    };
     
    return (
-        <div className="container flex">
+        <div className="container flex  text-gray-700">
             {/* Left Side: Group Navigation */}
             <GroupNavigation
                 groups={groups}
@@ -196,7 +225,7 @@ const PlaneExercise = () => {
                 <h1 className="text-4xl font-bold">{exerciseTitle}</h1>                    
                     <button
                         className="button-blue"
-                        onClick={() => setShowAllQuestions(!showAllQuestions)}
+                        onClick={handleShowAllQuestionsToggle}
                     >
                         {showAllQuestions ? "Hide All Questions" : "Show All Questions"}
                     </button>

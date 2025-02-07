@@ -1,5 +1,7 @@
 
 
+
+
 import React, { useState } from 'react';
 import Canvas from '../components/Canvas/canvas';
 import GroupNavigation from '../components/GroupNavigation/GroupNavigation';
@@ -20,10 +22,22 @@ const PointExercise = () => {
     const [activeTooltip, setActiveTooltip] = useState(null);
 
     const toggleGroup = (groupKey) => {
-        setExpandedGroups((prevState) => ({
-            ...prevState,
-            [groupKey]: !prevState[groupKey],
-        }));
+        setExpandedGroups((prevState) => {
+            // If the clicked group is already expanded, leave it as is (don't collapse)
+            if (prevState[groupKey]) {
+                return prevState;
+            }
+
+            // Otherwise, collapse all groups and expand the clicked one
+            const newState = {
+                group1: false,
+                group2: false,
+                group3: false,
+                group4: false,
+            };
+            newState[groupKey] = true;
+            return newState;
+        });
     };
 
     const toggleTooltip = (tooltipId) => {
@@ -37,9 +51,9 @@ const PointExercise = () => {
     const onDrawClick = (questionId) => {
         setActiveQuestion(activeQuestion === questionId ? null : questionId);
     };
-        const exerciseTitle = " Point Exercise"
 
-    // Render the Canvas if a drawing is set
+    const exerciseTitle = "Point Exercise";
+
     if (currentDrawing) {
         return (
             <Canvas
@@ -56,139 +70,152 @@ const PointExercise = () => {
         { key: 'group4', name: 'Fourth Quadrant' },
     ];
 
-
     const handleClick = (question) => {
-        // Toggle the visibility of the question
         if (activeQuestion === question) {
             setActiveQuestion(null); // Hide the question if it's already active
         } else {
             setActiveQuestion(question); // Show the new question
         }
-        // Set `currentDrawing` based on the clicked question
+
         if (question === "q1") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 0,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 20,
-                    "First Point Position VP": "Behind",
-                }
-            });
-        }
-        else if (question === "q2") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 40,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 25,
-                    "First Point Position VP": "Front",
-                },
-            });
-        }
-        else if (question === "q3") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 40,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 0,
-                    "First Point Position VP": "Front",
-                },
-            });
-        }
-        else if (question === "q4") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 25,
-                    "First Point Position HP": "Below",
-                    "First Point Of VP": 25,
-                    "First Point Position VP": "Behind",
-                },
-            });
-        }
-        else if (question === "q5") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 15,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 50,
-                    "First Point Position VP": "Behind",
-                },
-            });
-        }
-        else if (question === "q6") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 40,
-                    "First Point Position HP": "Below",
-                    "First Point Of VP": 25,
-                    "First Point Position VP": "Front",
-                },
-            });
-        }
-        else if (question === "q7") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 0,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 0,
-                    "First Point Position VP": "Front",
-                },
-            });
-        }
-        else if (question === "q8") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 15,
-                    "First Point Position HP": "Above",
-                    "First Point Of VP": 20,
-                    "First Point Position VP": "Front",
-                },
-            });
-        }
-        else if (question === "q9") {
-            setCurrentDrawing({
-                drawingType: "point",
-                inputs: {
-                    "First Point Of HP": 40,
-                    "First Point Position HP": "Below",
-                    "First Point Of VP": 25,
-                    "First Point Position VP": "Behind",
-                },
+
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 0,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 20,
+                                "First Point Position VP": "Behind",
+                            }
+                        });
+                    }
+                    else if (question === "q2") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 40,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 25,
+                                "First Point Position VP": "Front",
+                            },
+                        });
+                    }
+                    else if (question === "q3") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 40,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 0,
+                                "First Point Position VP": "Front",
+                            },
+                        });
+                    }
+                    else if (question === "q4") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 25,
+                                "First Point Position HP": "Below",
+                                "First Point Of VP": 25,
+                                "First Point Position VP": "Behind",
+                            },
+                        });
+                    }
+                    else if (question === "q5") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 15,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 50,
+                                "First Point Position VP": "Behind",
+                            },
+                        });
+                    }
+                    else if (question === "q6") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 40,
+                                "First Point Position HP": "Below",
+                                "First Point Of VP": 25,
+                                "First Point Position VP": "Front",
+                            },
+                        });
+                    }
+                    else if (question === "q7") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 0,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 0,
+                                "First Point Position VP": "Front",
+                            },
+                        });
+                    }
+                    else if (question === "q8") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 15,
+                                "First Point Position HP": "Above",
+                                "First Point Of VP": 20,
+                                "First Point Position VP": "Front",
+                            },
+                        });
+                    }
+                    else if (question === "q9") {
+                        setCurrentDrawing({
+                            drawingType: "point",
+                            inputs: {
+                                "First Point Of HP": 40,
+                                "First Point Position HP": "Below",
+                                "First Point Of VP": 25,
+                                "First Point Position VP": "Behind",
+                            },
+                        });
+                    }
+                };
+
+    // Handle Show All / Hide All toggle
+    const handleShowAllQuestionsToggle = () => {
+        setShowAllQuestions(!showAllQuestions);
+        if (!showAllQuestions) {
+            // Collapse all groups when hiding all questions
+            setExpandedGroups({
+                group1: false,
+                group2: false,
+                group3: false,
+                group4: false,
             });
         }
     };
+
     return (
-        <div className="container flex">
-            {/* Left Side: Group Navigation */}
+        <div className="container flex text-gray-700">
             <GroupNavigation
                 groups={groups}
                 expandedGroups={expandedGroups}
                 toggleGroup={toggleGroup}
-                exerciseTitle ={exerciseTitle}
+                exerciseTitle={exerciseTitle}
             />
-            {/* Right Side: Content Area for Questions */}
             <div className="flex-1 p-6">
                 <div className="flex justify-between items-center">
                     <h1 className="text-4xl font-bold">Point Exercise</h1>
                     <button
                         className="button-blue"
-                        onClick={() => setShowAllQuestions(!showAllQuestions)}
+                        onClick={handleShowAllQuestionsToggle}
                     >
                         {showAllQuestions ? 'Hide All Questions' : 'Show All Questions'}
                     </button>
                 </div>
-                <div className="max-w-4xl  space-y-6">
+                <div className="max-w-4xl space-y-6">
                     {/* First Quadrant */}
                     {(showAllQuestions || expandedGroups['group1']) && (
-                        <div className="border p-4 rounded-md shadow-lg space-y-4">
+
+                        <div className="border p-4  rounded-md shadow-lg space-y-4">
                             <h3 className="text-2xl font-semibold">First Quadrant</h3>
                             <div className="space-y-4">
                                 <QuestionCard
@@ -298,3 +325,4 @@ const PointExercise = () => {
 };
 
 export default PointExercise;
+

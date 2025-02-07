@@ -26,28 +26,28 @@ import { darkPencil, lightPencil, startPoint, superDarkPencil } from "../globalV
 export function hyperbola_by_generalmethodSteps(values) {
     const {distanceofthefocusfromthedirectrix} = values;
     return {
-        1: defineSteps("Draw the  directrix 'ab'and the axis 'cd' ",
+        1: defineSteps("Draw the  directrix 'ab'and  Draw  the principal  axis 'cd' perpendicular to the directrix 'ab' ",
         ),
         2: defineSteps(
-            `Mark focus f on 'cd' ${distanceofthefocusfromthedirectrix} mm from c`,
+            `Mark focus 'f' on the axis  'cd' such that 'cf'= ${distanceofthefocusfromthedirectrix} `,
         ),
         3: defineSteps(
-            "Divide cf into 5 equal divisions and mark v the vertex ",
+            "Divide 'cf' into 5 equal divisions and mark  the vertex  v",
             "on the second division from c. ",
             "thus , eccentricity = vf/vc = 3/2 .",
             
         ),
         4: defineSteps(
-            "Draw a digonal line from the Point c and Passes through point e ",
+            "Join 'c' to 'e' and produce  it to some distance . Therefore in the triangle cve,ve/vc =vf/vc=3/2",
         ),
         5: defineSteps(
             "Mark points 1,2,3 ..etc on the axis and through it ",
             "Draw  multiple  perpendiculars lines to meet 'ce' produced at 1' 2' 3' ...etc ",
         ),
         6: defineSteps("With the center 'f' and redius equal to (1-1' , 2-2' , 3-3' ... etc)", 
-            "draw upper and lower arcs intersecting the perpendicular through 1 2 3 ... etc",
+            "Draw upper and lower arcs intersecting the perpendicular through 1 2 3 ... etc",
         ),
-        7: defineSteps("connect the arc points for hyperbola")
+        7: defineSteps("Join all points by a smooth curve .This is the  required hyperbola .")
     };
 }
 

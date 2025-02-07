@@ -18,7 +18,7 @@ export function involute_by_generalmethodSteps(values) {
             "  Draw tangents to the circle at points 1, 2, 3, 4, etc., such that they represent the thread position during unwound."
         ),
         5: defineSteps(
-            " The length of thread when unwound for 1/12th revolution is equal to P1¢. Therefore, draw an arc with centre 1 and radius P1¢ to intersect the tangent line through point 1 at point PØ50."
+            " The length of thread when unwound for 1/12th revolution is equal to P1. Therefore, draw an arc with centre 1 and radius P1 to intersect the tangent line through point 1 at point P1."
         ),
         6: defineSteps(
             "Erect vertical lines from points 1, 2, 3, etc., to meet the centre line C at C1, C2, C3, etc."

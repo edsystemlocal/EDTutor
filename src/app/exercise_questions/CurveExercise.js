@@ -27,10 +27,27 @@ const CurveExercise = () => {
     const [activeTooltip, setActiveTooltip] = useState(null);
 
     const toggleGroup = (groupKey) => {
-        setExpandedGroups((prevState) => ({
-            ...prevState,
-            [groupKey]: !prevState[groupKey],
-        }));
+        setExpandedGroups((prevState) => {
+            // If the clicked group is already expanded, leave it as is (don't collapse)
+            if (prevState[groupKey]) {
+                return prevState;
+            }
+
+            // Otherwise, collapse all groups and expand the clicked one
+            const newState = {
+        group1: false, 
+        group2: false,
+        group3: false,  
+        group4: false,
+        group5: false,
+        group6: false,
+        group7: false,
+        group8: false,
+        group9: false,
+            };
+            newState[groupKey] = true;
+            return newState;
+        });
     };
 
     const toggleTooltip = (tooltipId) => {
@@ -244,26 +261,28 @@ const CurveExercise = () => {
                 },
             });
         }
-       
+     };
 
-       
-      
-   
-
-       
+     // Handle Show All / Hide All toggle
+     const handleShowAllQuestionsToggle = () => {
+        setShowAllQuestions(!showAllQuestions);
+        if (!showAllQuestions) {
+            // Collapse all groups when hiding all questions
+            setExpandedGroups({
+                group1: false, 
+                group2: false,
+                group3: false,  
+                group4: false,
+                group5: false,
+                group6: false,
+                group7: false,
+                group8: false,
+                group9: false,
+            });
+        }
     };
-
-    if (currentDrawing) {
-        return (
-            <Canvas
-                inputs={currentDrawing.inputs}
-                drawingType={currentDrawing.drawingType}
-            />
-        );
-    }
-
     return (
-         <div className="container flex">
+         <div className="container flex  text-gray-700">
                     {/* Left Side: Group Navigation */}
                     <GroupNavigation
             groups={groups}
@@ -278,8 +297,8 @@ const CurveExercise = () => {
                         <div className="flex justify-between items-center">
                             <h1 className="text-4xl font-bold">Curve Exercise</h1>
                             <button
-                                className="button-blue"
-                                onClick={() => setShowAllQuestions(!showAllQuestions)}
+                                className="button-blue "
+                                onClick={handleShowAllQuestionsToggle}
                             >
                                 {showAllQuestions ? "Hide All Questions" : "Show All Questions"}
                             </button>
@@ -381,11 +400,7 @@ const CurveExercise = () => {
                                     toggleTooltip={toggleTooltip}
                                     onDrawClick={() => handleClick('q16')} />
         
-                                    
-
-                                  
-                                    
-                                </div>
+                                  </div>
                             </div>
                         )}
         

@@ -10,7 +10,7 @@ export function cycloidSteps(values) {
             `Draw a circle of Diameter ${Diameter} mm with centre C.`
         ),
         2: defineSteps(
-            "Divide circle into 12 equal parts.And label the line."
+            "Divide circle into 12 equal parts."
         ),
         3: defineSteps(
             " Draw the directing line PA = πD, horizontal and tangential to the circle. "

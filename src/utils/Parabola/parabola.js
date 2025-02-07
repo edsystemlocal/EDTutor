@@ -9,20 +9,19 @@ export function ParabolaByTangentMethodSteps(values) {
     return {
         1: defineSteps(
             `Draw the base line of given length ${Base} mm`,
-            "Label the start point as 'A'",
-            "Label the endpoint as 'B'",
+            
 
 
         ),
         2: defineSteps(
 
-            "calculate the mid point of base line ",
-            `Draw the axis line of given hieght ${Height} mm`,
-            "Label the endpoint as 'p'",
+            "Calculate the mid point of base line ",
+            `Draw the axis line of given height ${Height} mm`,
+            
 
         ),
         3: defineSteps(
-            `Draw the new line above the axis line with same hieght ${Height} mm`,
+            `Draw the new line above the axis line with same height ${Height} mm`,
             "Label the endpoint of the new line as 'o'",
         ),
         4: defineSteps(
@@ -31,13 +30,13 @@ export function ParabolaByTangentMethodSteps(values) {
         5: defineSteps(
             "Draw the next vertical line from 'b' to 'o'",
         ),
-        6: defineSteps("now divide lines ao into to the same number of equal part "),
+        6: defineSteps("Now divide lines 'ao' into to the same number of equal part "),
         7: defineSteps(
-            "now divide lines bo into to the same number of equal part",
+            "Now divide lines 'bo' into to the same number of equal part",
         ),
         8: defineSteps(
-            "draw lines joining 1 with 1' , 2 with 2', 3 with 3' etc",
-            "this curve is the required parabola"
+            "Draw lines joining 1 with 1' , 2 with 2', 3 with 3' etc",
+            "This curve is the required parabola"
 
         ),
     };
@@ -269,35 +268,33 @@ export function ParabolaByRectangularMethodSteps(values) {
     return {
         1: defineSteps(
             `Draw the base line of given length ${Base}`,
-            "Label the start point as 'a'",
-            "Label the endpoint as 'b'",
+        
 
 
         ),
         2: defineSteps(
 
             "calculate the mid point of base line ",
-            `Draw the perpendicular line of given hieght ${Height}`,
-            "Label the startpoint as 'o'",
-            "Label the endpoint as 'c'",
+            `Draw the perpendicular line of given height ${Height}`,
+            
 
         ),
         3: defineSteps(
-            "Draw the new line at the start point of the base line with same hieght",
+            "Draw the new line at the start point of the base line with same height",
             "Label the endpoint of the new line as 'd'",
         ),
         4: defineSteps(
-            "Draw the one more line at the End point of the base line with same hieght",
+            "Draw the one more line at the End point of the base line with same height",
             "Label the endpoint of the new line as 'e'",
         ),
         5: defineSteps(
             "Now Draw the Horizontal line from 'd' to 'e'",
         ),
         6: defineSteps(
-            "now divide the 'a' to 'd' new perpendicular line in the 3 part and draw the points and give them names ",
+            "Now divide the 'a' to 'd' new perpendicular line in the 3 part and draw the points and give them names ",
         ),
         7: defineSteps(
-            "next  divide the 'a' to 'o' line (from start point to midpoint) in the 3 part as same as 'a' to 'd' line and draw the points and give them names ",
+            "Next  divide the 'a' to 'o' line (from start point to midpoint) in the 3 part as same as 'a' to 'd' line and draw the points and give them names ",
         ),
         8: defineSteps(
             "Connect each dot on the new perpendicular line to the perpendicular line's end point.",
@@ -309,14 +306,9 @@ export function ParabolaByRectangularMethodSteps(values) {
             "create same structure as the other side ",
         ),
         11: defineSteps(
-            "now connect the every intersection points one by one from base line start point to base line end point same as the diagram",
+            "Now connect the every intersection points one by one from base line start point to base line end point same as the diagram",
         ),
-        12: defineSteps(
-            "now connect the every intersection points one by one from base line end point to perpendicular line end point same as the other side",
-        ),
-        13: defineSteps(
-            "Draw perpendicular lines of the same height from each dot on the base line (from start point to midpoint).",
-        ),
+      
     };
 }
 
@@ -704,60 +696,59 @@ export function ParabolaByPARALLELOGRAMMethodSteps(values) {
         Height ,
         angleInDegrees} = values;
     return {
-        1: defineSteps(`Draw the base line `,
-            "Label the start point as 'a'",
-            "Label the endpoint as 'b'",
+        1: defineSteps(`Draw the Axis line 'ab'. `,
+            
         ),
         2: defineSteps(
-            "Draw a Perpendicular Line: From the starting point 'a'",
-            " draw a vertical line named ac. This line should be perpendicular to the horizontal axis.",
+            "Draw a Perpendicular Line 'ac' starting from  point 'a'",
+        
         ),
         3: defineSteps(
-            `Draw an Inclined Line: From the starting point 'a' of given Angle ${angleInDegrees}`,
-            " draw an inclined line at a given angle, naming it ad.",
+            `Draw an Inclined Line 'ad'  starting  from point 'a' of given Angle ${angleInDegrees}`,
+        
         ),
         4: defineSteps(
-            `Locate a Point on the Inclined Line: Using the given length ${Base} `,
-            "mark a point e on the inclined line ad, at the specified distance from point 'a'",
+            `Locate a Point on the Inclined Line, Using the given length ${Base} `,
+            "mark a point 'e' on the inclined line 'ad', at the specified distance from point 'a'",
         ),
         5: defineSteps(
-            `Locate a Point on the Vertical Line: Using the given height ${Height}`,
-            "mark a point f on the vertical line ac, at the specified distance from point 'a'",
+            `Locate a Point on the Vertical Line, Using the given height ${Height}`,
+            "mark a point 'f' on the vertical line 'ac', at the specified distance from point 'a'",
         ),
         6: defineSteps(
-            "Draw a Parallel Line: From point e",
-            "draw a horizontal line named eg, parallel to the vertical line ac, using the given height.",
+            "Draw a Parallel Line to 'af' From point eg",
+            "draw a  line  'eg', parallel to the vertical line 'ac', using the given height.",
         ),
         7: defineSteps(
-            "Connect Two Points: Join points f and g with a straight line.",
+            "Join points 'f' and 'g' with a line .",
         ),
         8: defineSteps(
-            "Find Midpoints and Connect Them:",
-            "Find the midpoint of the line AE and name it p.",
-            "Find the midpoint of the line FG and name it q.",
-            "Join points p and q with a straight line.",
+            
+            "Find the midpoint of the line 'AE' and name it p.",
+            "Find the midpoint of the line 'FG' and name it q.",
+            "Join points 'p' and 'q' with a  line.",
         ),
         9: defineSteps(
-            "Mark Equal Distances on Line af: Divide the line af into four equal segments",
-             "marking the points as 1, 2, 3, and 4, respectively.",
+            "Mark Equal Distances on Line 'af', Divide the line 'af' into three equal segments",
+             "Marking the points as 1, 2,  and 3, respectively.",
         ),
         10: defineSteps(
-            "Mark Equal Distances on Line ap: Similarly, divide the line ap into four equal segments",
-            "marking the points as 1, 2, 3, and 4, respectively.",
+            "Mark Equal Distances on Line 'ap', Similarly, divide the line ap into three equal segments",
+            "Marking the points as 1, 2,  and 3, respectively.",
         ),
         11: defineSteps(
-            "Connect Points on af to q: Draw straight lines from points 1, 2, 3, and 4 on af to point q.",
+            "Connect Points on 'af' to 'q', Draw straight lines from points 1, 2,  and 3 on af to point 'q'.",
         ),
         12: defineSteps(
-            "Draw Parallel Lines from af Points to fq: From points 1, 2, 3, and 4 on af",
-            "draw lines parallel to af until they intersect the line fq.",
+            "Draw Parallel Lines from 'af' Points to 'fq' From points 1, 2,  and 3 on 'af'",
+            "Draw lines parallel to 'af' until they intersect the line 'fq'.",
         ),
         13: defineSteps(
-            "Repeat on the Other Side: Mirror the entire structure created on the opposite side of the vertical line ac",
+            "Repeat on the Other Side, Mirror the entire structure created on the opposite side of the vertical line 'ac'",
             "maintaining symmetry.",
         ),
         14: defineSteps(
-            "now connect the every intersection points one by one from  Inclined Line start point to point f same as the diagram",
+            "Draw a smooth curve passing through A and B. This curve is the required  parabola.",
         ),
     };
 }
@@ -768,7 +759,7 @@ export function ParabolaByPARALLELOGRAMMethod(payload) {
     let Base = Number(inputs["Base"]) || 0;
     let Height = Number(inputs["Height"]) || 0;
     let angleInDegrees = Number(inputs["Angle (Degrees)"]) || 0;
-const startPoint = { x: 50, y: 150+ Height*2};
+const startPoint = { x: 50, y: 250+ Height*2};
     let values ={
         Base,
         Height ,
@@ -1098,15 +1089,15 @@ export function ParabolaBysecoundMethodSteps(values) {
         ),
         2: defineSteps(
             "Draw a Perpendicular Line: From the starting point 'a'",
-            " draw a vertical line named ac. This line should be perpendicular to the horizontal axis.",
+            " Draw a vertical line named ac. This line should be perpendicular to the horizontal axis.",
         ),
         3: defineSteps(
             `Draw an Inclined Line: From the starting point 'a' of given Angle ${angleInDegrees}`,
-            " draw an inclined line at a given angle, naming it ad.",
+            " Draw an inclined line at a given angle, naming it ad.",
         ),
         4: defineSteps(
             `Locate a Point on the Inclined Line: Using the given length ${Base} `,
-            "mark a point e on the inclined line ad, at the specified distance from point 'a'",
+            "Mark a point e on the inclined line ad, at the specified distance from point 'a'",
         ),
         5: defineSteps(
             `Locate a Point on the Vertical Line: Using the given height ${Height}`,
@@ -1149,7 +1140,7 @@ export function ParabolaBysecoundMethodSteps(values) {
             "Connect all corresponding intersecting points of the same number (e.g., 1 to 1, 2 to 2, and so on) with straight lines.",
         ),
         15: defineSteps(
-            "now on the other side ",
+            "Now on the other side ",
             "Join Intersecting Points of the Same Number:",
             "Connect all corresponding intersecting points of the same number (e.g., 1 to 1, 2 to 2, and so on) with straight lines.",
         ),

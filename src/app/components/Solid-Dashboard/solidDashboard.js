@@ -1,21 +1,24 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Canvas from "../Canvas/canvas";
-import PlaneDetails from "@/app/content/plane-details";
-import { buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, parameterPageStyle, parameterPageStyle1, PlaneHPAngleInfo, PlanePositionInfo, PlaneSideLengthInfo, PlaneTypeInfo, PlaneVPAngleInfo, selectInputStyle } from "../Helper/informationIconHelper";
+import { BaseTypeInfo, buttonStyle, detailPageStyle, detailPageStyle1, HoverMsg, infoIconStyle, inputStyle, labelStyle, onClickStyle, parameterPageStyle, parameterPageStyle1, PlaneHPAngleInfo, PlanePositionInfo, PlaneSideLengthInfo, PlaneTypeInfo, PlaneVPAngleInfo, selectInputStyle, SolidHeightInfo, SolidTypeInfo } from "../Helper/informationIconHelper";
 import { PlaneValidation } from "../Helper/validationHelper";
 import { getDisplayValueOfType } from "../Canvas/canvasHelper";
+import SolidDetails from "@/app/content/solid-details";
 
-export default function PlaneDashboard({ drawingType }) {
+export default function SolidDashboard({ drawingType }) {
   let [setDrawingType] = useState("Plane");
   const [isCanvas, setIsCanvas] = useState(false); // Default value
   const [PlaneType, setPlaneType] = useState("Pentagone"); // Default value
-  const [PlaneSideLength, setPlaneSideLength] = useState(""); // Default value
-  const [PlaneHPAngle, setPlaneHPAngle] = useState(""); // Default value
-  const [PlaneVPAngle, setPlaneVPAngle] = useState(""); // Default value
+  const [PlaneSideLength, setPlaneSideLength] = useState("30"); // Default value
+  const [PlaneHPAngle, setPlaneHPAngle] = useState("45"); // Default value
+  const [PlaneVPAngle, setPlaneVPAngle] = useState("30"); // Default value
   const [PlanePosition1, setPlanePosition1] = useState("side"); // Default value
   const [PlanePosition2, setPlanePosition2] = useState("Parallel"); // Default value
   const [PlanePosition3, setPlanePosition3] = useState("HP");
+  const [SolidType, setSolidType] = useState("Cylinder"); // Default value
+  const [SolidHeight, setSolidHeight] = useState("80"); // Default value
+
   const [warningMessage, setWarningMessage] = useState([]);
 
 
@@ -26,7 +29,9 @@ export default function PlaneDashboard({ drawingType }) {
     "Plane in/parallel Postion": PlanePosition2,
     "Plane HP/VP Postion": PlanePosition3,
     "Incline With HP": PlaneHPAngle,
-    "Inclined With VP": PlaneVPAngle
+    "Inclined With VP": PlaneVPAngle,
+    "Solid Type": SolidType,
+    "Solid Height":SolidHeight
   };
 
   const [showInfo1, setShowInfo1] = useState(false);
@@ -34,6 +39,8 @@ export default function PlaneDashboard({ drawingType }) {
   const [showInfo3, setShowInfo3] = useState(false);
   const [showInfo4, setShowInfo4] = useState(false);
   const [showInfo5, setShowInfo5] = useState(false);
+  const [showInfo6, setShowInfo6] = useState(false);
+  const [showInfo7, setShowInfo7] = useState(false);
 
 
 
@@ -43,6 +50,8 @@ export default function PlaneDashboard({ drawingType }) {
   const showInfoRef3 = useRef(null);
   const showInfoRef4 = useRef(null);
   const showInfoRef5 = useRef(null);
+  const showInfoRef6 = useRef(null);
+  const showInfoRef7 = useRef(null);
 
 
   // Handle click outside the tooltip to close it
@@ -62,6 +71,12 @@ export default function PlaneDashboard({ drawingType }) {
       }
       if (showInfoRef5.current && !showInfoRef5.current.contains(event.target)) {
         setShowInfo5(false);
+      }
+      if (showInfoRef6.current && !showInfoRef6.current.contains(event.target)) {
+        setShowInfo6(false);
+      }
+      if (showInfoRef7.current && !showInfoRef7.current.contains(event.target)) {
+        setShowInfo7(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -101,10 +116,50 @@ export default function PlaneDashboard({ drawingType }) {
               </div>
               <table className="w-full border-collapse border-spacing-2">
                 <tbody>
+
                   <tr>
                     <td className="p-2">
                       <span className={labelStyle}>
-                        Plane Type:
+                       Solid Type:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo6(!showInfo6)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo6 && (
+                        <div ref={showInfoRef6} className={onClickStyle}>
+                          {SolidTypeInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <select
+                        value={SolidType}
+                        onChange={(e) => setSolidType(e.target.value)}
+                        className={selectInputStyle}
+                      >
+                        <option value="Cylinder">Cylinder</option>
+                        <option value="Cone">Cone</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                       Base Type:
                         <span
                           className={infoIconStyle}
                           title={HoverMsg}
@@ -115,7 +170,7 @@ export default function PlaneDashboard({ drawingType }) {
                       </span>
                       {showInfo1 && (
                         <div ref={showInfoRef1} className={onClickStyle}>
-                          {PlaneTypeInfo.split("\n").map((line, index) => (
+                          {BaseTypeInfo.split("\n").map((line, index) => (
                             <p key={index} className="mb-2">
                               {line}
                             </p>
@@ -142,6 +197,45 @@ export default function PlaneDashboard({ drawingType }) {
                       <hr />
                     </td>
                   </tr>
+                
+
+                  <tr>
+                    <td className="p-2">
+                      <span className={labelStyle}>
+                        Height:
+                        <span
+                          className={infoIconStyle}
+                          title={HoverMsg}
+                          onClick={() => setShowInfo7(!showInfo7)} // toggle tooltip on click
+                        >
+                          ⓘ
+                        </span>
+                      </span>
+                      {showInfo7 && (
+                        <div ref={showInfoRef7} className={onClickStyle}>
+                            {SolidHeightInfo.split("\n").map((line, index) => (
+                            <p key={index} className="mb-2">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-2">
+                      <input
+                        type="text"
+                        value={SolidHeight}
+                        onChange={(e) => setSolidHeight(e.target.value)}
+                        className={inputStyle}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="3">
+                      <hr />
+                    </td>
+                  </tr>
+
                   <tr>
                     <td className="p-2">
                       <span className={labelStyle}>
@@ -164,7 +258,7 @@ export default function PlaneDashboard({ drawingType }) {
                         </div>
                       )}
                     </td>
-                    <td className="p-2">
+                    <td className="p-2">  
                       <input
                         type="text"
                         value={PlaneSideLength}
@@ -328,7 +422,7 @@ export default function PlaneDashboard({ drawingType }) {
               id="plane-details-container"
               className={detailPageStyle1}
             >
-              <PlaneDetails />
+              <SolidDetails />
             </section>
           </div>
         </div>

@@ -51,7 +51,7 @@ export function ellipse_by_generalmethodSteps(values) {
         6: defineSteps(
             "Mark any point 1 on the axis and through it, draw a perpendicular meet CE-produced at 1'. ",
         ),
-        7: defineSteps("With centre F and radius equal to 1-1' , draw arcs to intersect the perpendicula through 1 at points P1 and P' 1.",
+        7: defineSteps("With centre F and radius equal to 1-1' , draw arcs to intersect the perpendicular through 1 at points P1 and P' 1.",
 
         ),
         8: defineSteps("Join all the loci points of the ellipse and obtain the required ellipse.")

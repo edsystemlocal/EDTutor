@@ -31,11 +31,11 @@ export function parabola_by_generalmethodSteps(values) {
         1: defineSteps("Draw the  directrix 'ab'and the axis 'cd' ",
         ),
         2: defineSteps(
-            `Mark focus f on 'cd' ${distanceofthefocusfromthedirectrix} mm from c`,
+            `Mark focus 'f' on the axis 'cd' such that 'cf'= ${distanceofthefocusfromthedirectrix} mm from c`,
         ),
         3: defineSteps(
             "Bisect 'cf' in v the vertex (because eccentricity = 1)",
-            "draw a line 've' perpendicular to 'cd' such that 've' = 'vf'"
+            "Draw a line 've' perpendicular to 'cd' such that 've' = 'vf'"
         ),
         4: defineSteps(
             "Draw a digonal line from the Point c and Passes through point e ",
@@ -44,8 +44,8 @@ export function parabola_by_generalmethodSteps(values) {
             "Mark points 1,2,3 ..etc on the axis and through it ",
             "Draw  multiple  perpendiculars lines to meet 'ce' produced at 1' 2' 3' ...etc ",
         ),
-        6: defineSteps("With the center 'f' and redius equal to (1-1' , 2-2' , 3-3' ... etc)", 
-            "draw upper and lower arcs intersecting the perpendicular through 1 2 3 ... etc",
+        6: defineSteps("With the center 'f' and radius equal to (1-1' , 2-2' , 3-3' ... etc)", 
+            "Draw upper and lower arcs intersecting the perpendicular through 1 2 3 ... etc",
         ),
         7: defineSteps("connect the arc points for parabola")
     };
