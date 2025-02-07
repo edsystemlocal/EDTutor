@@ -122,7 +122,7 @@ export function getCylinderShapeTop(Centroid, baseShape, fvStartPoint, SolidHigh
 export function Solid(payload) {
   console.log("solid is calling");
   let sendToPoints = [];
-  let solidShape = "cone1";
+  
   //let solidShape = "cylinder";
 
   const { counter, finalDrawing } = payload;
@@ -136,6 +136,9 @@ export function Solid(payload) {
 
   const PlaneHPAngle = payload.inputs["Incline With HP"];
   const PlaneVPAngle = payload.inputs["Inclined With VP"];
+  let SolidHight = Number(payload.inputs["Solid Height"]);
+  let solidShape = payload.inputs["Solid Type"];
+  
   console.log("PlaneType", PlaneType);
   //assigmnet
   let SolidBase = PlaneType;
@@ -155,7 +158,7 @@ export function Solid(payload) {
     move,
     angle
   } = Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, PlaneHPAngle, PlaneVPAngle);
-  let SolidHight = 150;
+  //let SolidHight = 150;
   let drawAll = false;
   //const steps = Plane_Steps(SolidBase, hpInclinde, vpInclinde); // Generate steps dynamically
   // let step = steps[counter];
@@ -187,7 +190,7 @@ export function Solid(payload) {
   //step-3 draw line for FV and Draw FV
   console.log("tv1EndPoint: ", tv1EndPoint);
   let fv1HeightPointArray = [];
-  if (solidShape === "cone") {
+  if (solidShape === "Cone") {
     fv1HeightPointArray = getfirstShapeTop(Centroid, fvStartPoint, SolidHight);
   } else {
     fv1HeightPointArray = getCylinderShapeTop(Centroid, tv1EndPoint, fvStartPoint, SolidHight);
@@ -199,7 +202,7 @@ export function Solid(payload) {
   console.log("fv1HeightPointArray: ", fv1HeightPointArray);
   let fv1apexBasePoint = { x: Centroid.x, y: fvStartPoint.y };
   if (counter === 3 || drawAll) {
-    if (solidShape === "cone") {
+    if (solidShape === "Cone") {
       sendToPoints.push(...calculateLinePointsWithCircles(Centroid, fv1HeightPointArray[1], lightPencil));
     }
     sendToPoints.push(...drawShapeWithTwoArray(tv1EndPoint, fv1BaseEndPointArray, lightPencil));    

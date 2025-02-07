@@ -333,7 +333,7 @@ export default function Canvas({ inputs, drawingType }) {
               onClick={() => handleZoom(0.8)} // Zoom Out
               disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
-                ? "bg-gray-400 cursor-not-allowed"
+                ? buttonStyle
                 : buttonStyle
                 }`}
             >
@@ -345,7 +345,7 @@ export default function Canvas({ inputs, drawingType }) {
               onClick={() => handleZoom(1.2)} // Zoom In
               disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
-                ? "bg-gray-400 cursor-not-allowed"
+                ? buttonStyle
                 : buttonStyle
                 }`}
             >
