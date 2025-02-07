@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import PrintInput from "../Print-Input/print-input";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { drawPointsWithLabels, getDisplayValueOfType, getPointsForDrawing, updateStepText } from "./canvasHelper";
 
@@ -16,11 +17,52 @@ export const resizeCanvas = (canvas) => {
   }
 };
 
-// Main content 
+const handleSave = async () => {
+    const fileName = window.prompt("Please enter a file name:");
+    
+    if (!fileName) {
+      alert("File name is required to save the data.");
+      return;
+    }
+  
+    if (fileName.length > 40) {
+      alert("File name must be at most 40 characters long.");
+      return;
+    }
+  
+    let data = {
+      fileName,
+      drawingType,
+      inputs,
+    };
+  
+    try {
+      let response = await fetch("/api/saveUserProblem", { // ✅ FIXED PATH
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      let result = await response.json(); 
+  
+      if (response.ok) {
+        console.log(result.message);
+        alert("Data sent successfully!");
+      } else {
+        console.error("API Error:", result);
+        alert("Failed to send data: " + (result.message || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Error details:", error);
+      alert(`An error occurred: ${error.message}`);
+    }
+  };
+
 export default function Canvas({ inputs, drawingType }) {
 
-  // console.log("canvasjjjjjjj",themeSelect)
-  console.log(inputs, "ooooooooooooooooooooooooooooooo")
+  console.log(inputs, "ooooooooooooooooooooooooooooooo");
 
   const [PointsArray, setPointsArray] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -28,15 +70,17 @@ export default function Canvas({ inputs, drawingType }) {
   const [isDrawing, setIsDrawing] = useState(false); // Tracks if drawing is in progress
   const [finalDrawing, setFinalDrawing] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
+  const [isDrawingActive, setIsDrawingActive] = useState(true); // Tracks if drawing is active
+  const [drawingIndex, setDrawingIndex] = useState(0); // Tracks the current drawing point
 
   const canvasRef = useRef(null);
   const stepsContainerRef = useRef(null); // Reference to the steps container
   const drawingState = useRef([]);
+  const drawingInterval = useRef(null); // To store the interval for the drawing animation
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
 
     const handleResize = () => {
       resizeCanvas(canvas);
@@ -68,48 +112,62 @@ export default function Canvas({ inputs, drawingType }) {
     };
   }, []);
 
-
-
-
-
-
-  const drawNewPoints = (newPoints, isBack = false) => {
+  const drawNewPoints = (newPoints, isBack = false, startIndex = 0) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    let pointIndex = 0;
-
+    let pointIndex = startIndex;
+  
     setIsDrawing(true); // Set drawing in progress
-
-    const interval = setInterval(() => {
+  
+    drawingInterval.current = setInterval(() => {
       if (pointIndex >= newPoints.length) {
         setIsDrawing(false); // Drawing completed
-
-        clearInterval(interval);
+        setDrawingIndex(pointIndex); // Update the drawing index to the last drawn point
+        clearInterval(drawingInterval.current);
         return;
       }
-
+  
       const {
         currentPoints,
         pencilSize,
         pencilColor,
         pointIndex: newPointIndex,
       } = getPointsForDrawing(newPoints, pointIndex);
-
+  
       drawPointsWithLabels(ctx, currentPoints, pencilSize, pencilColor, isBack);
-
+  
       drawingState.current.push({
         points: currentPoints,
         size: pencilSize,
         color: pencilColor,
       });
-
+  
       pointIndex = newPointIndex;
+      setDrawingIndex(pointIndex); // Update drawing index
     }, 100 - window.slideSpeedValue);
   };
+  
 
-  console.log(window.slideSpeedValue, "kkkkkkkkkkkkkkkkkkkkkkkkkkk")
+  const toggleDrawing = () => {
+    if (isDrawingActive) {
+      setIsDrawingActive(false); // Stop drawing
+      setIsDrawing(false); // Ensure drawing is stopped
+      
+      // Stop the ongoing drawing interval if active
+      if (drawingInterval.current) {
+        clearInterval(drawingInterval.current);
+        drawingInterval.current = null;
+      }
+    } else {
+      setIsDrawingActive(true); // Resume drawing
+      drawNewPoints(PointsArray, false, drawingIndex); // Resume from where it stopped
+    }
+  };
+  
+
+  
+
   const handleNextClick = async (isFinal = false, isBack = false) => {
-
     let newCounter = counter;
 
     if (!isBack) {
@@ -156,12 +214,10 @@ export default function Canvas({ inputs, drawingType }) {
       newCounter = counter - 1;
       setCounter(newCounter);
     }
-
   };
 
   const buttonStyle =
     "px-5 py-2 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all duration-200";
-
 
   const [zoomLevel, setZoomLevel] = useState(1);
   const handleZoom = (scaleFactor) => {
@@ -199,52 +255,9 @@ export default function Canvas({ inputs, drawingType }) {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvasWidth1, canvasHeight1);
   };
-  
-  const handleSave = async () => {
-    const fileName = window.prompt("Please enter a file name:");
-    
-    if (!fileName) {
-      alert("File name is required to save the data.");
-      return;
-    }
-  
-    if (fileName.length > 40) {
-      alert("File name must be at most 40 characters long.");
-      return;
-    }
-  
-    let data = {
-      fileName,
-      drawingType,
-      inputs,
-    };
-  
-    try {
-      let response = await fetch("/api/saveUserProblem", { // ✅ FIXED PATH
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-  
-      let result = await response.json(); 
-  
-      if (response.ok) {
-        console.log(result.message);
-        alert("Data sent successfully!");
-      } else {
-        console.error("API Error:", result);
-        alert("Failed to send data: " + (result.message || "Unknown error"));
-      }
-    } catch (error) {
-      console.error("Error details:", error);
-      alert(`An error occurred: ${error.message}`);
-    }
-  };
-  
-  
 
+
+  
   return (
     <main
       id="drawing-container"
@@ -252,18 +265,18 @@ export default function Canvas({ inputs, drawingType }) {
     >
       <div className="grid grid-cols-12 gap-4">
         {/* Left Panel */}
-        <div className="col-span-4 h-136"> {/* Adjusted to col-span-4 */}
+        <div className="col-span-4 h-136">
           {/* Drawing Type Section */}
           <section
             id="print-input-container"
-            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto bg-gradient-to-r from-blue-50 to-blue-200"
+            className="border-2 border-blue-300 bg-white shadow-lg rounded p-2 w-full flex flex-col items-center overflow-auto bg-gradient-to-r from-blue-50 to-blue-200 "
             style={{ height: "30%" }}
           >
-            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700">
+            <div className="border-2 border-blue-300 rounded p-1 mb-2 flex items-center justify-center font-bold text-blue-700 ">
               Drawing Type: {getDisplayValueOfType(drawingType)}
             </div>
             <div className="w-full flex items-center justify-center">
-              <table>
+              <table className="">
                 <tbody>
                   {Object.entries(inputs).map(([key, value], index) => (
                     <tr key={index}>
@@ -274,34 +287,25 @@ export default function Canvas({ inputs, drawingType }) {
                 </tbody>
               </table>
             </div>
-            {/* Save Button */}
-            <button
-              className="px-4 py-1 bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold rounded-lg shadow-md hover:from-orange-500 hover:to-yellow-500 hover:shadow-lg transition-all"
-              onClick={handleSave}
-            >
-              Save
-            </button>
           </section>
-
 
           {/* Button Section */}
           <section
             id="button-container"
             className="border-2 border-blue-300 bg-white shadow-lg rounded p-4 w-full grid grid-cols-3 gap-4 "
-            style={{ height: "15%" }}
+            style={{ height: "22%" }}
           >
             {/* Clear Button */}
             <button
               onClick={() => handleReset()}
-              disabled={isDrawing}
+              // disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
-                ? "bg-gray-400 cursor-not-allowed"
+                ? buttonStyle
                 : buttonStyle
                 }`}
             >
               <i className="fa-solid fa-eraser" title="Clear"></i>
             </button>
-
 
             {/* Back Button */}
             <button
@@ -327,11 +331,9 @@ export default function Canvas({ inputs, drawingType }) {
               <i className={`fas fa-arrow-right ${isDrawing ? "animate-spin" : ""}`} title="Next" />
             </button>
 
-
             {/* Zoom Out Button */}
             <button
               onClick={() => handleZoom(0.8)} // Zoom Out
-              disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
                 ? buttonStyle
                 : buttonStyle
@@ -343,7 +345,6 @@ export default function Canvas({ inputs, drawingType }) {
             {/* Zoom In Button */}
             <button
               onClick={() => handleZoom(1.2)} // Zoom In
-              disabled={isDrawing}
               className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawing
                 ? buttonStyle
                 : buttonStyle
@@ -363,8 +364,23 @@ export default function Canvas({ inputs, drawingType }) {
             >
               <i className={`fa-solid fa-trophy ${isDrawing ? "animate-spin" : ""}`} title="Final"></i>
             </button>
-          </section>
 
+            {/* Start/Stop Drawing Button */}
+            <button
+              onClick={toggleDrawing}
+              className={`py-2 px-6 text-white rounded font-semibold flex items-center justify-center ${isDrawingActive ? buttonStyle : buttonStyle}`}
+            >
+              {isDrawingActive ? (
+                <>
+                  <i className="fa-solid fa-stop mr-2"></i> 
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-play mr-2"></i> 
+                </>
+              )}
+            </button>
+          </section>
 
           {/* Steps Section */}
           <section
@@ -381,7 +397,7 @@ export default function Canvas({ inputs, drawingType }) {
         </div>
 
         {/* Right Panel */}
-        <div className={"scrollableDiv bg-yellow-100"}> {/* Adjusted to col-span-8 */}
+        <div className={"scrollableDiv bg-yellow-100"}> {/* Adjusted to col-span-8 */} 
           <section
             id="canvas-container"
             className="bg-white shadow-lg rounded flex items-center  bg-yellow-100"
@@ -390,7 +406,6 @@ export default function Canvas({ inputs, drawingType }) {
           </section>
         </div>
       </div>
-
     </main>
   );
 }
