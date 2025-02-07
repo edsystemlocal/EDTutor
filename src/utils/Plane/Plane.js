@@ -211,8 +211,8 @@ export function Plane(payload) {
       for (let i = 1; i <= majorCircleDivisions1.length-1; i++) {
         fvEndPointTemp[i] = { x: majorCircleDivisions1[i].x, y: fvStartPoint.y }
       }
-      
-      secondLinePointTemp = drawAngledShape(fv2EndPoint[1], 90+hpInclinde, fvEndPointTemp, fvEndPointTemp.length-1, fvEndPointTemp[1]);
+      console.log("hpInclinde: "+hpInclinde);
+      secondLinePointTemp = drawAngledShape(fv2EndPoint[1], 180- (90 - hpInclinde), fvEndPointTemp, fvEndPointTemp.length-1, fvEndPointTemp[1]);
         
     }
   if (counter === 5 || drawAll) {
