@@ -10,9 +10,9 @@ export default function PlaneDashboard({ drawingType }) {
   let [setDrawingType] = useState("Plane");
   const [isCanvas, setIsCanvas] = useState(false); // Default value
   const [PlaneType, setPlaneType] = useState("Pentagone"); // Default value
-  const [PlaneSideLength, setPlaneSideLength] = useState(""); // Default value
-  const [PlaneHPAngle, setPlaneHPAngle] = useState(""); // Default value
-  const [PlaneVPAngle, setPlaneVPAngle] = useState(""); // Default value
+  const [PlaneSideLength, setPlaneSideLength] = useState("30"); // Default value
+  const [PlaneHPAngle, setPlaneHPAngle] = useState("30"); // Default value
+  const [PlaneVPAngle, setPlaneVPAngle] = useState("45"); // Default value
   const [PlanePosition1, setPlanePosition1] = useState("side"); // Default value
   const [PlanePosition2, setPlanePosition2] = useState("Parallel"); // Default value
   const [PlanePosition3, setPlanePosition3] = useState("HP");
