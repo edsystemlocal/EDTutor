@@ -17,13 +17,14 @@ let B2 = ["a''", "b''", "c''", "d''", "e''", "f''", "g''", "h''", "i''", "j''"]
 let A3 = ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "i2", "j2"]
 let B3 = ["a'''", "b'''", "c'''", "d'''", "e'''", "f'''", "g'''", "h'''", "i'''", "j'''"]
 
-export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, hpInclinde, vpInclinde) {
-  startPoint = { x: 100, y: 500 + ((BaseSide - 25 )*3) };
-  endPoint = { x: 800 + BaseSide*25, y: 500 + ((BaseSide - 25 )*3) };
+export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, hpInclinde, vpInclinde, SolidHightOrig) {
+  startPoint = { x: 100, y: 500 + ((SolidHightOrig-80)*3) };
+  endPoint = { x: 800 + BaseSide*25, y: 500 + ((SolidHightOrig-80)*3) };
   //default value
   let BaseEdge = BaseSide * 2;
-  let hAway = BaseEdge*3;
-  let vAway = BaseEdge*3;
+  let SolidHight = SolidHightOrig * 2;
+  let hAway = BaseEdge*2;
+  let vAway = BaseEdge*2;
   let shape = TypeOfBase(SolidBase);
   let move = 360 / shape;
   console.log("shape:", shape);
@@ -85,7 +86,8 @@ export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel
     vAway: vAway,
     shape: shape,
     move: move,
-    angle: angle
+    angle: angle,
+    SolidHight: SolidHight
   }
 
   console.log("updatedInputs", updatedInputs);
@@ -120,7 +122,7 @@ export function getCylinderShapeTop(Centroid, baseShape, fvStartPoint, SolidHigh
 }
 
 export function Solid(payload) {
-  console.log("solid is calling");
+  console.log("solid is calling", payload);
   let sendToPoints = [];
   
   //let solidShape = "cylinder";
@@ -136,7 +138,7 @@ export function Solid(payload) {
 
   const PlaneHPAngle = payload.inputs["Incline With HP"];
   const PlaneVPAngle = payload.inputs["Inclined With VP"];
-  let SolidHight = Number(payload.inputs["Solid Height"]);
+  let SolidHightOrig = Number(payload.inputs["Solid Height"]);
   let solidShape = payload.inputs["Solid Type"];
   
   console.log("PlaneType", PlaneType);
@@ -156,8 +158,9 @@ export function Solid(payload) {
     BaseEdge,
     shape,
     move,
-    angle
-  } = Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, PlaneHPAngle, PlaneVPAngle);
+    angle,
+    SolidHight
+  } = Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, PlaneHPAngle, PlaneVPAngle, SolidHightOrig);
   //let SolidHight = 150;
   let drawAll = false;
   //const steps = Plane_Steps(SolidBase, hpInclinde, vpInclinde); // Generate steps dynamically

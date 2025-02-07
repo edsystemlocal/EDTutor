@@ -93,6 +93,13 @@ CurveQ18:"Diameter:50",
 
 }
 
+export const Solid = {
+    SolidQ1:"RF :1:4,\nActual Length:0,\nActual Length Unit:,\nDrawing Length:0,\nDrawing Length Unit :,\nMaximum Length:5,\nMaximum Length Unit:dcm,\nShow Length1: 1,\nShow Length1 Unit: dcm,\nShow Length2:1,\nShow Length2 Unit:cm",
+    SolidQ2:"RF :\nActual Length:1,\nActual Length Unit:dm,\nDrawing Length:1.5,\nDrawing Length Unit :cm,\nMaximum Length:1,\nMaximum Length Unit:m,\nShow Length1: 6,\nShow Length1 Unit: dm,\nShow Length2:0,\nShow Length2 Unit:",
+    SolidQ3:"RF :\nActual Length:1,\nActual Length Unit:dm,\nDrawing Length:1.5,\nDrawing Length Unit :cm,\nMaximum Length:1,\nMaximum Length Unit:m,\nShow Length1: 6,\nShow Length1 Unit: dm,\nShow Length2:0,\nShow Length2 Unit:",
+   
+}
+
 
 
 

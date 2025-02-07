@@ -43,6 +43,7 @@ import ParalleltohpandinclinationtovpDashboard from "../components/Line-Dashboar
 import ParalleltovpandinclinationtohpDashboard from "../components/Line-Dashboard/ParalleltovpandinclinationtohpDashboard";
 import MidpointDashboard from "../components/Line-Dashboard/MidpointDashboard";
 import CurveExercise from "../exercise_questions/CurveExercise";
+import SolidExercise from "../exercise_questions/SolidExercise";
 
 
 export default function Home() {
@@ -140,6 +141,7 @@ export default function Home() {
       {drawingType === "scaleExercise" && <ScaleExercise />}
       {drawingType === "planeExercise" && <PlaneExercise />}
       {drawingType === "CurveExercise" && <CurveExercise />}
+      {drawingType === "solidExercise" && <SolidExercise />}
     </div>
   );
 }
