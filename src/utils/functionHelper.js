@@ -754,7 +754,7 @@ export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, posi
     //...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     //...arrowHeadEndPoint, ...lightPencil,    
     //...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: verticalStartPointUp.x + labelXll, y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
+    ...calculateLabel({x: verticalStartPointUp.x + labelX, y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
   );
   
   
