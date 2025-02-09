@@ -19,6 +19,7 @@ import { scaleOfChords } from "@/utils/Scale/ScaleOfChords";
 import { AngleInscaleOfChords } from "@/utils/Scale/angleInScaleOfChords";
 import { involute_by_generalmethod } from "@/utils/Involute/involute";
 import { DScale } from "@/utils/Scale/DScale";
+import { VScale } from "@/utils/Scale/VScale";
 
 export async function POST(request, response) {
   try {
@@ -33,9 +34,12 @@ export async function POST(request, response) {
     // Select points based on the drawing type
     if (drawingType === "plainScale") {
       ({ points: pointsToSend, step } = PScale(payload));
-    } 
+    }
     if (drawingType === "diagonalScale") {
       ({ points: pointsToSend, step } = DScale(payload));
+    }
+    if (drawingType === "vernierScale") {
+      ({ points: pointsToSend, step } = VScale(payload));
     }
     if (drawingType === "plane") {
       ({ points: pointsToSend, step } = Plane(payload));

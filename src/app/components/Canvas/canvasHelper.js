@@ -347,7 +347,7 @@ export const drawPointsWithLabels = (
     let previousPoint = null;
     currentPoints.forEach((point, index) => {
       if (point.label) {
-        ctx.font = "14px Arial";
+        ctx.font = "12px Arial";
         ctx.fillStyle = "red";
         ctx.fillText(point.label, point.labelX, point.labelY);
       } else {

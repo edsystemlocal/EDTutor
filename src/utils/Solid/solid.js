@@ -1,12 +1,14 @@
 import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
-import { calculateAngle, defineSteps, calculateLinePointsWithCircles } from "@/utils/functionHelper";
+import { calculateAngle, defineSteps, calculateLinePointsWithCircles, drawInclinedArrow, calculateDistance } from "@/utils/functionHelper";
 import { FindAngle, ArcPoints, EndPoint, Linelength, Angle, label, anglepoint } from "@/utils/Scale/ScaleMethod";
 import { darkPencil, lightPencil, superDarkPencil } from "@/utils/globalVariable";
-import { drawAngledShape } from "../Plane/Plane";
+import { drawAngledShape, drawSecondPlaneAngle } from "../Plane/Plane";
+import { roundUpToTwoDecimalPlaces } from "../Line/lineproblem";
 
 
 let startPoint = { x: 100, y: 500 };
 let endPoint = { x: 1000, y:  500 };
+let internalZoom = 2;
 
 let A1 = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
 let B1 = ["a'", "b'", "c'", "d'", "e'", "f'", "g'", "h'", "i'", "j'"]
@@ -17,14 +19,14 @@ let B2 = ["a''", "b''", "c''", "d''", "e''", "f''", "g''", "h''", "i''", "j''"]
 let A3 = ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2", "i2", "j2"]
 let B3 = ["a'''", "b'''", "c'''", "d'''", "e'''", "f'''", "g'''", "h'''", "i'''", "j'''"]
 
-export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, hpInclinde, vpInclinde, SolidHightOrig) {
+export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel, PlaneHPAngle, PlaneVPAngle, SolidHightOrig) {
   startPoint = { x: 100, y: 500 + ((SolidHightOrig-80)*3) };
   endPoint = { x: 800 + BaseSide*25, y: 500 + ((SolidHightOrig-80)*3) };
   //default value
-  let BaseEdge = BaseSide * 2;
-  let SolidHight = SolidHightOrig * 2;
-  let hAway = BaseEdge*2;
-  let vAway = BaseEdge*2;
+  let BaseEdge = BaseSide * internalZoom;
+  let SolidHight = SolidHightOrig * internalZoom;
+  let hAway = BaseEdge*internalZoom;
+  let vAway = BaseEdge*internalZoom;
   let shape = TypeOfBase(SolidBase);
   let move = 360 / shape;
   console.log("shape:", shape);
@@ -36,8 +38,8 @@ export function Calculation(sideCorner, shapeAt, SolidBase, BaseSide, inParallel
   let tv3StartPoint;
   let fv3StartPoint;
 
-  
-
+  let hpInclinde = PlaneHPAngle;
+  let vpInclinde = PlaneVPAngle;
 
   if (sideCorner == "Corner")
     angle = (((shape - 2) * 180) / shape) / 2;
@@ -181,9 +183,11 @@ export function Solid(payload) {
 
 
   if (counter === 2 || drawAll) {
-    sendToPoints.push(...drawshape(tv1EndPoint, shape, A1),
-      ...drawApex(tv1EndPoint, Centroid, shape),
-      ...darkPencil);
+    sendToPoints.push(...drawshape(tv1EndPoint, shape, A1), ...darkPencil);
+    sendToPoints.push(...drawInclinedArrow(tv1EndPoint[1], tv1EndPoint[2], "left", roundUpToTwoDecimalPlaces(calculateDistance(tv1EndPoint[1], tv1EndPoint[2])/internalZoom)));
+      if(solidShape==="Cone"){
+        sendToPoints.push(...drawApex(tv1EndPoint, Centroid, shape), ...lightPencil);          
+      }
     if (finalDrawing) {
       drawAll = true;
     }
@@ -213,6 +217,8 @@ export function Solid(payload) {
     sendToPoints.push(...drawShapeWithTwoArray(fv1BaseEndPointArray, fv1HeightPointArray, darkPencil));
     sendToPoints.push(...drawshape(fv1HeightPointArray, shape, A1));
 
+    sendToPoints.push(...drawInclinedArrow(fv1BaseEndPointArray[1], fv1HeightPointArray[1], "left", roundUpToTwoDecimalPlaces(calculateDistance(fv1BaseEndPointArray[1], fv1HeightPointArray[1])/internalZoom)));
+
     if (finalDrawing) {
       drawAll = true;
     }
@@ -226,6 +232,14 @@ export function Solid(payload) {
     sendToPoints.push(...drawshape(inclinedShapes, shape, B1));
     sendToPoints.push(...drawShapeWithTwoArray(inclinedShapes, inclinedShapesTop, darkPencil));
     sendToPoints.push(...drawshape(inclinedShapesTop, shape, B1));
+
+    let drawAngle;
+    if(hpInclinde<90){
+      drawAngle = drawSecondPlaneAngle({x: fv1HeightPointArray[1].x + BaseEdge*4, y: fv1BaseEndPointArray[1].y}, hpInclinde);
+    } else {
+      drawAngle = drawSecondPlaneAngle({x: fv1HeightPointArray[1].x + BaseEdge*4, y: fv1BaseEndPointArray[1].y}, -(360-hpInclinde));
+    }
+    sendToPoints.push(...drawAngle);
 
     if (finalDrawing) {
       drawAll = true;
@@ -292,6 +306,14 @@ export function Solid(payload) {
     sendToPoints.push(...drawshape(inclinedShapes2, shape, B3));
     sendToPoints.push(...drawShapeWithTwoArray(inclinedShapes2, inclinedShapesTop2, darkPencil));
     sendToPoints.push(...drawshape(inclinedShapesTop2, shape, B3));
+
+    let drawAngle;
+    if(hpInclinde<90){
+      drawAngle = drawSecondPlaneAngle(inclinedShapes2[1], vpInclinde);
+    } else {
+      drawAngle = drawSecondPlaneAngle(inclinedShapes2[1], -(360-vpInclinde));
+    }
+    sendToPoints.push(...drawAngle);
 
     if (finalDrawing) {
       drawAll = true;
@@ -376,7 +398,8 @@ export function drawshape(baseArray, shape, labelArray) {
     shapeLinePoints.push(...calculateLinePointsWithCircles(baseArray[i], baseArray[j]));
     shapeLinePoints.push(...label(baseArray[i], labelArray[i - 1], "up"));
 
-  }
+  }  
+  
   return shapeLinePoints;
 }
 

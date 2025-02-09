@@ -1,7 +1,8 @@
 import { fetchServerResponse } from "next/dist/client/components/router-reducer/fetch-server-response";
-import { calculateAngle, defineSteps, calculateLinePointsWithCircles, calculateAngledLinePoints, calculateDistance, calculateAngleInDegrees, GenerateFullCircle } from "@/utils/functionHelper";
+import { calculateAngle, defineSteps, calculateLinePointsWithCircles, calculateAngledLinePoints, calculateDistance, calculateAngleInDegrees, GenerateFullCircle, drawInclinedArrow, calculateLabel, drawQuarterCircle } from "@/utils/functionHelper";
 import { FindAngle, ArcPoints, EndPoint, Linelength, Angle, label, anglepoint } from "@/utils/Scale/ScaleMethod";
 import { darkPencil, lightPencil, rotating, superDarkPencil } from "@/utils/globalVariable";
+import { roundUpToTwoDecimalPlaces } from "../Line/lineproblem";
 
 
 
@@ -26,23 +27,25 @@ let tv2StartPoint;
 let fv2StartPoint;
 let tv3StartPoint;
 let fv3StartPoint;
+let internalZoom = 2;
 
-
-
-export function Calculation(PlaneName, side, sideCorner, inParallel, shapeAt, hpInclinde, vpInclinde) {
+export function Calculation(PlaneName, side, sideCorner, inParallel, shapeAt, PlaneHPAngle, PlaneVPAngle) {
 
   startPoint = { x: 100, y: 500 + ((side-50)*3) };
   endPoint = { x: 800 + side*25, y: 500 + ((side-50)*3) };
   //default value
   // if(PlaneName=="Circle")
   //     side=5;
-  let shapeEdge = side * 2;
+  let shapeEdge = side * internalZoom;
   let hAway = shapeEdge;
   let vAway = shapeEdge * 3;
   let shape = TypeOfPlane(PlaneName);
   let move = 360 / shape;
   console.log("move:", move);
   let angle = 90;
+  let hpInclinde = PlaneHPAngle;
+  let vpInclinde = PlaneVPAngle;
+
 
   if (sideCorner == "Corner")
     angle = CornerAngle(PlaneName);
@@ -52,8 +55,8 @@ export function Calculation(PlaneName, side, sideCorner, inParallel, shapeAt, hp
     if (inParallel === "in")
       vAway = 0;
 
-    hpInclinde = 360 - vpInclinde;
-    vpInclinde = 360 - hpInclinde;
+    hpInclinde = 360 - PlaneVPAngle;
+    vpInclinde = 90 - (90 - PlaneHPAngle);
 
     tvStartPoint = { x: startPoint.x + 50, y: startPoint.y - hAway };
     fvStartPoint = { x: startPoint.x + 50, y: startPoint.y + vAway };
@@ -94,6 +97,37 @@ export function Calculation(PlaneName, side, sideCorner, inParallel, shapeAt, hp
 
 }
 
+function drawAngle(center, radius, endAngle, arcPosition, label) {
+  let sendToPoints = [];
+  console.log("drawAngle, radius: ", radius);
+
+
+    let labelPoint = calculateAngledLinePoints(center, endAngle / 2, radius);
+    let drawLowerCircle;
+    let calculateLabel1;
+    if (arcPosition == "up") {
+      drawLowerCircle = drawQuarterCircle(center, 0, endAngle, radius);
+      calculateLabel1 = calculateLabel({ x: labelPoint.x, y: labelPoint.y + 5 }, label, "right");
+    } else if (arcPosition == "down") {
+      drawLowerCircle = drawQuarterCircle(center, 0, endAngle, radius);
+      calculateLabel1 = calculateLabel({ x: labelPoint.x, y: labelPoint.y + 5 }, label, "right");
+    }
+    sendToPoints.push(
+      ...calculateLinePointsWithCircles(center, { x: center.x + radius, y: center.y }, lightPencil),
+      ...drawLowerCircle,
+      ...calculateLabel1,
+      ...lightPencil,
+    )
+  
+  return sendToPoints;
+}
+
+
+export function drawSecondPlaneAngle(center, endAngle) {
+  return [
+    ...drawAngle(center, 20, endAngle, "up", Math.abs(endAngle))
+  ]
+}
 
 export function Plane(payload) {
 
@@ -200,13 +234,19 @@ export function Plane(payload) {
 
   if (counter === 4 || drawAll) {
 
-    const merger = calculateLinePointsWithCircles(fvEndPoint[1], EndPoint(fvEndPoint[1], 0, fvlength + 200), lightPencil);
+    const merger = calculateLinePointsWithCircles(fvEndPoint[1], { x: tv3StartPoint.x - 25, y: fvEndPoint[1].y }, lightPencil);
     let angleLinePoints;
 
     angleLinePoints = calculateLinePointsWithCircles(fv2EndPoint[1], EndPoint(fv2EndPoint[1], hpInclinde, fvlength), darkPencil);
-
     
-    sendToPoints.push(...merger, ...lightPencil, ...angleLinePoints, ...darkPencil, ...fv2lable)
+    let drawAngle;
+    if(hpInclinde<90){
+      drawAngle = drawSecondPlaneAngle(fv2EndPoint[1], hpInclinde);
+    } else {
+      drawAngle = drawSecondPlaneAngle(fv2EndPoint[1], -(360-hpInclinde));
+    }
+    
+    sendToPoints.push(...merger, ...lightPencil, ...angleLinePoints, ...darkPencil, ...fv2lable, ...drawAngle)
   }
 
 
@@ -243,7 +283,7 @@ export function Plane(payload) {
     //horizatal line
     let horizontalLine = [];
     for (let i = 1; i <= shape; i++) {
-      horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i], { x: tv3StartPoint.x - 75, y: tv2EndPoint[i].y }, lightPencil));
+      horizontalLine.push(...calculateLinePointsWithCircles(tvEndPoint[i], { x: tv3StartPoint.x - 25, y: tv2EndPoint[i].y }, lightPencil));
       horizontalLine.push(...lightPencil);
     }
     let tv2LinePoints = [];
@@ -276,8 +316,6 @@ export function Plane(payload) {
 
   tv3EndPoint = drawAngledShape(tv3StartPoint, vpInclinde, tv2EndPoint, shape, tv2EndPoint[1]);
 
-
-
   if (counter === 6 || drawAll) {
 
     console.log("Drawing six counter");
@@ -293,6 +331,17 @@ export function Plane(payload) {
       }
       tv3LinePoints.push(tv3EndPointTemp[1]);
     } else {
+      
+      let drawAngle;
+      if(vpInclinde<90){
+        //drawAngle = drawSecondPlaneAngle({ x: tv3StartPoint.x - 25, y: startPoint.y }, vpInclinde);
+        drawAngle = drawSecondPlaneAngle(tv3StartPoint, vpInclinde);
+      } else {
+        //drawAngle = drawSecondPlaneAngle({ x: tv3StartPoint.x - 25, y: startPoint.y }, -(360-vpInclinde));
+        drawAngle = drawSecondPlaneAngle(tv3StartPoint, vpInclinde);
+      }     
+      
+      tv3LinePoints.push(...drawAngle);
     for (let i = 1; i <= shape; i++) {
       let j = i + 1;
       if (j > shape)
@@ -300,7 +349,6 @@ export function Plane(payload) {
 
       tv3LinePoints.push(...calculateLinePointsWithCircles(tv3EndPoint[i], tv3EndPoint[j]));
       tv3LinePoints.push(...darkPencil);
-
     }
   }
     tv3LinePoints.push(...LabelPrint(tv3EndPoint, A3, shape));
@@ -398,7 +446,7 @@ export function drawshapeAfterPoints(baseArray, labelArray) {
     if (j == baseArray.length)
       j = 1;
     shapeLinePoints.push(...calculateLinePointsWithCircles(baseArray[i], baseArray[j]));
-    shapeLinePoints.push(...label(baseArray[i], labelArray[i - 1], "up"));
+    //shapeLinePoints.push(...label(baseArray[i], labelArray[i - 1], "up"));
 
   }
   return shapeLinePoints;
@@ -514,6 +562,8 @@ export function drawshape1(tvEndPoint, PlaneName, shape) {
       tvLinePoints1.push(...darkPencil);
       //tvLinePoints1.push(...label(tvEndPoint[i], A1[i - 1], "up"));
     }
+
+    tvLinePoints1.push(...drawInclinedArrow(tvEndPoint[1], tvEndPoint[2], "left", roundUpToTwoDecimalPlaces(calculateDistance(tvEndPoint[1], tvEndPoint[2])/internalZoom)));
 
   }
   //console.log(tvLinePoints1);

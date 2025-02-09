@@ -717,7 +717,7 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
 export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, position , label) {
   let sendToPoints = [];
   let distance = 15;
-  let arrowHeadSize = 5;
+  let arrowHeadSize = 10;
   let labelSide = 15;
   if(position == "down"){
     distance = -15;
@@ -745,12 +745,16 @@ export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, posi
     arrowHeadStartPoint.push(adjustedStartPointUp);
     arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
   }
+  let labelX = Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/6);
+  if(labelX===0){
+    labelX = -5;
+  }
   sendToPoints.push(
     ...lightPencil,
     //...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
     //...arrowHeadEndPoint, ...lightPencil,    
     //...arrowHeadStartPoint, ...lightPencil,
-    ...calculateLabel({x: verticalStartPointUp.x + Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/4), y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
+    ...calculateLabel({x: verticalStartPointUp.x + labelXll, y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
   );
   
   
