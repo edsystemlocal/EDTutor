@@ -59,6 +59,30 @@ Length ofo the scale = 1//4000 *500 m = 1/8 meter = 12.5 cm.<br/>
 
         </div>
       )}
+
+{drawingType === "vernierScale" && (
+    <div>
+<b>➽ Vernier Scale : </b> Vernier scales, like diagonal scales, are used to read to a very 
+small unit with great accuracy. A vernier scale consists of two parts -a primary 
+scale and a vernier. The primary scale is a plain scale fully divided into minor divisions.
+<br/>
+<b>➽ Principle of a Vernier Scale :</b> The vernier scale works on the principle that the difference between one main scale division and one vernier scale division is a constant fraction of the main scale division. This allows for fine measurements beyond the smallest division of the main scale.
+<br/>
+
+<b>Example Question :</b> Construct a vernier scale with a least count of 0.1 mm to measure up to 10 cm.
+<br/>
+Here,<br/>
+Length of the main scale = 10 cm<br/>
+Least count = 0.1 mm = 0.01 cm<br/>
+&nbsp;&nbsp;(i) Draw a line 10 cm long to represent the main scale and divide it into 10 equal divisions. Each division will show 1 cm.<br/>
+&nbsp;&nbsp;(ii) Draw the vernier scale parallel to the main scale and divide it into 10 equal divisions, making it 9 cm in total length.<br/>
+&nbsp;&nbsp;(iii) Align the vernier scale such that the first division coincides with zero on the main scale.<br/>
+&nbsp;&nbsp;(iv) The measurement is read where a vernier division aligns exactly with a main scale division.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Example: If the 4th division of the vernier aligns with a main scale division, the reading will be 4.04 cm.
+<br/>
+    </div>
+  )}
+
     </div>
       
    

@@ -17,13 +17,13 @@ export default function DScaleDashboard({ drawingType }) {
   const [DrawingUnit, setDrawingUnit] = useState("");
 
   const [ScaleMaximumLength, setScaleMaximumLength] = useState(""); // Default value
-  const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState("km"); // Default value
+  const [ScaleMaximumLengthUnit, setScaleMaximumLengthUnit] = useState(""); // Default value
   const [ScaleShowLength1, setScaleShowLength1] = useState(""); // Default value
-  const [ScaleShowUnit1, setScaleShowUnit1] = useState("km"); // Default value
+  const [ScaleShowUnit1, setScaleShowUnit1] = useState(""); // Default value
   const [ScaleShowLength2, setScaleShowLength2] = useState(""); // Default value
-  const [ScaleShowUnit2, setScaleShowUnit2] = useState("hm");
+  const [ScaleShowUnit2, setScaleShowUnit2] = useState("");
   const [ScaleShowLength3, setScaleShowLength3] = useState(""); // Default value
-  const [ScaleShowUnit3, setScaleShowUnit3] = useState("hm"); // Default value
+  const [ScaleShowUnit3, setScaleShowUnit3] = useState(""); // Default value
   const [ScaleRF, setScaleRF] = useState(""); // Default value
 
   const [warningMessage, setWarningMessage] = useState([]);
@@ -194,14 +194,14 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td className={labelStyle}>Unit:</td>
+                      <td className={labelStyle}></td>
                       <td className="">
                         <select
                           value={DrawingUnit}
                           onChange={(e) => setDrawingUnit(e.target.value)}
                           className={selectInputStyle}
                         >
-                          <option value="">select</option>
+                          <option value="">unit</option>
                           <option value="km">km</option>
                           <option value="hm">hm</option>
                           <option value="dm">dm</option>
@@ -218,6 +218,7 @@ export default function DScaleDashboard({ drawingType }) {
                         </select>
                       </td>
                     </tr>
+                    
                     <tr>
                       <td colSpan="3">
                         <hr />
@@ -253,14 +254,14 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td className={labelStyle}>Unit:</td>
+                      <td className={labelStyle}></td>
                       <td className="">
                         <select
                           value={RealUnit}
                           onChange={(e) => setRealUnit(e.target.value)}
                           className={selectInputStyle}
                         >
-                          <option value="">select</option>
+                          <option value="">unit</option>
                           <option value="km">km</option>
                           <option value="hm">hm</option>
                           <option value="dm">dm</option>
@@ -317,7 +318,7 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td><label className={labelStyle}>Unit:</label></td>
+                      <td><label className={labelStyle}></label></td>
                       <td>
                         <input
                           type="string"
@@ -362,7 +363,7 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td><label className={labelStyle}>Unit:</label></td>
+                      <td><label className={labelStyle}></label></td>
                       <td>
                         <input
                           type="string"
@@ -407,7 +408,7 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td><label className={labelStyle}>Unit:</label></td>
+                      <td><label className={labelStyle}></label></td>
                       <td>
                         <input
                           type="string"
@@ -453,7 +454,7 @@ export default function DScaleDashboard({ drawingType }) {
                           className={inputStyle}
                         />
                       </td>
-                      <td><label className={labelStyle}>Unit:</label></td>
+                      <td><label className={labelStyle}></label></td>
                       <td>
                         <input
                           type="string"

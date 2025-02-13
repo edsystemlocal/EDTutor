@@ -8,7 +8,7 @@ import {
 } from "./globalVariable";
 
 // src/utils/functionHelpers.js
-export function calculateDashLinePoints(startPoint, endPoint) {
+export function calculateDashLinePoints(startPoint, endPoint, pencil=lightPencil) {
   const points = [];
   var leaveBlank = 0;
   // Calculate the difference in x and y
@@ -25,10 +25,7 @@ export function calculateDashLinePoints(startPoint, endPoint) {
 
     if (leaveBlank < 8 && leaveBlank > 5) {
       if (leaveBlank == 6) {
-        points.push({
-          x: 5000,
-          y: 5000,
-        });
+        points.push(...pencil);
       }
     } else {
       if (leaveBlank > 8) {
@@ -40,7 +37,51 @@ export function calculateDashLinePoints(startPoint, endPoint) {
       });
     }
   }
-  points.push(...lightPencil);
+  points.push(...pencil);
+  return points;
+}
+
+// src/utils/functionHelpers.js
+export function calculateAxisDashLinePoints(startPoint, endPoint, pencil=lightPencil) {
+  const points = [];
+  var leaveBlank = 0;
+  // Calculate the difference in x and y
+  const deltaX = endPoint.x - startPoint.x;
+  const deltaY = endPoint.y - startPoint.y;
+
+  // Determine the step size for x and y
+  const xStep = deltaX / (numPoints - 1);
+  const yStep = deltaY / (numPoints - 1);
+
+  // Generate points with blanks alternating after each point
+  for (let i = 0; i < numPoints; i++) {
+    leaveBlank = leaveBlank + 1;
+
+    if (leaveBlank < 8 && leaveBlank > 3) {
+      console.log("leaveBlank: ", leaveBlank);
+      if (leaveBlank === 4) {
+        points.push(...pencil);
+      }
+      if (leaveBlank === 7) {
+        points.push(...pencil);
+      }
+      if (leaveBlank === 6 || leaveBlank === 5) {
+        points.push({
+          x: startPoint.x + i * xStep,
+          y: startPoint.y + i * yStep,
+        });
+      }
+    } else {
+      if (leaveBlank > 12) {
+        leaveBlank = 0;
+      }
+      points.push({
+        x: startPoint.x + i * xStep,
+        y: startPoint.y + i * yStep,
+      });
+    }
+  }
+  points.push(...pencil);
   return points;
 }
 
@@ -717,33 +758,35 @@ export function drawParallelArrow(verticalStartPointUp, verticalEndPointUp, posi
 export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, position , label) {
   let sendToPoints = [];
   let distance = 15;
-  let arrowHeadSize = 10;
+  let arrowHeadSize = 5;
   let labelSide = 15;
   if(position == "down"){
     distance = -15;
     labelSide = -20;
   }  
-  let adjustedStartPointUp = {x: verticalStartPointUp.x, y: verticalStartPointUp.y - distance};
-  let adjustedEndPointUp = {x: verticalEndPointUp.x, y: verticalEndPointUp.y - distance};
+  let adjustedStartPointUp = {x: verticalStartPointUp.x - distance, y: verticalStartPointUp.y};
+  let adjustedEndPointUp = {x: verticalEndPointUp.x - distance, y: verticalEndPointUp.y};
+  let linePoints = calculateLinePointsWithCircles(adjustedStartPointUp, adjustedEndPointUp);
   let arrowHeadEndPoint = [];
-  if(verticalStartPointUp.x > verticalEndPointUp.x){
-    arrowHeadEndPoint.push({x: adjustedEndPointUp.x + arrowHeadSize, y: adjustedEndPointUp.y - arrowHeadSize});
+  let i = 30;
+  if(verticalStartPointUp.x > verticalEndPointUp.x){    
+    arrowHeadEndPoint.push({x: linePoints[linePoints.length - i].x - arrowHeadSize, y: linePoints[linePoints.length - i].y});
     arrowHeadEndPoint.push(adjustedEndPointUp);
-    arrowHeadEndPoint.push({x: adjustedEndPointUp.x + arrowHeadSize, y: adjustedEndPointUp.y + arrowHeadSize});
+    arrowHeadEndPoint.push({x: linePoints[linePoints.length - i].x + arrowHeadSize, y: linePoints[linePoints.length - i].y});
   } else {
-    arrowHeadEndPoint.push({x: adjustedEndPointUp.x - arrowHeadSize, y: adjustedEndPointUp.y - arrowHeadSize});
+    arrowHeadEndPoint.push({x: linePoints[linePoints.length - i].x - arrowHeadSize, y: linePoints[linePoints.length - i].y});
     arrowHeadEndPoint.push(adjustedEndPointUp);
-    arrowHeadEndPoint.push({x: adjustedEndPointUp.x - arrowHeadSize, y: adjustedEndPointUp.y + arrowHeadSize});
+    arrowHeadEndPoint.push({x: linePoints[linePoints.length - i].x + arrowHeadSize, y: linePoints[linePoints.length - i].y});
   }
   let arrowHeadStartPoint = [];
   if(verticalStartPointUp.y > verticalEndPointUp.y){
-    arrowHeadStartPoint.push({x: adjustedStartPointUp.x - arrowHeadSize, y: adjustedStartPointUp.y - arrowHeadSize});
+    arrowHeadStartPoint.push({x: linePoints[i].x - arrowHeadSize, y: linePoints[i].y});
     arrowHeadStartPoint.push(adjustedStartPointUp);
-    arrowHeadStartPoint.push({x: adjustedStartPointUp.x - arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
+    arrowHeadStartPoint.push({x: linePoints[i].x + arrowHeadSize, y: linePoints[i].y});
   } else {
-    arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y - arrowHeadSize});
+    arrowHeadStartPoint.push({x: linePoints[i].x - arrowHeadSize, y: linePoints[i].y});
     arrowHeadStartPoint.push(adjustedStartPointUp);
-    arrowHeadStartPoint.push({x: adjustedStartPointUp.x + arrowHeadSize, y: adjustedStartPointUp.y + arrowHeadSize});
+    arrowHeadStartPoint.push({x: linePoints[i].x + arrowHeadSize, y: linePoints[i].y});
   }
   let labelX = Math.abs((verticalStartPointUp.x - verticalEndPointUp.x)/6);
   if(labelX===0){
@@ -751,9 +794,9 @@ export function drawInclinedArrow(verticalStartPointUp, verticalEndPointUp, posi
   }
   sendToPoints.push(
     ...lightPencil,
-    //...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
-    //...arrowHeadEndPoint, ...lightPencil,    
-    //...arrowHeadStartPoint, ...lightPencil,
+    ...[adjustedStartPointUp, adjustedEndPointUp], ...lightPencil,    
+    ...arrowHeadEndPoint, ...lightPencil,    
+    ...arrowHeadStartPoint, ...lightPencil,
     ...calculateLabel({x: verticalStartPointUp.x + labelX, y: verticalStartPointUp.y + (verticalEndPointUp.y - verticalStartPointUp.y)/2} ,label, position )
   );
   

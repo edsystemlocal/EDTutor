@@ -1,31 +1,3 @@
-// export async function POST(request) {
-//     const { username, password } = await request.json();
-  
-//     // Dummy user credentials
-//     const validUsers = [
-//       { username: "admin", password: "password123" },
-//       { username: "abhi", password: "pass" },
-//     ];
-  
-//     const user = validUsers.find(
-//       (u) => u.username === username && u.password === password
-//     );
-  
-//     if (user) {
-//       return new Response(
-//         JSON.stringify({ success: true, message: "Login successful", token: "auth-token-12345" }),
-//         { status: 200 }
-//       );
-//     } else {
-//       return new Response(
-//         JSON.stringify({ success: false, message: "Invalid username or password." }),
-//         { status: 401 }
-//       );
-//     }
-//   }
-  
-// ---------------------------------------------------
-
 export async function POST(request) {
   const { username, password } = await request.json();
 
